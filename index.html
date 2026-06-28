@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- SEO Primary -->
+  <title>Apex Motors | Concessionária Premium — Performance, Elegância e Exclusividade</title>
+  <meta name="description" content="Apex Motors: concessionária especializada em veículos premium e de alto padrão. Encontre o carro dos seus sonhos com financiamento facilitado, test drive e avaliação de seminovos. Performance, elegância e exclusividade." />
+  <meta name="keywords" content="concessionária premium, carros de luxo, veículos esportivos, test drive, financiamento veicular, seminovos premium, Apex Motors, carros importados" />
+  <meta name="author" content="Apex Motors" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.apexmotors.com.br/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.apexmotors.com.br/" />
+  <meta property="og:title" content="Apex Motors | Concessionária Premium" />
+  <meta property="og:description" content="Performance, elegância e exclusividade. Os melhores veículos premium em um só lugar." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=80" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Apex Motors" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Apex Motors | Concessionária Premium" />
+  <meta name="twitter:description" content="Performance, elegância e exclusividade." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=80" />
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230E1116'/><text y='.9em' font-size='80' x='10' fill='%231E88E5'>A</text></svg>" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="loading" data-theme="dark">
+
+  <!-- ========== SKIP LINK (Acessibilidade) ========== -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- ========== ACCESSIBILITY WIDGET ========== -->
+  <div class="a11y-widget" role="complementary" aria-label="Painel de acessibilidade">
+    <button class="a11y-toggle" id="a11yToggle" aria-expanded="false" aria-controls="a11yPanel" aria-label="Abrir painel de acessibilidade">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v4M12 16h.01"/>
+      </svg>
+      <span class="a11y-label">Acessibilidade</span>
+    </button>
+    <div class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="false" aria-label="Opções de acessibilidade" hidden>
+      <div class="a11y-panel-header">
+        <h3>Acessibilidade</h3>
+        <button class="a11y-close" id="a11yClose" aria-label="Fechar painel de acessibilidade">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="a11y-options">
+        <div class="a11y-option">
+          <button class="a11y-btn" id="btnHighContrast" aria-pressed="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M12 2a10 10 0 0 1 0 20"/></svg>
+            <span>Alto Contraste</span>
+          </button>
+        </div>
+        <div class="a11y-option">
+          <span class="a11y-option-label">Tamanho da Fonte</span>
+          <div class="font-controls" role="group" aria-label="Controles de tamanho de fonte">
+            <button class="font-btn" id="fontDecrease" aria-label="Diminuir fonte">A-</button>
+            <span class="font-size-display" id="fontSizeDisplay" aria-live="polite">100%</span>
+            <button class="font-btn" id="fontIncrease" aria-label="Aumentar fonte">A+</button>
+          </div>
+        </div>
+        <div class="a11y-option">
+          <button class="a11y-btn" id="btnReduceMotion" aria-pressed="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            <span>Reduzir Animações</span>
+          </button>
+        </div>
+        <div class="a11y-option">
+          <button class="a11y-btn" id="btnFocusMode" aria-pressed="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Foco no Teclado</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== WHATSAPP FLOAT ========== -->
+  <a href="https://wa.me/5511999999999?text=Olá!%20Vim%20pelo%20site%20da%20Apex%20Motors%20e%20gostaria%20de%20mais%20informações." class="whatsapp-float" aria-label="Falar com consultor via WhatsApp" target="_blank" rel="noopener noreferrer">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12.004 2C6.477 2 2 6.477 2 12.004c0 1.76.463 3.413 1.27 4.844L2 22l5.334-1.398A9.955 9.955 0 0 0 12.004 22C17.531 22 22 17.523 22 12.004 22 6.477 17.531 2 12.004 2z"/>
+    </svg>
+    <span class="whatsapp-tooltip">Falar com Consultor</span>
+  </a>
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="navbar" id="navbar" role="banner">
+    <div class="container nav-container">
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="Apex Motors - Página inicial">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" fill="#1E88E5" opacity="0.15"/>
+          <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" fill="none" stroke="#1E88E5" stroke-width="1.5"/>
+          <text x="9" y="24" font-family="Space Grotesk, sans-serif" font-size="16" font-weight="700" fill="#F5F5F5">A</text>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">APEX</span>
+          <span class="logo-sub">MOTORS</span>
+        </div>
+      </a>
+
+      <!-- Nav Links -->
+      <nav class="nav-links" id="navLinks" role="navigation" aria-label="Menu principal">
+        <a href="#vehicles" class="nav-link">Estoque</a>
+        <a href="#brands" class="nav-link">Marcas</a>
+        <a href="#services" class="nav-link">Serviços</a>
+        <a href="#financing" class="nav-link">Financiamento</a>
+        <a href="#gallery" class="nav-link">Galeria</a>
+        <a href="#contact" class="nav-link">Contato</a>
+      </nav>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <a href="https://wa.me/5511999999999" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Agendar test drive via WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.27a16 16 0 0 0 6 6l.99-.99a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+          Falar Agora
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="navLinks">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="main-content">
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="hero" aria-label="Banner principal Apex Motors">
+      <!-- 
+        PLACEHOLDER: Substitua a URL abaixo por uma imagem premium do seu veículo principal.
+        Dimensões recomendadas: 1920x1080px, formato WebP/JPEG de alta qualidade.
+      -->
+      <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1920&q=85')" role="img" aria-label="Veículo esportivo premium Apex Motors"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <!-- Partículas decorativas -->
+      <div class="hero-particles" aria-hidden="true">
+        <div class="particle p1"></div>
+        <div class="particle p2"></div>
+        <div class="particle p3"></div>
+        <div class="particle p4"></div>
+        <div class="particle p5"></div>
+      </div>
+
+      <div class="container hero-container">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Concessionária Premium #1 do Brasil
+        </div>
+        <h1 class="hero-title">
+          <span class="hero-title-line">Dirija o</span>
+          <span class="hero-title-accent">Extraordinário.</span>
+        </h1>
+        <p class="hero-subtitle">
+          Os veículos mais exclusivos do mundo reunidos em um só lugar.<br />
+          Performance sem compromissos. Elegância que impressiona.
+        </p>
+        <div class="hero-cta-group">
+          <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20agendar%20um%20test%20drive." class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer" aria-label="Agendar test drive via WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            Agendar Test Drive
+          </a>
+          <a href="#vehicles" class="btn btn-outline btn-lg" aria-label="Ver estoque completo de veículos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Ver Estoque
+          </a>
+        </div>
+        <div class="hero-stats" role="list">
+          <div class="hero-stat" role="listitem">
+            <strong>+2.500</strong>
+            <span>Veículos Vendidos</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat" role="listitem">
+            <strong>12 Anos</strong>
+            <span>De Excelência</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat" role="listitem">
+            <strong>98%</strong>
+            <span>Satisfação</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>SCROLL</span>
+      </div>
+    </section>
+
+    <!-- ========== VEHICLES IN HIGHLIGHT ========== -->
+    <section class="section vehicles-section" id="vehicles" aria-labelledby="vehicles-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-badge">Estoque Premium</div>
+          <h2 class="section-title" id="vehicles-title">Veículos em Destaque</h2>
+          <p class="section-subtitle">Selecionamos os melhores exemplares do mercado para oferecer a você uma experiência única de aquisição.</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="vehicles-filter reveal" role="group" aria-label="Filtros de veículos">
+          <button class="filter-btn active" data-filter="all" aria-pressed="true">Todos</button>
+          <button class="filter-btn" data-filter="sport" aria-pressed="false">Esportivos</button>
+          <button class="filter-btn" data-filter="suv" aria-pressed="false">SUVs</button>
+          <button class="filter-btn" data-filter="sedan" aria-pressed="false">Sedans</button>
+          <button class="filter-btn" data-filter="coupe" aria-pressed="false">Cupês</button>
+        </div>
+
+        <!-- Vehicle Cards Grid -->
+        <div class="vehicles-grid" role="list" aria-label="Lista de veículos disponíveis">
+
+          <!-- Card 1 -->
+          <article class="vehicle-card reveal" data-category="sport" role="listitem" aria-label="Porsche 911 Turbo S 2024">
+            <div class="card-image-wrapper">
+              <!-- PLACEHOLDER: Substitua pela imagem do veículo. Recomendado: 800x500px WebP -->
+              <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80" alt="Porsche 911 Turbo S 2024 — Esportivo branco em pista" class="card-image" loading="lazy" width="800" height="500" />
+              <div class="card-overlay" aria-hidden="true"></div>
+              <span class="card-badge">Destaque</span>
+              <button class="card-gallery-btn" data-modal="vehicle1" aria-label="Ver galeria completa do Porsche 911 Turbo S">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-header-info">
+                <div>
+                  <h3 class="card-title">Porsche 911 Turbo S</h3>
+                  <p class="card-brand">Porsche · 2024</p>
+                </div>
+                <span class="card-fuel-badge">Gasolina</span>
+              </div>
+              <div class="card-specs" role="list" aria-label="Especificações do veículo">
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>650 cv</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>8.200 km</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <span>PDK 8M</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-price">
+                  <span class="price-label">A partir de</span>
+                  <strong class="price-value">R$ 1.890.000</strong>
+                </div>
+                <button class="btn btn-primary btn-sm card-cta" data-modal="vehicle1" aria-label="Ver detalhes do Porsche 911 Turbo S">Ver Detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="vehicle-card reveal" data-category="suv" role="listitem" aria-label="BMW X7 M Sport 2024">
+            <div class="card-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80" alt="BMW X7 M Sport 2024 — SUV de luxo em estrada" class="card-image" loading="lazy" width="800" height="500" />
+              <div class="card-overlay" aria-hidden="true"></div>
+              <span class="card-badge card-badge-new">Novo</span>
+              <button class="card-gallery-btn" data-modal="vehicle2" aria-label="Ver galeria completa do BMW X7 M Sport">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-header-info">
+                <div>
+                  <h3 class="card-title">BMW X7 M Sport</h3>
+                  <p class="card-brand">BMW · 2024</p>
+                </div>
+                <span class="card-fuel-badge">Gasolina</span>
+              </div>
+              <div class="card-specs" role="list" aria-label="Especificações do veículo">
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>530 cv</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>0 km</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <span>Auto 8M</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-price">
+                  <span class="price-label">A partir de</span>
+                  <strong class="price-value">R$ 698.000</strong>
+                </div>
+                <button class="btn btn-primary btn-sm card-cta" data-modal="vehicle2" aria-label="Ver detalhes do BMW X7 M Sport">Ver Detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="vehicle-card reveal" data-category="sedan" role="listitem" aria-label="Mercedes-Benz AMG GT 63 2023">
+            <div class="card-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80" alt="Mercedes-Benz AMG GT 63 — Sedan esportivo preto" class="card-image" loading="lazy" width="800" height="500" />
+              <div class="card-overlay" aria-hidden="true"></div>
+              <span class="card-badge card-badge-offer">Oferta</span>
+              <button class="card-gallery-btn" data-modal="vehicle3" aria-label="Ver galeria completa do Mercedes-Benz AMG GT 63">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-header-info">
+                <div>
+                  <h3 class="card-title">Mercedes-AMG GT 63</h3>
+                  <p class="card-brand">Mercedes-Benz · 2023</p>
+                </div>
+                <span class="card-fuel-badge">Híbrido</span>
+              </div>
+              <div class="card-specs" role="list" aria-label="Especificações do veículo">
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>843 cv</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>12.400 km</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <span>AMG Speedshift</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-price">
+                  <span class="price-label">A partir de</span>
+                  <strong class="price-value">R$ 2.190.000</strong>
+                </div>
+                <button class="btn btn-primary btn-sm card-cta" data-modal="vehicle3" aria-label="Ver detalhes do Mercedes-AMG GT 63">Ver Detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="vehicle-card reveal" data-category="coupe" role="listitem" aria-label="Lamborghini Huracán EVO 2023">
+            <div class="card-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1566024349612-b38955230548?w=800&q=80" alt="Lamborghini Huracán EVO 2023 — Superesportivo amarelo" class="card-image" loading="lazy" width="800" height="500" />
+              <div class="card-overlay" aria-hidden="true"></div>
+              <span class="card-badge">Premium</span>
+              <button class="card-gallery-btn" data-modal="vehicle4" aria-label="Ver galeria completa da Lamborghini Huracán EVO">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-header-info">
+                <div>
+                  <h3 class="card-title">Lamborghini Huracán</h3>
+                  <p class="card-brand">Lamborghini · 2023</p>
+                </div>
+                <span class="card-fuel-badge">Gasolina</span>
+              </div>
+              <div class="card-specs" role="list" aria-label="Especificações do veículo">
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>640 cv</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>6.700 km</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <span>LDF 7M</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-price">
+                  <span class="price-label">A partir de</span>
+                  <strong class="price-value">R$ 2.850.000</strong>
+                </div>
+                <button class="btn btn-primary btn-sm card-cta" data-modal="vehicle4" aria-label="Ver detalhes da Lamborghini Huracán EVO">Ver Detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="vehicle-card reveal" data-category="suv" role="listitem" aria-label="Range Rover Autobiography 2024">
+            <div class="card-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80" alt="Range Rover Autobiography 2024 — SUV de luxo premium" class="card-image" loading="lazy" width="800" height="500" />
+              <div class="card-overlay" aria-hidden="true"></div>
+              <span class="card-badge card-badge-new">Novo</span>
+              <button class="card-gallery-btn" data-modal="vehicle5" aria-label="Ver galeria completa do Range Rover Autobiography">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-header-info">
+                <div>
+                  <h3 class="card-title">Range Rover Autobiography</h3>
+                  <p class="card-brand">Land Rover · 2024</p>
+                </div>
+                <span class="card-fuel-badge card-fuel-hybrid">Híbrido</span>
+              </div>
+              <div class="card-specs" role="list" aria-label="Especificações do veículo">
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>510 cv</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>0 km</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <span>Auto 8M</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-price">
+                  <span class="price-label">A partir de</span>
+                  <strong class="price-value">R$ 950.000</strong>
+                </div>
+                <button class="btn btn-primary btn-sm card-cta" data-modal="vehicle5" aria-label="Ver detalhes do Range Rover Autobiography">Ver Detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="vehicle-card reveal" data-category="sport" role="listitem" aria-label="Ferrari F8 Tributo 2022">
+            <div class="card-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=800&q=80" alt="Ferrari F8 Tributo 2022 — Superesportivo vermelho" class="card-image" loading="lazy" width="800" height="500" />
+              <div class="card-overlay" aria-hidden="true"></div>
+              <span class="card-badge">Exclusivo</span>
+              <button class="card-gallery-btn" data-modal="vehicle6" aria-label="Ver galeria completa da Ferrari F8 Tributo">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-header-info">
+                <div>
+                  <h3 class="card-title">Ferrari F8 Tributo</h3>
+                  <p class="card-brand">Ferrari · 2022</p>
+                </div>
+                <span class="card-fuel-badge">Gasolina</span>
+              </div>
+              <div class="card-specs" role="list" aria-label="Especificações do veículo">
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>720 cv</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>4.100 km</span>
+                </div>
+                <div class="spec-item" role="listitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <span>F1 DCT 7M</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-price">
+                  <span class="price-label">A partir de</span>
+                  <strong class="price-value">R$ 3.400.000</strong>
+                </div>
+                <button class="btn btn-primary btn-sm card-cta" data-modal="vehicle6" aria-label="Ver detalhes da Ferrari F8 Tributo">Ver Detalhes</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="vehicles-cta reveal">
+          <a href="https://wa.me/5511999999999?text=Quero%20ver%20o%20estoque%20completo%20da%20Apex%20Motors." class="btn btn-outline btn-lg" target="_blank" rel="noopener noreferrer" aria-label="Ver estoque completo via WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Ver Estoque Completo
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== BRANDS ========== -->
+    <section class="section brands-section" id="brands" aria-labelledby="brands-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-badge">Parceiros Oficiais</div>
+          <h2 class="section-title" id="brands-title">Marcas Comercializadas</h2>
+          <p class="section-subtitle">Representantes oficiais das mais icônicas marcas automotivas do mundo.</p>
+        </div>
+        <div class="brands-track-wrapper" aria-label="Marcas parceiras" role="marquee">
+          <div class="brands-track" aria-hidden="false">
+            <div class="brands-inner" id="brandsInner">
+              <!-- Brand items duplicated for infinite scroll effect -->
+              <div class="brand-item" aria-label="Porsche">
+                <svg viewBox="0 0 120 40" width="120" height="40" aria-hidden="true">
+                  <text x="10" y="28" font-family="Space Grotesk" font-size="20" font-weight="600" fill="#F5F5F5" opacity="0.7">PORSCHE</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="Ferrari">
+                <svg viewBox="0 0 100 40" width="100" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="20" font-weight="600" fill="#F5F5F5" opacity="0.7">FERRARI</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="Lamborghini">
+                <svg viewBox="0 0 160 40" width="160" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#F5F5F5" opacity="0.7">LAMBORGHINI</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="BMW">
+                <svg viewBox="0 0 60 40" width="60" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="22" font-weight="700" fill="#F5F5F5" opacity="0.7">BMW</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="Mercedes-Benz">
+                <svg viewBox="0 0 200 40" width="200" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="16" font-weight="600" fill="#F5F5F5" opacity="0.7">MERCEDES-BENZ</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="Audi">
+                <svg viewBox="0 0 70 40" width="70" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="22" font-weight="700" fill="#F5F5F5" opacity="0.7">AUDI</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="Bentley">
+                <svg viewBox="0 0 120 40" width="120" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="20" font-weight="600" fill="#F5F5F5" opacity="0.7">BENTLEY</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="Rolls-Royce">
+                <svg viewBox="0 0 160 40" width="160" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#F5F5F5" opacity="0.7">ROLLS-ROYCE</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="McLaren">
+                <svg viewBox="0 0 120 40" width="120" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="20" font-weight="600" fill="#F5F5F5" opacity="0.7">McLAREN</text>
+                </svg>
+              </div>
+              <div class="brand-item" aria-label="Lexus">
+                <svg viewBox="0 0 90 40" width="90" height="40" aria-hidden="true">
+                  <text x="5" y="28" font-family="Space Grotesk" font-size="20" font-weight="600" fill="#F5F5F5" opacity="0.7">LEXUS</text>
+                </svg>
+              </div>
+              <!-- Duplicate for seamless loop -->
+              <div class="brand-item" aria-hidden="true">
+                <svg viewBox="0 0 120 40" width="120" height="40"><text x="10" y="28" font-family="Space Grotesk" font-size="20" font-weight="600" fill="#F5F5F5" opacity="0.7">PORSCHE</text></svg>
+              </div>
+              <div class="brand-item" aria-hidden="true">
+                <svg viewBox="0 0 100 40" width="100" height="40"><text x="5" y="28" font-family="Space Grotesk" font-size="20" font-weight="600" fill="#F5F5F5" opacity="0.7">FERRARI</text></svg>
+              </div>
+              <div class="brand-item" aria-hidden="true">
+                <svg viewBox="0 0 160 40" width="160" height="40"><text x="5" y="28" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#F5F5F5" opacity="0.7">LAMBORGHINI</text></svg>
+              </div>
+              <div class="brand-item" aria-hidden="true">
+                <svg viewBox="0 0 60 40" width="60" height="40"><text x="5" y="28" font-family="Space Grotesk" font-size="22" font-weight="700" fill="#F5F5F5" opacity="0.7">BMW</text></svg>
+              </div>
+              <div class="brand-item" aria-hidden="true">
+                <svg viewBox="0 0 200 40" width="200" height="40"><text x="5" y="28" font-family="Space Grotesk" font-size="16" font-weight="600" fill="#F5F5F5" opacity="0.7">MERCEDES-BENZ</text></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DIFFERENTIALS ========== -->
+    <section class="section differentials-section" id="differentials" aria-labelledby="differentials-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-badge">Por que nos escolher</div>
+          <h2 class="section-title" id="differentials-title">Nossos Diferenciais</h2>
+          <p class="section-subtitle">Uma experiência de compra à altura dos veículos que você merece.</p>
+        </div>
+        <div class="differentials-grid">
+
+          <div class="differential-card reveal">
+            <div class="diff-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            </div>
+            <h3>Procedência Garantida</h3>
+            <p>Todos os veículos passam por inspeção técnica rigorosa com laudo de procedência e histórico completo.</p>
+          </div>
+
+          <div class="differential-card reveal">
+            <div class="diff-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3>Atendimento 24/7</h3>
+            <p>Nossa equipe de consultores especialistas está disponível a qualquer hora para atender você com exclusividade.</p>
+          </div>
+
+          <div class="differential-card reveal">
+            <div class="diff-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3>Financiamento Premium</h3>
+            <p>Condições exclusivas com as melhores taxas do mercado e aprovação em até 2 horas para clientes especiais.</p>
+          </div>
+
+          <div class="differential-card reveal">
+            <div class="diff-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <h3>Documentação Completa</h3>
+            <p>Cuidamos de toda a burocracia. Transferência, IPVA, seguro e documentação sem nenhuma preocupação para você.</p>
+          </div>
+
+          <div class="differential-card reveal">
+            <div class="diff-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3>Entrega em Todo Brasil</h3>
+            <p>Seu veículo entregue com toda segurança diretamente na sua porta, em qualquer estado do Brasil.</p>
+          </div>
+
+          <div class="differential-card reveal">
+            <div class="diff-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <h3>Valorização Garantida</h3>
+            <p>Assessoria completa para garantir que você faça sempre o melhor negócio, tanto na compra quanto na venda.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== STATISTICS ========== -->
+    <section class="section stats-section" aria-label="Estatísticas da Apex Motors">
+      <div class="stats-bg" aria-hidden="true"></div>
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item reveal" role="img" aria-label="Mais de 2500 veículos vendidos">
+            <div class="stat-number" data-target="2500" data-prefix="+" aria-hidden="true">0</div>
+            <div class="stat-label">Veículos Vendidos</div>
+            <div class="stat-desc">Nos últimos 12 anos de mercado</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item reveal" role="img" aria-label="12 anos de mercado">
+            <div class="stat-number" data-target="12" data-suffix=" Anos" aria-hidden="true">0</div>
+            <div class="stat-label">No Mercado Premium</div>
+            <div class="stat-desc">De excelência e tradição</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item reveal" role="img" aria-label="98% de satisfação dos clientes">
+            <div class="stat-number" data-target="98" data-suffix="%" aria-hidden="true">0</div>
+            <div class="stat-label">Clientes Satisfeitos</div>
+            <div class="stat-desc">Avaliação no Google e Reclame Aqui</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item reveal" role="img" aria-label="Mais de 50 marcas disponíveis">
+            <div class="stat-number" data-target="50" data-prefix="+" aria-hidden="true">0</div>
+            <div class="stat-label">Marcas Disponíveis</div>
+            <div class="stat-desc">As mais desejadas do mundo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SERVICES ========== -->
+    <section class="section services-section" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-badge">O Que Oferecemos</div>
+          <h2 class="section-title" id="services-title">Serviços Completos</h2>
+          <p class="section-subtitle">Uma experiência completa do início ao fim da sua jornada automotiva premium.</p>
+        </div>
+        <div class="services-grid">
+
+          <div class="service-card reveal">
+            <div class="service-number" aria-hidden="true">01</div>
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            </div>
+            <h3>Test Drive Exclusivo</h3>
+            <p>Experiência personalizada com seu consultor dedicado. Sinta a performance na pista ou na estrada de sua preferência.</p>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar%20um%20test%20drive." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Agendar test drive via WhatsApp">
+              Agendar agora
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-number" aria-hidden="true">02</div>
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3>Financiamento Inteligente</h3>
+            <p>Simulação online, aprovação rápida e as melhores taxas do mercado para você adquirir seu veículo sem complicações.</p>
+            <a href="#financing" class="service-link" aria-label="Ir para simulação de financiamento">
+              Simular agora
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-number" aria-hidden="true">03</div>
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <h3>Avaliação de Seminovos</h3>
+            <p>Avaliação justa e transparente do seu veículo atual. Utilizamos referências do mercado para garantir o melhor preço.</p>
+            <a href="#trade-in" class="service-link" aria-label="Ir para avaliação de seminovo">
+              Avaliar meu carro
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-number" aria-hidden="true">04</div>
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+            </div>
+            <h3>Seguro Especializado</h3>
+            <p>Parceria com as melhores seguradoras para proteger seu investimento com as condições mais vantajosas do mercado.</p>
+            <a href="https://wa.me/5511999999999?text=Quero%20informações%20sobre%20seguro%20do%20veículo." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Solicitar seguro via WhatsApp">
+              Solicitar cotação
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-number" aria-hidden="true">05</div>
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3>Entrega em Domicílio</h3>
+            <p>Seu novo veículo entregue com cerimônia personalizada, onde e quando você preferir, em todo o território nacional.</p>
+            <a href="https://wa.me/5511999999999?text=Quero%20informações%20sobre%20entrega%20em%20domicílio." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Solicitar entrega em domicílio via WhatsApp">
+              Saiba mais
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-number" aria-hidden="true">06</div>
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h3>Consultoria Personalizada</h3>
+            <p>Consultores certificados e apaixonados por automóveis para orientar você em cada detalhe da sua aquisição.</p>
+            <a href="https://wa.me/5511999999999?text=Quero%20falar%20com%20um%20consultor%20da%20Apex%20Motors." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Falar com consultor via WhatsApp">
+              Falar com especialista
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FINANCING SIMULATION ========== -->
+    <section class="section financing-section" id="financing" aria-labelledby="financing-title">
+      <div class="container">
+        <div class="financing-grid">
+          <div class="financing-info reveal">
+            <div class="section-badge">Financiamento</div>
+            <h2 class="section-title" id="financing-title">Simule Seu Financiamento</h2>
+            <p class="financing-desc">Taxas exclusivas a partir de <strong>0,99% ao mês</strong>. Aprovação em até 2 horas. Parcelas que cabem no seu planejamento financeiro.</p>
+            <ul class="financing-benefits" role="list">
+              <li role="listitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Aprovação sem burocracia
+              </li>
+              <li role="listitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Taxas a partir de 0,99% a.m.
+              </li>
+              <li role="listitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Entrada a partir de 20%
+              </li>
+              <li role="listitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Parcelas em até 72 meses
+              </li>
+              <li role="listitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Análise de crédito online
+              </li>
+            </ul>
+          </div>
+
+          <div class="financing-form-card reveal" role="form" aria-labelledby="financing-title">
+            <form class="financing-form" id="financingForm" novalidate aria-label="Formulário de simulação de financiamento">
+              <div class="form-group">
+                <label for="vehicleValue" class="form-label">Valor do Veículo</label>
+                <div class="form-input-wrap">
+                  <span class="input-prefix" aria-hidden="true">R$</span>
+                  <input type="text" id="vehicleValue" name="vehicleValue" class="form-input" placeholder="500.000" inputmode="numeric" aria-describedby="vehicleValueHelp" required />
+                </div>
+                <small id="vehicleValueHelp" class="form-hint">Valor aproximado do veículo desejado</small>
+              </div>
+
+              <div class="form-group">
+                <label for="downPayment" class="form-label">Entrada</label>
+                <div class="form-input-wrap">
+                  <span class="input-prefix" aria-hidden="true">R$</span>
+                  <input type="text" id="downPayment" name="downPayment" class="form-input" placeholder="100.000" inputmode="numeric" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="installments" class="form-label">Número de Parcelas</label>
+                <select id="installments" name="installments" class="form-select" required aria-label="Selecione o número de parcelas">
+                  <option value="">Selecione as parcelas</option>
+                  <option value="12">12 meses</option>
+                  <option value="24">24 meses</option>
+                  <option value="36">36 meses</option>
+                  <option value="48">48 meses</option>
+                  <option value="60">60 meses</option>
+                  <option value="72">72 meses</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="customerName" class="form-label">Seu Nome</label>
+                <input type="text" id="customerName" name="customerName" class="form-input" placeholder="Seu nome completo" autocomplete="name" required />
+              </div>
+
+              <div class="form-group">
+                <label for="customerPhone" class="form-label">WhatsApp</label>
+                <input type="tel" id="customerPhone" name="customerPhone" class="form-input" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="tel" required />
+              </div>
+
+              <!-- Resultado da simulação -->
+              <div class="financing-result" id="financingResult" aria-live="polite" hidden>
+                <div class="result-header">Simulação</div>
+                <div class="result-value" id="resultValue" aria-label="Valor estimado da parcela"></div>
+                <div class="result-note">*Valor estimado. Condições sujeitas à análise de crédito.</div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Simular Financiamento
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TRADE-IN / AVALIAÇÃO ========== -->
+    <section class="section tradein-section" id="trade-in" aria-labelledby="tradein-title">
+      <div class="container">
+        <div class="tradein-grid">
+          <div class="tradein-form-card reveal" role="form" aria-labelledby="tradein-title">
+            <form class="tradein-form" id="tradeInForm" novalidate aria-label="Formulário de avaliação de veículo usado">
+              <h3 class="form-card-title" id="tradein-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Avalie seu Veículo
+              </h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="carBrand" class="form-label">Marca</label>
+                  <input type="text" id="carBrand" name="carBrand" class="form-input" placeholder="Ex: Porsche, BMW" required />
+                </div>
+                <div class="form-group">
+                  <label for="carModel" class="form-label">Modelo</label>
+                  <input type="text" id="carModel" name="carModel" class="form-input" placeholder="Ex: 911, X5" required />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="carYear" class="form-label">Ano</label>
+                  <input type="number" id="carYear" name="carYear" class="form-input" placeholder="2020" min="2000" max="2025" required />
+                </div>
+                <div class="form-group">
+                  <label for="carMileage" class="form-label">Km Rodados</label>
+                  <input type="text" id="carMileage" name="carMileage" class="form-input" placeholder="Ex: 35.000" inputmode="numeric" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="carCondition" class="form-label">Condição do Veículo</label>
+                <select id="carCondition" name="carCondition" class="form-select" required aria-label="Selecione a condição do veículo">
+                  <option value="">Selecione a condição</option>
+                  <option value="excellent">Excelente — Sem marcas, revisões em dia</option>
+                  <option value="good">Bom — Pequenos detalhes estéticos</option>
+                  <option value="regular">Regular — Alguns reparos necessários</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="ownerPhone" class="form-label">Seu WhatsApp</label>
+                <input type="tel" id="ownerPhone" name="ownerPhone" class="form-input" placeholder="(11) 99999-9999" autocomplete="tel" required />
+              </div>
+
+              <button type="submit" class="btn btn-outline btn-full" aria-label="Solicitar avaliação do veículo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.27a16 16 0 0 0 6 6l.99-.99a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+                Solicitar Avaliação
+              </button>
+            </form>
+          </div>
+
+          <div class="tradein-info reveal">
+            <div class="section-badge">Troque com Facilidade</div>
+            <h2 class="section-title">Avalie Seu Veículo Atual</h2>
+            <p class="tradein-desc">Quer trocar seu carro por um modelo premium? A Apex Motors avalia seu veículo com total transparência e oferece o melhor preço do mercado.</p>
+
+            <div class="tradein-steps" role="list">
+              <div class="tradein-step" role="listitem">
+                <div class="step-num" aria-hidden="true">1</div>
+                <div class="step-content">
+                  <strong>Preencha o formulário</strong>
+                  <p>Informe os dados do seu veículo atual de forma simples e rápida.</p>
+                </div>
+              </div>
+              <div class="tradein-step" role="listitem">
+                <div class="step-num" aria-hidden="true">2</div>
+                <div class="step-content">
+                  <strong>Receba a avaliação</strong>
+                  <p>Nossa equipe faz uma análise especializada e entra em contato em até 24h.</p>
+                </div>
+              </div>
+              <div class="tradein-step" role="listitem">
+                <div class="step-num" aria-hidden="true">3</div>
+                <div class="step-content">
+                  <strong>Feche o negócio</strong>
+                  <p>Use o valor do seu carro como entrada no veículo dos seus sonhos.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== GALLERY ========== -->
+    <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-badge">Galeria Premium</div>
+          <h2 class="section-title" id="gallery-title">Os Mais Desejados do Mundo</h2>
+          <p class="section-subtitle">Uma curadoria visual dos veículos mais exclusivos disponíveis em nosso showroom.</p>
+        </div>
+        <div class="gallery-grid" role="list" aria-label="Galeria de veículos premium">
+
+          <!-- PLACEHOLDER: Substitua cada URL por imagens premium dos seus veículos em alta resolução -->
+          <div class="gallery-item gallery-item-large reveal" role="listitem">
+            <button class="gallery-btn" data-gallery-img="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=85" data-gallery-alt="Veículo esportivo em pista" aria-label="Ver imagem ampliada do veículo esportivo">
+              <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80" alt="Veículo esportivo premium em pista" loading="lazy" width="800" height="600" />
+              <div class="gallery-item-overlay" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </div>
+            </button>
+          </div>
+
+          <div class="gallery-item reveal" role="listitem">
+            <button class="gallery-btn" data-gallery-img="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200&q=85" data-gallery-alt="Carro de luxo detalhe frontal" aria-label="Ver imagem ampliada do detalhe frontal">
+              <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80" alt="Detalhe frontal de carro de luxo" loading="lazy" width="600" height="400" />
+              <div class="gallery-item-overlay" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </div>
+            </button>
+          </div>
+
+          <div class="gallery-item reveal" role="listitem">
+            <button class="gallery-btn" data-gallery-img="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1200&q=85" data-gallery-alt="Esportivo branco em pista" aria-label="Ver imagem ampliada do esportivo branco">
+              <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600&q=80" alt="Veículo esportivo branco em pista de alta performance" loading="lazy" width="600" height="400" />
+              <div class="gallery-item-overlay" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </div>
+            </button>
+          </div>
+
+          <div class="gallery-item reveal" role="listitem">
+            <button class="gallery-btn" data-gallery-img="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=85" data-gallery-alt="SUV de luxo em estrada" aria-label="Ver imagem ampliada do SUV">
+              <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80" alt="SUV de luxo em estrada premium" loading="lazy" width="600" height="400" />
+              <div class="gallery-item-overlay" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </div>
+            </button>
+          </div>
+
+          <div class="gallery-item gallery-item-wide reveal" role="listitem">
+            <button class="gallery-btn" data-gallery-img="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1200&q=85" data-gallery-alt="Sedan esportivo preto" aria-label="Ver imagem ampliada do sedan esportivo">
+              <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=900&q=80" alt="Sedan esportivo preto premium" loading="lazy" width="900" height="400" />
+              <div class="gallery-item-overlay" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </div>
+            </button>
+          </div>
+
+          <div class="gallery-item reveal" role="listitem">
+            <button class="gallery-btn" data-gallery-img="https://images.unsplash.com/photo-1566024349612-b38955230548?w=1200&q=85" data-gallery-alt="Superesportivo amarelo" aria-label="Ver imagem ampliada do superesportivo">
+              <img src="https://images.unsplash.com/photo-1566024349612-b38955230548?w=600&q=80" alt="Superesportivo amarelo em pista" loading="lazy" width="600" height="400" />
+              <div class="gallery-item-overlay" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </div>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section class="section testimonials-section" id="testimonials" aria-labelledby="testimonials-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-badge">Depoimentos</div>
+          <h2 class="section-title" id="testimonials-title">O Que Nossos Clientes Dizem</h2>
+          <p class="section-subtitle">Experiências reais de pessoas que confiaram à Apex Motors a aquisição do veículo dos seus sonhos.</p>
+        </div>
+
+        <div class="testimonials-track-wrapper">
+          <div class="testimonials-grid" role="list" aria-label="Depoimentos de clientes">
+
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card reveal" role="listitem">
+              <div class="testimonial-quote" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+              </div>
+              <div class="testimonial-stars" aria-label="Avaliação 5 de 5 estrelas">
+                ★★★★★
+              </div>
+              <p class="testimonial-text">
+                "Comprei meu Porsche 911 na Apex Motors e a experiência foi simplesmente incrível. Desde o primeiro contato até a entrega, tudo foi impecável. Equipe extremamente profissional e transparente em todo o processo."
+              </p>
+              <div class="testimonial-author">
+                <div class="author-avatar" aria-hidden="true">
+                  <!-- PLACEHOLDER: Substitua pela foto real do cliente (ou avatar genérico anônimo) -->
+                  <span aria-hidden="true">R</span>
+                </div>
+                <div class="author-info">
+                  <strong>Ricardo Almeida</strong>
+                  <span>São Paulo, SP · Comprou: Porsche 911</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card reveal" role="listitem">
+              <div class="testimonial-quote" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+              </div>
+              <div class="testimonial-stars" aria-label="Avaliação 5 de 5 estrelas">
+                ★★★★★
+              </div>
+              <p class="testimonial-text">
+                "O processo de financiamento foi muito mais simples do que eu esperava. Em menos de 2 horas tive a aprovação e em uma semana estava com meu BMW X7 na garagem. Recomendo de olhos fechados!"
+              </p>
+              <div class="testimonial-author">
+                <div class="author-avatar" aria-hidden="true">
+                  <span aria-hidden="true">C</span>
+                </div>
+                <div class="author-info">
+                  <strong>Camila Ferreira</strong>
+                  <span>Rio de Janeiro, RJ · Comprou: BMW X7</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card reveal" role="listitem">
+              <div class="testimonial-quote" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+              </div>
+              <div class="testimonial-stars" aria-label="Avaliação 5 de 5 estrelas">
+                ★★★★★
+              </div>
+              <p class="testimonial-text">
+                "Fiz a avaliação do meu Mercedes antigo e recebi uma proposta justa em menos de 24h. Usei o valor como entrada no Range Rover novo. A consultoria foi excepcional do início ao fim. É a segunda compra que faço aqui."
+              </p>
+              <div class="testimonial-author">
+                <div class="author-avatar" aria-hidden="true">
+                  <span aria-hidden="true">M</span>
+                </div>
+                <div class="author-info">
+                  <strong>Marcos Rodrigues</strong>
+                  <span>Curitiba, PR · Comprou: Range Rover</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="trust-badges reveal">
+          <div class="trust-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Empresa Verificada</span>
+          </div>
+          <div class="trust-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>4.9 ⭐ no Google</span>
+          </div>
+          <div class="trust-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Resposta em até 2h</span>
+          </div>
+          <div class="trust-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E88E5" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Transação 100% Segura</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="section faq-section" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-badge">Dúvidas Frequentes</div>
+          <h2 class="section-title" id="faq-title">Perguntas Frequentes</h2>
+          <p class="section-subtitle">Tudo que você precisa saber antes de fechar o melhor negócio da sua vida.</p>
+        </div>
+
+        <div class="faq-grid">
+          <div class="faq-list reveal" role="list">
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false" aria-controls="faq1-answer">
+                <span>A Apex Motors oferece garantia nos veículos?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer" id="faq1-answer" role="region" hidden>
+                <p>Sim! Todos os veículos comercializados pela Apex Motors possuem garantia mecânica de 6 meses. Além disso, para veículos novos, mantemos a garantia do fabricante integral. Trabalhamos apenas com veículos de procedência comprovada e laudados por nossos técnicos especializados.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false" aria-controls="faq2-answer">
+                <span>Como funciona o financiamento?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer" id="faq2-answer" role="region" hidden>
+                <p>Trabalhamos com os principais bancos e financeiras do Brasil para oferecer as melhores condições. O processo é simples: você faz a simulação online ou via WhatsApp, envia a documentação digital, e recebe a resposta em até 2 horas. Taxas a partir de 0,99% ao mês com até 72 parcelas.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false" aria-controls="faq3-answer">
+                <span>Posso usar meu carro como parte do pagamento?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer" id="faq3-answer" role="region" hidden>
+                <p>Absolutamente! Avaliamos seu veículo atual com total transparência e o melhor preço de mercado. Você pode utilizar o valor como entrada para o veículo desejado. O processo de avaliação é rápido: preencha o formulário em nosso site e nossa equipe retorna em até 24 horas com uma proposta.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false" aria-controls="faq4-answer">
+                <span>A Apex Motors entrega veículos em outros estados?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer" id="faq4-answer" role="region" hidden>
+                <p>Sim, realizamos entregas em todo o Brasil com total segurança e logística especializada. O veículo é transportado por empresa credenciada com seguro total cobrindo o trajeto. Para regiões metropolitanas, a entrega é feita por nossos próprios consultores com cerimônia personalizada.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false" aria-controls="faq5-answer">
+                <span>Como agendar um test drive?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer" id="faq5-answer" role="region" hidden>
+                <p>O agendamento é simples e pode ser feito diretamente pelo WhatsApp ou pelo botão "Agendar Test Drive" no site. Nossa equipe entra em contato para confirmar o horário mais conveniente para você. O test drive pode ser realizado em nosso showroom ou, para clientes VIP, organizamos uma experiência exclusiva em pista.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false" aria-controls="faq6-answer">
+                <span>Quais documentos preciso para comprar um veículo?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer" id="faq6-answer" role="region" hidden>
+                <p>Para compra à vista: RG, CPF e comprovante de residência. Para financiamento: além dos documentos básicos, são necessários comprovante de renda dos últimos 3 meses e CNH válida. Nossa equipe orienta todo o processo e pode receber os documentos digitalmente para maior comodidade.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="faq-cta-card reveal">
+            <div class="faq-cta-icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>Ficou com alguma dúvida?</h3>
+            <p>Nossa equipe de especialistas está pronta para responder qualquer pergunta e ajudar você a encontrar o veículo perfeito.</p>
+            <a href="https://wa.me/5511999999999?text=Tenho%20algumas%20dúvidas%20sobre%20a%20Apex%20Motors." class="btn btn-primary btn-full" target="_blank" rel="noopener noreferrer" aria-label="Falar com especialista via WhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.004 2C6.477 2 2 6.477 2 12.004c0 1.76.463 3.413 1.27 4.844L2 22l5.334-1.398A9.955 9.955 0 0 0 12.004 22C17.531 22 22 17.523 22 12.004 22 6.477 17.531 2 12.004 2z"/></svg>
+              Falar com Especialista
+            </a>
+            <div class="faq-contact-options">
+              <a href="tel:+5511999999999" class="contact-option" aria-label="Ligar para Apex Motors">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.27a16 16 0 0 0 6 6l.99-.99a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+                (11) 99999-9999
+              </a>
+              <a href="mailto:contato@apexmotors.com.br" class="contact-option" aria-label="Enviar email para Apex Motors">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                contato@apexmotors.com.br
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FINAL CTA ========== -->
+    <section class="section cta-final-section" aria-labelledby="cta-title">
+      <div class="cta-bg" aria-hidden="true"></div>
+      <div class="container cta-container">
+        <div class="cta-content reveal">
+          <div class="section-badge">Pronto para começar?</div>
+          <h2 class="cta-title" id="cta-title">Seu Próximo Capítulo<br /><span class="text-accent">Começa Aqui.</span></h2>
+          <p class="cta-subtitle">Não espere mais para dirigir o veículo que você sempre sonhou. Nossa equipe está pronta para tornar isso realidade.</p>
+          <div class="cta-actions">
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar%20um%20test%20drive%20na%20Apex%20Motors!" class="btn btn-primary btn-xl" target="_blank" rel="noopener noreferrer" aria-label="Agendar test drive via WhatsApp">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.004 2C6.477 2 2 6.477 2 12.004c0 1.76.463 3.413 1.27 4.844L2 22l5.334-1.398A9.955 9.955 0 0 0 12.004 22C17.531 22 22 17.523 22 12.004 22 6.477 17.531 2 12.004 2z"/></svg>
+              Agendar Test Drive Agora
+            </a>
+            <a href="tel:+5511999999999" class="btn btn-ghost btn-xl" aria-label="Ligar para Apex Motors">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.27a16 16 0 0 0 6 6l.99-.99a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+              (11) 99999-9999
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" id="contact" role="contentinfo">
+    <div class="footer-top">
+      <div class="container footer-top-grid">
+        <!-- Col 1: Brand -->
+        <div class="footer-col footer-brand">
+          <a href="#" class="nav-logo footer-logo" aria-label="Apex Motors">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+              <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" fill="#1E88E5" opacity="0.15"/>
+              <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" fill="none" stroke="#1E88E5" stroke-width="1.5"/>
+              <text x="9" y="24" font-family="Space Grotesk, sans-serif" font-size="16" font-weight="700" fill="#F5F5F5">A</text>
+            </svg>
+            <div class="logo-text">
+              <span class="logo-name">APEX</span>
+              <span class="logo-sub">MOTORS</span>
+            </div>
+          </a>
+          <p class="footer-tagline">Performance, elegância e exclusividade. Os veículos mais desejados do mundo, reunidos em um só lugar desde 2012.</p>
+          <div class="footer-social" role="list" aria-label="Redes sociais">
+            <a href="https://instagram.com/apexmotors" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Apex Motors" role="listitem">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://facebook.com/apexmotors" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook da Apex Motors" role="listitem">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://youtube.com/apexmotors" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube da Apex Motors" role="listitem">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.5C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            </a>
+            <a href="https://linkedin.com/company/apexmotors" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn da Apex Motors" role="listitem">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Links -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Navegação</h4>
+          <nav aria-label="Links do rodapé">
+            <ul class="footer-links" role="list">
+              <li role="listitem"><a href="#vehicles" class="footer-link">Estoque</a></li>
+              <li role="listitem"><a href="#brands" class="footer-link">Marcas</a></li>
+              <li role="listitem"><a href="#services" class="footer-link">Serviços</a></li>
+              <li role="listitem"><a href="#financing" class="footer-link">Financiamento</a></li>
+              <li role="listitem"><a href="#gallery" class="footer-link">Galeria</a></li>
+              <li role="listitem"><a href="#faq" class="footer-link">FAQ</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Col 3: Services -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Serviços</h4>
+          <ul class="footer-links" role="list">
+            <li role="listitem"><a href="#" class="footer-link">Test Drive</a></li>
+            <li role="listitem"><a href="#" class="footer-link">Financiamento</a></li>
+            <li role="listitem"><a href="#" class="footer-link">Avaliação de Seminovos</a></li>
+            <li role="listitem"><a href="#" class="footer-link">Seguro Veicular</a></li>
+            <li role="listitem"><a href="#" class="footer-link">Entrega em Domicílio</a></li>
+            <li role="listitem"><a href="#" class="footer-link">Consultoria Premium</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Contato</h4>
+          <address class="footer-contact" style="font-style:normal">
+            <div class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Av. Paulista, 1000 — Conj. 1001<br />Bela Vista, São Paulo — SP<br />CEP: 01310-100</span>
+            </div>
+            <div class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.27a16 16 0 0 0 6 6l.99-.99a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+              <a href="tel:+5511999999999" class="footer-link">(11) 99999-9999</a>
+            </div>
+            <div class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <a href="mailto:contato@apexmotors.com.br" class="footer-link">contato@apexmotors.com.br</a>
+            </div>
+            <div class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Seg–Sex: 9h–19h | Sáb: 10h–16h</span>
+            </div>
+          </address>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-content">
+        <p>© <span id="currentYear">2024</span> Apex Motors. Todos os direitos reservados.</p>
+        <div class="footer-legal">
+          <a href="#" class="footer-link-sm">Política de Privacidade</a>
+          <a href="#" class="footer-link-sm">Termos de Uso</a>
+          <a href="#" class="footer-link-sm">LGPD</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== VEHICLE MODAL ========== -->
+  <div class="modal-overlay" id="vehicleModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal-container">
+      <button class="modal-close" id="modalClose" aria-label="Fechar modal">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-image-wrap">
+        <img src="" alt="" id="modalImage" class="modal-image" width="800" height="500" />
+        <button class="modal-nav modal-prev" id="modalPrev" aria-label="Imagem anterior">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="modal-nav modal-next" id="modalNext" aria-label="Próxima imagem">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-info">
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <div class="modal-specs" id="modalSpecs"></div>
+          <div class="modal-price" id="modalPrice"></div>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn btn-primary" id="modalWhatsapp" target="_blank" rel="noopener noreferrer" aria-label="Entrar em contato via WhatsApp sobre este veículo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.004 2C6.477 2 2 6.477 2 12.004c0 1.76.463 3.413 1.27 4.844L2 22l5.334-1.398A9.955 9.955 0 0 0 12.004 22C17.531 22 22 17.523 22 12.004 22 6.477 17.531 2 12.004 2z"/></svg>
+            Tenho Interesse
+          </a>
+          <button class="btn btn-outline" id="modalTestDrive" aria-label="Agendar test drive para este veículo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            Test Drive
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== GALLERY LIGHTBOX ========== -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizador de imagem" hidden>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Fechar visualizador de imagem">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImage" class="lightbox-image" />
+    </div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen" aria-hidden="true" role="status" aria-label="Carregando Apex Motors">
+    <div class="loading-logo">
+      <svg width="60" height="60" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" fill="#1E88E5" opacity="0.15"/>
+        <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" fill="none" stroke="#1E88E5" stroke-width="1.5"/>
+        <text x="9" y="24" font-family="Space Grotesk, sans-serif" font-size="16" font-weight="700" fill="#F5F5F5">A</text>
+      </svg>
+      <div class="loading-text">APEX MOTORS</div>
+    </div>
+    <div class="loading-bar">
+      <div class="loading-progress" id="loadingProgress"></div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="script.js" defer></script>
+</body>
+</html>
