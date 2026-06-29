@@ -15,6 +15,97 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="style.css" />
+  
+  <style>
+    /* Estilos específicos da página de estoque */
+    .estoque-tabs {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-10);
+      flex-wrap: wrap;
+    }
+
+    .estoque-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-secondary);
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .estoque-tab:hover {
+      color: var(--color-text-primary);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .estoque-tab--active {
+      color: #fff;
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      box-shadow: 0 4px 20px rgba(30, 136, 229, 0.35);
+    }
+
+    .estoque-tab__count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 24px;
+      padding: 2px var(--space-2);
+      font-size: var(--text-xs);
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-full);
+    }
+
+    .estoque-tab--active .estoque-tab__count {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .vehicle-card--sold {
+      opacity: 0.6;
+    }
+
+    .vehicle-card--sold .vehicle-card__image-wrap::after {
+      content: 'VENDIDO';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      padding: var(--space-3) var(--space-8);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-extrabold);
+      letter-spacing: 0.1em;
+      color: #fff;
+      background: var(--color-error);
+      border: 3px solid #fff;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+      z-index: 2;
+    }
+
+    .vehicle-card--sold .vehicle-card__price-value {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+
+    .estoque-grid {
+      display: none; /* Escondido por padrão, JS controla */
+    }
+
+    .estoque-grid.is-active {
+      display: grid;
+    }
+  </style>
 </head>
 
 <body>
@@ -40,7 +131,7 @@
       </a>
 
       <ul class="nav__menu" id="navMenu" role="list">
-        <li role="listitem"><a href="index.html#featured-vehicles" class="nav__link">Início</a></li>
+        <li role="listitem"><a href="index.html" class="nav__link">Início</a></li>
         <li role="listitem"><a href="estoque.html" class="nav__link is-active">Estoque</a></li>
         <li role="listitem"><a href="index.html#services" class="nav__link">Serviços</a></li>
         <li role="listitem"><a href="index.html#financing" class="nav__link">Financiamento</a></li>
@@ -83,33 +174,33 @@
           </p>
         </div>
 
-        <!-- Tabs -->
+        <!-- Tabs com contagem CORRETA -->
         <div class="estoque-tabs reveal">
-          <button class="estoque-tab estoque-tab--active" data-tab="disponiveis">
-            Disponíveis <span class="estoque-tab__count">12</span>
+          <button class="estoque-tab estoque-tab--active" data-tab="disponiveis" onclick="switchTab('disponiveis')">
+            Disponíveis <span class="estoque-tab__count" id="count-disponiveis">6</span>
           </button>
-          <button class="estoque-tab" data-tab="vendidos">
-            Vendidos <span class="estoque-tab__count">8</span>
+          <button class="estoque-tab" data-tab="vendidos" onclick="switchTab('vendidos')">
+            Vendidos <span class="estoque-tab__count" id="count-vendidos">1</span>
           </button>
         </div>
 
         <!-- Filtros -->
         <div class="vehicles-filter reveal">
-          <button class="filter-btn filter-btn--active" data-filter="all">Todos</button>
-          <button class="filter-btn" data-filter="sport">Esportivos</button>
-          <button class="filter-btn" data-filter="luxury">Luxo</button>
-          <button class="filter-btn" data-filter="suv">SUV</button>
-          <button class="filter-btn" data-filter="sedan">Sedan</button>
+          <button class="filter-btn filter-btn--active" data-filter="all" onclick="filterVehicles('all')">Todos</button>
+          <button class="filter-btn" data-filter="sport" onclick="filterVehicles('sport')">Esportivos</button>
+          <button class="filter-btn" data-filter="luxury" onclick="filterVehicles('luxury')">Luxo</button>
+          <button class="filter-btn" data-filter="suv" onclick="filterVehicles('suv')">SUV</button>
+          <button class="filter-btn" data-filter="sedan" onclick="filterVehicles('sedan')">Sedan</button>
         </div>
 
-        <!-- Grid Disponíveis -->
-        <div class="vehicles-grid estoque-grid estoque-grid--disponiveis" id="gridDisponiveis">
+        <!-- Grid Disponíveis (6 carros) -->
+        <div class="vehicles-grid estoque-grid is-active" id="grid-disponiveis">
           
-          <!-- Card 1 -->
+          <!-- Card 1 - Porsche 911 -->
           <article class="vehicle-card reveal" data-category="sport">
             <div class="vehicle-card__image-wrap">
-              <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600&q=80&fm=webp"
-                alt="Porsche 911 Carrera S prata" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <img src="assets/images/vehicles/porsche-911-carrera-s.jpg"
+                alt="Porsche 911 Carrera S" class="vehicle-card__img" width="600" height="360" loading="lazy" />
               <div class="vehicle-card__badge">Destaque</div>
               <div class="vehicle-card__fuel-badge">Gasolina</div>
             </div>
@@ -137,16 +228,16 @@
                   <span class="vehicle-card__price-label">A partir de</span>
                   <strong class="vehicle-card__price-value">R$ 1.290.000</strong>
                 </div>
-                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="1">Ver detalhes</button>
+                <button class="btn btn--primary btn--sm">Ver detalhes</button>
               </div>
             </div>
           </article>
 
-          <!-- Card 2 -->
+          <!-- Card 2 - Mercedes S 500 -->
           <article class="vehicle-card reveal" data-category="luxury">
             <div class="vehicle-card__image-wrap">
-              <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=600&q=80&fm=webp"
-                alt="Mercedes-Benz S 500 preto" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <img src="assets/images/vehicles/mercedes-s500.jpg"
+                alt="Mercedes-Benz S 500" class="vehicle-card__img" width="600" height="360" loading="lazy" />
               <div class="vehicle-card__fuel-badge">Híbrido</div>
             </div>
             <div class="vehicle-card__body">
@@ -173,16 +264,16 @@
                   <span class="vehicle-card__price-label">A partir de</span>
                   <strong class="vehicle-card__price-value">R$ 1.650.000</strong>
                 </div>
-                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="2">Ver detalhes</button>
+                <button class="btn btn--primary btn--sm">Ver detalhes</button>
               </div>
             </div>
           </article>
 
-          <!-- Card 3 -->
+          <!-- Card 3 - BMW X7 -->
           <article class="vehicle-card reveal" data-category="suv">
             <div class="vehicle-card__image-wrap">
-              <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80&fm=webp"
-                alt="BMW X7 M60i branco" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <img src="assets/images/vehicles/bmw-x7-m60i.jpg"
+                alt="BMW X7 M60i" class="vehicle-card__img" width="600" height="360" loading="lazy" />
               <div class="vehicle-card__badge vehicle-card__badge--new">Novo</div>
               <div class="vehicle-card__fuel-badge">Gasolina</div>
             </div>
@@ -210,16 +301,16 @@
                   <span class="vehicle-card__price-label">A partir de</span>
                   <strong class="vehicle-card__price-value">R$ 1.180.000</strong>
                 </div>
-                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="3">Ver detalhes</button>
+                <button class="btn btn--primary btn--sm">Ver detalhes</button>
               </div>
             </div>
           </article>
 
-          <!-- Card 4 -->
+          <!-- Card 4 - Lamborghini -->
           <article class="vehicle-card reveal" data-category="sport">
             <div class="vehicle-card__image-wrap">
-              <img src="https://images.unsplash.com/photo-1621135802920-133df287f89c?w=600&q=80&fm=webp"
-                alt="Lamborghini Huracán EVO verde" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <img src="assets/images/vehicles/lamborghini-huracan-evo.jpg"
+                alt="Lamborghini Huracán EVO" class="vehicle-card__img" width="600" height="360" loading="lazy" />
               <div class="vehicle-card__badge">Exclusivo</div>
               <div class="vehicle-card__fuel-badge">Gasolina</div>
             </div>
@@ -247,16 +338,16 @@
                   <span class="vehicle-card__price-label">A partir de</span>
                   <strong class="vehicle-card__price-value">R$ 3.490.000</strong>
                 </div>
-                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="4">Ver detalhes</button>
+                <button class="btn btn--primary btn--sm">Ver detalhes</button>
               </div>
             </div>
           </article>
 
-          <!-- Card 5 -->
+          <!-- Card 5 - Audi A8 -->
           <article class="vehicle-card reveal" data-category="sedan">
             <div class="vehicle-card__image-wrap">
-              <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80&fm=webp"
-                alt="Audi A8 L preto" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <img src="assets/images/vehicles/audi-a8l.jpg"
+                alt="Audi A8 L" class="vehicle-card__img" width="600" height="360" loading="lazy" />
               <div class="vehicle-card__fuel-badge">Gasolina</div>
             </div>
             <div class="vehicle-card__body">
@@ -283,16 +374,16 @@
                   <span class="vehicle-card__price-label">A partir de</span>
                   <strong class="vehicle-card__price-value">R$ 1.420.000</strong>
                 </div>
-                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="5">Ver detalhes</button>
+                <button class="btn btn--primary btn--sm">Ver detalhes</button>
               </div>
             </div>
           </article>
 
-          <!-- Card 6 -->
+          <!-- Card 6 - Range Rover -->
           <article class="vehicle-card reveal" data-category="suv">
             <div class="vehicle-card__image-wrap">
-              <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80&fm=webp"
-                alt="Range Rover Autobiography verde" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <img src="assets/images/vehicles/range-rover-autobiography.jpg"
+                alt="Range Rover Autobiography" class="vehicle-card__img" width="600" height="360" loading="lazy" />
               <div class="vehicle-card__fuel-badge">Diesel</div>
             </div>
             <div class="vehicle-card__body">
@@ -319,22 +410,21 @@
                   <span class="vehicle-card__price-label">A partir de</span>
                   <strong class="vehicle-card__price-value">R$ 2.180.000</strong>
                 </div>
-                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="6">Ver detalhes</button>
+                <button class="btn btn--primary btn--sm">Ver detalhes</button>
               </div>
             </div>
           </article>
 
         </div>
 
-        <!-- Grid Vendidos (hidden por padrão) -->
-        <div class="vehicles-grid estoque-grid estoque-grid--vendidos" id="gridVendidos" hidden>
+        <!-- Grid Vendidos (1 carro) -->
+        <div class="vehicles-grid estoque-grid" id="grid-vendidos" style="display: none;">
           
-          <!-- Vendido 1 -->
+          <!-- Carro Vendido -->
           <article class="vehicle-card reveal vehicle-card--sold" data-category="sport">
             <div class="vehicle-card__image-wrap">
-              <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80&fm=webp"
-                alt="Ferrari F8 Tributo vermelha" class="vehicle-card__img" width="600" height="360" loading="lazy" />
-              <div class="vehicle-card__sold-badge">VENDIDO</div>
+              <img src="assets/images/vehicles/ferrari-f8.jpg"
+                alt="Ferrari F8 Tributo" class="vehicle-card__img" width="600" height="360" loading="lazy" />
             </div>
             <div class="vehicle-card__body">
               <div class="vehicle-card__header">
@@ -358,13 +448,13 @@
               <div class="vehicle-card__footer">
                 <div class="vehicle-card__price">
                   <span class="vehicle-card__price-label">Vendido por</span>
-                  <strong class="vehicle-card__price-value" style="opacity: 0.5;">R$ 4.200.000</strong>
+                  <strong class="vehicle-card__price-value">R$ 4.200.000</strong>
                 </div>
               </div>
             </div>
           </article>
 
-          <!-- Adicione mais 7 cards de vendidos aqui seguindo o mesmo padrão -->
+          <!-- Adicione mais vendidos aqui se necessário -->
 
         </div>
 
@@ -373,37 +463,71 @@
 
   </main>
 
-  <!-- Footer (copie do index.html) -->
-  <footer class="footer" id="footer" role="contentinfo">
-    <!-- Cole aqui todo o footer do index.html -->
+  <!-- Footer -->
+  <footer class="footer" id="footer" role="contentinfo" style="background: var(--color-bg-secondary); border-top: 1px solid var(--color-border); padding: var(--space-12) 0;">
+    <div class="container">
+      <div style="text-align: center; color: var(--color-text-muted); font-size: var(--text-sm);">
+        &copy; 2024 Apex Motors. Todos os direitos reservados.
+      </div>
+    </div>
   </footer>
 
   <script src="script.js" defer></script>
 
-  <!-- Script adicional para tabs -->
+  <!-- JavaScript das Tabs -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const tabs = document.querySelectorAll('.estoque-tab');
-      const gridDisponiveis = document.getElementById('gridDisponiveis');
-      const gridVendidos = document.getElementById('gridVendidos');
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          const tabName = tab.getAttribute('data-tab');
-
-          tabs.forEach(t => t.classList.remove('estoque-tab--active'));
-          tab.classList.add('estoque-tab--active');
-
-          if (tabName === 'disponiveis') {
-            gridDisponiveis.removeAttribute('hidden');
-            gridVendidos.setAttribute('hidden', '');
-          } else {
-            gridDisponiveis.setAttribute('hidden', '');
-            gridVendidos.removeAttribute('hidden');
-          }
-        });
+    function switchTab(tabName) {
+      // Remove classe active de todas as tabs
+      document.querySelectorAll('.estoque-tab').forEach(tab => {
+        tab.classList.remove('estoque-tab--active');
       });
-    });
+      
+      // Adiciona classe active na tab clicada
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('estoque-tab--active');
+      
+      // Esconde todos os grids
+      document.getElementById('grid-disponiveis').style.display = 'none';
+      document.getElementById('grid-disponiveis').classList.remove('is-active');
+      document.getElementById('grid-vendidos').style.display = 'none';
+      document.getElementById('grid-vendidos').classList.remove('is-active');
+      
+      // Mostra o grid correto
+      const activeGrid = document.getElementById(`grid-${tabName}`);
+      activeGrid.style.display = 'grid';
+      activeGrid.classList.add('is-active');
+      
+      // Re-trigger reveal animation nos cards visíveis
+      activeGrid.querySelectorAll('.reveal').forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(28px)';
+        setTimeout(() => {
+          el.style.transition = 'all 0.65s ease';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    }
+
+    function filterVehicles(category) {
+      // Atualiza botões ativos
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('filter-btn--active');
+      });
+      event.target.classList.add('filter-btn--active');
+      
+      // Filtra cards no grid ativo
+      const activeGrid = document.querySelector('.estoque-grid.is-active');
+      if (!activeGrid) return;
+      
+      const cards = activeGrid.querySelectorAll('.vehicle-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
   </script>
 
 </body>
