@@ -943,143 +943,100 @@ address {
 }
 
 /* ================================================================
-   11. SEÇÃO — MARCAS (ESTILO NFS COMPACTO)
+   12. SEÇÃO — MARCAS (ESTILO COMPACTO NFS 2010)
 ================================================================ */
 .brands {
   background: var(--color-bg-secondary);
+  padding: var(--space-12) 0;           /* Muito mais compacto */
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  padding-block: var(--space-16); /* Reduzido para seção compacta */
 }
 
 .brands .section__header {
-  margin-bottom: var(--space-8); /* Reduzido */
+  margin-bottom: var(--space-6);
 }
 
 .brands__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: var(--space-4);
-  max-width: 900px; /* Limita largura total */
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: var(--space-3);
+  max-width: 1100px;
   margin: 0 auto;
-  align-items: center;
-  justify-items: center;
 }
 
 .brand-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 120px;
-  height: 80px;
-  padding: var(--space-3);
+  height: 62px;
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: var(--color-bg-card);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 0 12px;
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition:
-    border-color var(--transition-base),
-    background var(--transition-base),
-    transform var(--transition-base),
-    box-shadow var(--transition-base);
   position: relative;
   overflow: hidden;
 }
 
-/* Efeito de brilho ao hover (estilo NFS) */
-.brand-item::before {
+.brand-item:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-accent);
+  background: rgba(30, 136, 229, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(30, 136, 229, 0.2);
+}
+
+/* Efeito de brilho ao passar o mouse */
+.brand-item::after {
   content: '';
   position: absolute;
   top: -50%;
   left: -50%;
-  width: 200%;
-  height: 200%;
+  width: 40%;
+  height: 300%;
   background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(30, 136, 229, 0.1) 50%,
-    transparent 70%
+    120deg,
+    transparent,
+    rgba(255,255,255,0.15),
+    transparent
   );
-  transform: translateX(-100%);
-  transition: transform 0.6s;
+  transform: skewX(-25deg);
+  transition: 0.7s;
 }
 
-.brand-item:hover::before {
-  transform: translateX(100%);
-}
-
-.brand-item:hover {
-  border-color: var(--color-accent);
-  background: var(--color-bg-elevated);
-  transform: scale(1.08);
-  box-shadow: 0 4px 20px rgba(30, 136, 229, 0.25);
-  z-index: 2;
-}
-
-.brand-item__svg {
-  width: 100%;
-  max-width: 100px;
-  height: auto;
-  max-height: 50px;
-  color: var(--color-text-muted);
-  transition: color var(--transition-base);
-  position: relative;
-  z-index: 1;
-}
-
-.brand-item:hover .brand-item__svg {
-  color: var(--color-text-primary);
+.brand-item:hover::after {
+  left: 120%;
 }
 
 /* ================================================================
-   11.1 RESPONSIVO — MARCAS
+   RESPONSIVIDADE MARCAS
 ================================================================ */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .brands__grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-3);
+    gap: var(--space-2);
   }
-
   .brand-item {
-    width: 100%;
-    height: 70px;
-  }
-
-  .brand-item__svg {
-    max-width: 80px;
-    max-height: 40px;
+    height: 56px;
+    font-size: 12px;
   }
 }
 
-@media (max-width: 640px) {
-  .brands {
-    padding-block: var(--space-12);
-  }
-
+@media (max-width: 480px) {
   .brands__grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-2);
-    max-width: 100%;
   }
-
   .brand-item {
-    height: 60px;
-    padding: var(--space-2);
-  }
-
-  .brand-item__svg {
-    max-width: 70px;
-    max-height: 35px;
-  }
-}
-
-@media (max-width: 380px) {
-  .brands__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .brand-item {
-    height: 55px;
+    height: 52px;
+    font-size: 11px;
+    letter-spacing: 1px;
   }
 }
 
