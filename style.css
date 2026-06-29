@@ -943,6 +943,147 @@ address {
 }
 
 /* ================================================================
+   11. SEÇÃO — MARCAS (ESTILO NFS COMPACTO)
+================================================================ */
+.brands {
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding-block: var(--space-16); /* Reduzido para seção compacta */
+}
+
+.brands .section__header {
+  margin-bottom: var(--space-8); /* Reduzido */
+}
+
+.brands__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-4);
+  max-width: 900px; /* Limita largura total */
+  margin: 0 auto;
+  align-items: center;
+  justify-items: center;
+}
+
+.brand-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 80px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-base),
+    background var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de brilho ao hover (estilo NFS) */
+.brand-item::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(30, 136, 229, 0.1) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.brand-item:hover::before {
+  transform: translateX(100%);
+}
+
+.brand-item:hover {
+  border-color: var(--color-accent);
+  background: var(--color-bg-elevated);
+  transform: scale(1.08);
+  box-shadow: 0 4px 20px rgba(30, 136, 229, 0.25);
+  z-index: 2;
+}
+
+.brand-item__svg {
+  width: 100%;
+  max-width: 100px;
+  height: auto;
+  max-height: 50px;
+  color: var(--color-text-muted);
+  transition: color var(--transition-base);
+  position: relative;
+  z-index: 1;
+}
+
+.brand-item:hover .brand-item__svg {
+  color: var(--color-text-primary);
+}
+
+/* ================================================================
+   11.1 RESPONSIVO — MARCAS
+================================================================ */
+@media (max-width: 900px) {
+  .brands__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+  }
+
+  .brand-item {
+    width: 100%;
+    height: 70px;
+  }
+
+  .brand-item__svg {
+    max-width: 80px;
+    max-height: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .brands {
+    padding-block: var(--space-12);
+  }
+
+  .brands__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    max-width: 100%;
+  }
+
+  .brand-item {
+    height: 60px;
+    padding: var(--space-2);
+  }
+
+  .brand-item__svg {
+    max-width: 70px;
+    max-height: 35px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brands__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brand-item {
+    height: 55px;
+  }
+}
+
+/* ================================================================
    [CONTINUA COM TODAS AS OUTRAS SEÇÕES DO CSS ORIGINAL...]
    Por questão de espaço, vou pular para as correções finais
 ================================================================ */
@@ -1120,3 +1261,6 @@ address {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
   z-index: 2;
 }
+
+
+
