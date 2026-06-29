@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estoque Completo — Apex Motors</title>
+  
+  <meta name="description" content="Veja todos os veículos premium disponíveis e vendidos da Apex Motors. Esportivos, SUVs e sedans de luxo." />
+  
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E1116'/%3E%3Cpath d='M4 20 L16 8 L28 20' stroke='%231E88E5' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 20 L16 12 L24 20' stroke='%231E88E5' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'/%3E%3C/svg%3E" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Skip link -->
+  <a href="#main-content" class="skip-link" tabindex="0">Pular para o conteúdo principal</a>
+
+  <!-- Header -->
+  <header class="header is-scrolled" id="header" role="banner">
+    <nav class="nav container" aria-label="Navegação principal">
+      
+      <a href="index.html" class="nav__logo" aria-label="Apex Motors — Página inicial">
+        <svg width="140" height="36" viewBox="0 0 140 36" fill="none" aria-hidden="true">
+          <path d="M6 28 L18 6 L30 28" stroke="#1E88E5" stroke-width="2.5" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 28 L18 12 L26 28" stroke="#1E88E5" stroke-width="1.2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+          <text x="36" y="24" font-family="Space Grotesk, sans-serif" font-weight="800"
+            font-size="18" fill="#F5F5F5" letter-spacing="2">APEX</text>
+          <text x="36" y="34" font-family="Inter, sans-serif" font-weight="400"
+            font-size="9" fill="#8B949E" letter-spacing="4">MOTORS</text>
+        </svg>
+      </a>
+
+      <ul class="nav__menu" id="navMenu" role="list">
+        <li role="listitem"><a href="index.html#featured-vehicles" class="nav__link">Início</a></li>
+        <li role="listitem"><a href="estoque.html" class="nav__link is-active">Estoque</a></li>
+        <li role="listitem"><a href="index.html#services" class="nav__link">Serviços</a></li>
+        <li role="listitem"><a href="index.html#financing" class="nav__link">Financiamento</a></li>
+        <li role="listitem"><a href="index.html#contact" class="nav__link">Contato</a></li>
+      </ul>
+
+      <div class="nav__actions">
+        <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20em%20um%20veículo%20da%20Apex%20Motors."
+          class="btn btn--whatsapp" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          WhatsApp
+        </a>
+
+        <button class="nav__hamburger" id="navHamburger" aria-expanded="false" aria-controls="navMenu">
+          <span class="hamburger__line"></span>
+          <span class="hamburger__line"></span>
+          <span class="hamburger__line"></span>
+        </button>
+      </div>
+
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main id="main-content" style="padding-top: var(--nav-height);">
+
+    <!-- Hero Estoque -->
+    <section class="section" style="background: var(--color-bg-secondary); padding-top: var(--space-20);">
+      <div class="container">
+        <div class="section__header reveal">
+          <span class="section__tag">Portfólio completo</span>
+          <h1 class="section__title">
+            Estoque <span class="text-accent">Completo</span>
+          </h1>
+          <p class="section__desc">
+            Navegue por todos os nossos veículos premium disponíveis e conheça também 
+            os modelos que já encontraram seus novos proprietários.
+          </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="estoque-tabs reveal">
+          <button class="estoque-tab estoque-tab--active" data-tab="disponiveis">
+            Disponíveis <span class="estoque-tab__count">12</span>
+          </button>
+          <button class="estoque-tab" data-tab="vendidos">
+            Vendidos <span class="estoque-tab__count">8</span>
+          </button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="vehicles-filter reveal">
+          <button class="filter-btn filter-btn--active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="sport">Esportivos</button>
+          <button class="filter-btn" data-filter="luxury">Luxo</button>
+          <button class="filter-btn" data-filter="suv">SUV</button>
+          <button class="filter-btn" data-filter="sedan">Sedan</button>
+        </div>
+
+        <!-- Grid Disponíveis -->
+        <div class="vehicles-grid estoque-grid estoque-grid--disponiveis" id="gridDisponiveis">
+          
+          <!-- Card 1 -->
+          <article class="vehicle-card reveal" data-category="sport">
+            <div class="vehicle-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600&q=80&fm=webp"
+                alt="Porsche 911 Carrera S prata" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <div class="vehicle-card__badge">Destaque</div>
+              <div class="vehicle-card__fuel-badge">Gasolina</div>
+            </div>
+            <div class="vehicle-card__body">
+              <div class="vehicle-card__header">
+                <h3 class="vehicle-card__name">Porsche 911 Carrera S</h3>
+                <span class="vehicle-card__year">2023</span>
+              </div>
+              <div class="vehicle-card__specs">
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span>14.200 km</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  <span>450 cv</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>
+                  <span>PDK 8 vel.</span>
+                </div>
+              </div>
+              <div class="vehicle-card__footer">
+                <div class="vehicle-card__price">
+                  <span class="vehicle-card__price-label">A partir de</span>
+                  <strong class="vehicle-card__price-value">R$ 1.290.000</strong>
+                </div>
+                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="1">Ver detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="vehicle-card reveal" data-category="luxury">
+            <div class="vehicle-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=600&q=80&fm=webp"
+                alt="Mercedes-Benz S 500 preto" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <div class="vehicle-card__fuel-badge">Híbrido</div>
+            </div>
+            <div class="vehicle-card__body">
+              <div class="vehicle-card__header">
+                <h3 class="vehicle-card__name">Mercedes-Benz S 500</h3>
+                <span class="vehicle-card__year">2023</span>
+              </div>
+              <div class="vehicle-card__specs">
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span>8.500 km</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  <span>435 cv</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>
+                  <span>9G-Tronic</span>
+                </div>
+              </div>
+              <div class="vehicle-card__footer">
+                <div class="vehicle-card__price">
+                  <span class="vehicle-card__price-label">A partir de</span>
+                  <strong class="vehicle-card__price-value">R$ 1.650.000</strong>
+                </div>
+                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="2">Ver detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="vehicle-card reveal" data-category="suv">
+            <div class="vehicle-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80&fm=webp"
+                alt="BMW X7 M60i branco" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <div class="vehicle-card__badge vehicle-card__badge--new">Novo</div>
+              <div class="vehicle-card__fuel-badge">Gasolina</div>
+            </div>
+            <div class="vehicle-card__body">
+              <div class="vehicle-card__header">
+                <h3 class="vehicle-card__name">BMW X7 M60i</h3>
+                <span class="vehicle-card__year">2024</span>
+              </div>
+              <div class="vehicle-card__specs">
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span>0 km</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  <span>530 cv</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>
+                  <span>Steptronic 8</span>
+                </div>
+              </div>
+              <div class="vehicle-card__footer">
+                <div class="vehicle-card__price">
+                  <span class="vehicle-card__price-label">A partir de</span>
+                  <strong class="vehicle-card__price-value">R$ 1.180.000</strong>
+                </div>
+                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="3">Ver detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="vehicle-card reveal" data-category="sport">
+            <div class="vehicle-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1621135802920-133df287f89c?w=600&q=80&fm=webp"
+                alt="Lamborghini Huracán EVO verde" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <div class="vehicle-card__badge">Exclusivo</div>
+              <div class="vehicle-card__fuel-badge">Gasolina</div>
+            </div>
+            <div class="vehicle-card__body">
+              <div class="vehicle-card__header">
+                <h3 class="vehicle-card__name">Lamborghini Huracán EVO</h3>
+                <span class="vehicle-card__year">2022</span>
+              </div>
+              <div class="vehicle-card__specs">
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span>22.000 km</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  <span>640 cv</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>
+                  <span>LDF 7 vel.</span>
+                </div>
+              </div>
+              <div class="vehicle-card__footer">
+                <div class="vehicle-card__price">
+                  <span class="vehicle-card__price-label">A partir de</span>
+                  <strong class="vehicle-card__price-value">R$ 3.490.000</strong>
+                </div>
+                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="4">Ver detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="vehicle-card reveal" data-category="sedan">
+            <div class="vehicle-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80&fm=webp"
+                alt="Audi A8 L preto" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <div class="vehicle-card__fuel-badge">Gasolina</div>
+            </div>
+            <div class="vehicle-card__body">
+              <div class="vehicle-card__header">
+                <h3 class="vehicle-card__name">Audi A8 L 60 TFSI</h3>
+                <span class="vehicle-card__year">2023</span>
+              </div>
+              <div class="vehicle-card__specs">
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span>18.600 km</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  <span>462 cv</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>
+                  <span>Tiptronic 8</span>
+                </div>
+              </div>
+              <div class="vehicle-card__footer">
+                <div class="vehicle-card__price">
+                  <span class="vehicle-card__price-label">A partir de</span>
+                  <strong class="vehicle-card__price-value">R$ 1.420.000</strong>
+                </div>
+                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="5">Ver detalhes</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="vehicle-card reveal" data-category="suv">
+            <div class="vehicle-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80&fm=webp"
+                alt="Range Rover Autobiography verde" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <div class="vehicle-card__fuel-badge">Diesel</div>
+            </div>
+            <div class="vehicle-card__body">
+              <div class="vehicle-card__header">
+                <h3 class="vehicle-card__name">Range Rover Autobiography</h3>
+                <span class="vehicle-card__year">2024</span>
+              </div>
+              <div class="vehicle-card__specs">
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span>5.200 km</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  <span>530 cv</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>
+                  <span>Auto 8 vel.</span>
+                </div>
+              </div>
+              <div class="vehicle-card__footer">
+                <div class="vehicle-card__price">
+                  <span class="vehicle-card__price-label">A partir de</span>
+                  <strong class="vehicle-card__price-value">R$ 2.180.000</strong>
+                </div>
+                <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle="6">Ver detalhes</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Grid Vendidos (hidden por padrão) -->
+        <div class="vehicles-grid estoque-grid estoque-grid--vendidos" id="gridVendidos" hidden>
+          
+          <!-- Vendido 1 -->
+          <article class="vehicle-card reveal vehicle-card--sold" data-category="sport">
+            <div class="vehicle-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80&fm=webp"
+                alt="Ferrari F8 Tributo vermelha" class="vehicle-card__img" width="600" height="360" loading="lazy" />
+              <div class="vehicle-card__sold-badge">VENDIDO</div>
+            </div>
+            <div class="vehicle-card__body">
+              <div class="vehicle-card__header">
+                <h3 class="vehicle-card__name">Ferrari F8 Tributo</h3>
+                <span class="vehicle-card__year">2021</span>
+              </div>
+              <div class="vehicle-card__specs">
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span>18.000 km</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  <span>720 cv</span>
+                </div>
+                <div class="vehicle-card__spec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>
+                  <span>F1 DCT 7</span>
+                </div>
+              </div>
+              <div class="vehicle-card__footer">
+                <div class="vehicle-card__price">
+                  <span class="vehicle-card__price-label">Vendido por</span>
+                  <strong class="vehicle-card__price-value" style="opacity: 0.5;">R$ 4.200.000</strong>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Adicione mais 7 cards de vendidos aqui seguindo o mesmo padrão -->
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer (copie do index.html) -->
+  <footer class="footer" id="footer" role="contentinfo">
+    <!-- Cole aqui todo o footer do index.html -->
+  </footer>
+
+  <script src="script.js" defer></script>
+
+  <!-- Script adicional para tabs -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.estoque-tab');
+      const gridDisponiveis = document.getElementById('gridDisponiveis');
+      const gridVendidos = document.getElementById('gridVendidos');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabName = tab.getAttribute('data-tab');
+
+          tabs.forEach(t => t.classList.remove('estoque-tab--active'));
+          tab.classList.add('estoque-tab--active');
+
+          if (tabName === 'disponiveis') {
+            gridDisponiveis.removeAttribute('hidden');
+            gridVendidos.setAttribute('hidden', '');
+          } else {
+            gridDisponiveis.setAttribute('hidden', '');
+            gridVendidos.removeAttribute('hidden');
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
