@@ -1038,3 +1038,85 @@ address {
     max-width: 600px;
   }
 }
+
+/* ================================================================
+   PÁGINA DE ESTOQUE — TABS E GRID
+================================================================ */
+.estoque-tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-10);
+}
+
+.estoque-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition:
+    color var(--transition-base),
+    background var(--transition-base),
+    border-color var(--transition-base),
+    transform var(--transition-base);
+}
+
+.estoque-tab:hover {
+  color: var(--color-text-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.estoque-tab--active {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 20px rgba(30, 136, 229, 0.35);
+}
+
+.estoque-tab__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 2px var(--space-2);
+  font-size: var(--text-xs);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+}
+
+.estoque-tab--active .estoque-tab__count {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Card vendido */
+.vehicle-card--sold {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.vehicle-card__sold-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  padding: var(--space-3) var(--space-8);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: var(--color-error);
+  border: 3px solid #fff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
