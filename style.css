@@ -2278,7 +2278,7 @@ address { font-style: normal; }
   }
 
   /* ... resto do código ... */
-   }
+ }
 
   .vehicles-grid {
     grid-template-columns: 1fr;
