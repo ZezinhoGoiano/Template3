@@ -1602,12 +1602,13 @@ const TestimonialsSlider = (() => {
   let totalSlides = 0;
   let autoplayInterval;
 
-  const updateSlider = () => {
-    if (!track) return;
+  
+   const updateSlider = () => {
+  if (!track) return;
 
-    // Em desktop, mostra 3 por vez. Em mobile, 1 por vez.
-    const isMobile = window.innerWidth <= 900;
-    const slidesToShow = isMobile ? 1 : 3;
+  // Em desktop, mostra 2 por vez. Em mobile, 1 por vez.
+  const isMobile = window.innerWidth <= 900;
+  const slidesToShow = isMobile ? 1 : 2;
 
     totalSlides = Math.ceil(track.children.length / slidesToShow);
 
