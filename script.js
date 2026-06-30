@@ -633,21 +633,165 @@ const Hero = (() => {
    5. FILTROS DE VEÍCULOS
 ================================================================ */
 
+/* ================================================================
+   5. FILTROS DE VEÍCULOS + GERAÇÃO DINÂMICA DOS CARDS
+================================================================ */
 const VehicleFilter = (() => {
   const filterButtons = ApexUtils.qsa('.filter-btn');
-  const vehicleCards = ApexUtils.qsa('.vehicle-card');
+  const vehiclesGrid = ApexUtils.qs('.vehicles-grid');
 
-  const filterVehicles = (category) => {
-    vehicleCards.forEach((card) => {
-      const cardCategory = card.getAttribute('data-category');
+  /**
+   * Gera o HTML de um card de veículo
+   */
+  const createVehicleCard = (vehicle) => {
+    const badgeHTML = vehicle.badge 
+      ? `<span class="vehicle-card__badge vehicle-card__badge--${vehicle.badgeColor}">${vehicle.badge}</span>` 
+      : '';
 
-      if (category === 'all' || cardCategory === category) {
-        card.classList.remove('is-hidden');
-        // Animação de entrada
-        card.style.animation = 'fadeInUp 0.4s ease forwards';
+    const dotsHTML = vehicle.images.map((_, index) => 
+      `<span class="vehicle-card__dot ${index === 0 ? 'is-active' : ''}" data-index="${index}"></span>`
+    ).join('');
+
+    return `
+      <div class="vehicle-card" data-category="${vehicle.category}" data-vehicle-id="${vehicle.id}">
+        <div class="vehicle-card__image-wrap">
+          <div class="vehicle-card__nav">
+            <button class="vehicle-card__arrow vehicle-card__arrow--prev" aria-label="Foto anterior">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+            <button class="vehicle-card__arrow vehicle-card__arrow--next" aria-label="Próxima foto">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="vehicle-card__dots">
+            ${dotsHTML}
+          </div>
+
+          ${badgeHTML}
+          
+          <button class="vehicle-card__expand" data-vehicle-id="${vehicle.id}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+          </button>
+
+          <img class="vehicle-card__img" src="${vehicle.images[0]}" alt="${vehicle.name}" data-vehicle-id="${vehicle.id}" data-image-index="0">
+        </div>
+
+        <div class="vehicle-card__body">
+          <div class="vehicle-card__header">
+            <div>
+              <h3 class="vehicle-card__name">${vehicle.name}</h3>
+              <span class="vehicle-card__year">${vehicle.year}</span>
+            </div>
+          </div>
+
+          <div class="vehicle-card__specs">
+            <div class="vehicle-card__spec">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>${vehicle.specs.km}</span>
+            </div>
+            <div class="vehicle-card__spec">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              <span>${vehicle.specs.power}</span>
+            </div>
+          </div>
+
+          <div class="vehicle-card__footer">
+            <div class="vehicle-card__price">
+              <span class="vehicle-card__price-label">A partir de</span>
+              <span class="vehicle-card__price-value">${ApexUtils.formatCurrency(vehicle.price)}</span>
+            </div>
+            <button class="btn btn--primary btn--sm vehicle-card__cta" data-vehicle-id="${vehicle.id}">
+              Ver detalhes
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
+  /**
+   * Renderiza todos os veículos
+   */
+  const renderVehicles = (filter = 'all') => {
+    const filteredVehicles = filter === 'all' 
+      ? VEHICLES_DATA 
+      : VEHICLES_DATA.filter(v => v.category === filter);
+
+    vehiclesGrid.innerHTML = filteredVehicles.map(createVehicleCard).join('');
+
+    // Inicializa navegação de imagens nos cards
+    initCardNavigation();
+  };
+
+  /**
+   * Navegação de imagens nos cards
+   */
+  const initCardNavigation = () => {
+    // Setas
+    ApexUtils.on(vehiclesGrid, 'click', (e) => {
+      const arrow = e.target.closest('.vehicle-card__arrow');
+      if (!arrow) return;
+
+      const card = e.target.closest('.vehicle-card');
+      const img = ApexUtils.qs('.vehicle-card__img', card);
+      const vehicleId = img.dataset.vehicleId;
+      const currentIndex = parseInt(img.dataset.imageIndex);
+      const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
+      
+      if (!vehicle) return;
+
+      let newIndex;
+      if (arrow.classList.contains('vehicle-card__arrow--prev')) {
+        newIndex = currentIndex > 0 ? currentIndex - 1 : vehicle.images.length - 1;
       } else {
-        card.classList.add('is-hidden');
+        newIndex = currentIndex < vehicle.images.length - 1 ? currentIndex + 1 : 0;
       }
+
+      updateCardImage(card, vehicle, newIndex);
+    });
+
+    // Bolinhas
+    ApexUtils.on(vehiclesGrid, 'click', (e) => {
+      const dot = e.target.closest('.vehicle-card__dot');
+      if (!dot) return;
+
+      const card = e.target.closest('.vehicle-card');
+      const img = ApexUtils.qs('.vehicle-card__img', card);
+      const vehicleId = img.dataset.vehicleId;
+      const newIndex = parseInt(dot.dataset.index);
+      const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
+      
+      if (!vehicle) return;
+
+      updateCardImage(card, vehicle, newIndex);
+    });
+  };
+
+  /**
+   * Atualiza imagem e dots do card
+   */
+  const updateCardImage = (card, vehicle, newIndex) => {
+    const img = ApexUtils.qs('.vehicle-card__img', card);
+    const dots = ApexUtils.qsa('.vehicle-card__dot', card);
+
+    img.src = vehicle.images[newIndex];
+    img.alt = `${vehicle.name} - Foto ${newIndex + 1}`;
+    img.dataset.imageIndex = newIndex;
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('is-active', index === newIndex);
     });
   };
 
@@ -655,7 +799,6 @@ const VehicleFilter = (() => {
     const button = e.currentTarget;
     const category = button.getAttribute('data-filter');
 
-    // Atualiza estado dos botões
     filterButtons.forEach((btn) => {
       btn.classList.remove('filter-btn--active');
       btn.setAttribute('aria-pressed', 'false');
@@ -664,13 +807,13 @@ const VehicleFilter = (() => {
     button.classList.add('filter-btn--active');
     button.setAttribute('aria-pressed', 'true');
 
-    // Filtra veículos
-    filterVehicles(category);
+    renderVehicles(category);
   };
 
   const init = () => {
     if (!filterButtons.length) return;
 
+    renderVehicles();
     ApexUtils.on(filterButtons, 'click', handleFilterClick);
   };
 
