@@ -2250,15 +2250,26 @@ address { font-style: normal; }
     justify-content: center;
   }
 
+  @media (max-width: 640px) {
+  /* ... outras coisas ... */
+
   .hero__stats {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-3);
+    width: 100%;  /* ← ADICIONE */
+  }
+
+  .hero__stat {
+    width: 100%;  /* ← ADICIONE */
   }
 
   .hero__stat-divider {
     display: none;
   }
+  
+  /* ... outras coisas ... */
+}
 
   .vehicles-grid {
     grid-template-columns: 1fr;
