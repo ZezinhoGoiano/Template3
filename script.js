@@ -824,247 +824,107 @@ const VehicleFilter = (() => {
    6. MODAL DE VEÍCULO
 ================================================================ */
 
+/* ================================================================
+   6. MODAL DE VEÍCULO COM NAVEGAÇÃO
+================================================================ */
 const VehicleModal = (() => {
   const modal = ApexUtils.qs('#vehicleModal');
   const modalOverlay = ApexUtils.qs('#modalOverlay');
   const modalClose = ApexUtils.qs('#modalClose');
-  const openButtons = ApexUtils.qsa('[data-vehicle]');
+  const openButtons = ApexUtils.qsa('[data-vehicle-id]');
 
-  let cleanupTrapFocus;
+  let currentVehicle = null;
+  let currentImageIndex = 0;
 
-  // Database simulado de veículos (seria uma API real)
-  const vehiclesData = {
-    '1': {
-      name: 'Porsche 911 Carrera S',
-      year: '2023',
-      price: 1290000,
-      description:
-        'O ícone absoluto dos esportivos. Motor boxer de 6 cilindros 3.0 biturbo entregando 450 cv de potência pura. Aceleração de 0-100 km/h em apenas 3.5 segundos. Acabamento impecável em couro premium e tecnologia de ponta.',
-      images: [
-        'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80',
-        'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80',
-        'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80',
-      ],
-      specs: {
-        km: '14.200 km',
-        power: '450 cv',
-        transmission: 'PDK 8 vel.',
-        fuel: 'Gasolina',
-        acceleration: '3.5s (0-100)',
-        topSpeed: '308 km/h',
-        color: 'Prata Metálico',
-        doors: '2 portas',
-      },
-      optionals: [
-        'Teto panorâmico',
-        'Sistema de som Bose',
-        'Bancos com aquecimento',
-        'Rodas 20" liga leve',
-        'Controle de cruzeiro adaptativo',
-        'Câmera 360°',
-        'Faróis LED Matrix',
-        'Interior em couro Nappa',
-      ],
-    },
-    '2': {
-      name: 'Mercedes-Benz S 500',
-      year: '2023',
-      price: 1650000,
-      description:
-        'Luxo e tecnologia em perfeita harmonia. Motor V8 híbrido com 435 cv, bancos massageadores, suspensão pneumática e o mais avançado sistema de infoentretenimento MBUX. Refinamento incomparável.',
-      images: [
-        'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-        'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-        'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-      ],
-      specs: {
-        km: '8.500 km',
-        power: '435 cv',
-        transmission: '9G-Tronic',
-        fuel: 'Híbrido',
-        acceleration: '4.5s (0-100)',
-        topSpeed: '250 km/h',
-        color: 'Preto Obsidiana',
-        doors: '4 portas',
-      },
-      optionals: [
-        'MBUX com IA',
-        'Head-up Display',
-        'Bancos massageadores',
-        'Suspensão pneumática',
-        'Sistema Burmester 4D',
-        'Perfume interior',
-        'Teto panorâmico eletrocrômico',
-        'Pacote AMG Line',
-      ],
-    },
-    '3': {
-      name: 'BMW X7 M60i',
-      year: '2024',
-      price: 1180000,
-      description:
-        'O SUV definitivo. Motor V8 4.4 biturbo com 530 cv, sete lugares com conforto de primeira classe, tecnologia xDrive e acabamento Vernasca em couro. Imponência e versatilidade.',
-      images: [
-        'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80',
-        'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80',
-        'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80',
-      ],
-      specs: {
-        km: '0 km',
-        power: '530 cv',
-        transmission: 'Steptronic 8',
-        fuel: 'Gasolina',
-        acceleration: '4.5s (0-100)',
-        topSpeed: '250 km/h',
-        color: 'Branco Alpino',
-        doors: '5 portas',
-      },
-      optionals: [
-        'Pacote M Sport Pro',
-        'iDrive 8.0',
-        'Bancos Vernasca',
-        'Rodas 22" M',
-        'Tração xDrive',
-        'Faróis Laserlight',
-        'Sistema de som Bowers & Wilkins',
-        'Gesture Control',
-      ],
-    },
-    '4': {
-      name: 'Lamborghini Huracán EVO',
-      year: '2022',
-      price: 3490000,
-      description:
-        'Pura emoção italiana. V10 aspirado de 5.2 litros gerando 640 cv de adrenalina pura. Sistema LDVI que prevê suas intenções ao volante. Design agressivo e performance de supercar autêntico.',
-      images: [
-        'https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=800&q=80',
-        'https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=800&q=80',
-        'https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=800&q=80',
-      ],
-      specs: {
-        km: '22.000 km',
-        power: '640 cv',
-        transmission: 'LDF 7 vel.',
-        fuel: 'Gasolina',
-        acceleration: '2.9s (0-100)',
-        topSpeed: '325 km/h',
-        color: 'Amarelo Orion',
-        doors: '2 portas',
-      },
-      optionals: [
-        'Sistema LDVI',
-        'Câmera frontal lift',
-        'Bancos esportivos',
-        'Escapamento Akrapovič',
-        'Rodas Giano 20"',
-        'Pintura especial',
-        'Pacote aerodinâmico',
-        'Freios carbocerâmica',
-      ],
-    },
-    '5': {
-      name: 'Audi A8 L 60 TFSI',
-      year: '2023',
-      price: 1420000,
-      description:
-        'Sofisticação tecnológica alemã. Motor V8 TFSI com 462 cv, suspensão preditiva que lê a pista, interior em couro Valcona e o mais avançado sistema Matrix LED. Conforto absoluto.',
-      images: [
-        'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80',
-        'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80',
-        'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80',
-      ],
-      specs: {
-        km: '18.600 km',
-        power: '462 cv',
-        transmission: 'Tiptronic 8',
-        fuel: 'Gasolina',
-        acceleration: '4.4s (0-100)',
-        topSpeed: '250 km/h',
-        color: 'Preto Mythos',
-        doors: '4 portas',
-      },
-      optionals: [
-        'Suspensão preditiva',
-        'Virtual Cockpit Plus',
-        'Bang & Olufsen 3D',
-        'Matrix LED',
-        'Bancos massageadores',
-        'Tração Quattro',
-        'Assistente de estacionamento',
-        'Couro Valcona',
-      ],
-    },
-    '6': {
-      name: 'Range Rover Autobiography',
-      year: '2024',
-      price: 2180000,
-      description:
-        'Luxo britânico incomparável. Motor diesel V8 com 530 cv, capacidade off-road excepcional, interior em couro Windsor premium. O SUV mais refinado do planeta.',
-      images: [
-        'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&q=80',
-        'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&q=80',
-        'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&q=80',
-      ],
-      specs: {
-        km: '5.200 km',
-        power: '530 cv',
-        transmission: 'Auto 8 vel.',
-        fuel: 'Diesel',
-        acceleration: '4.6s (0-100)',
-        topSpeed: '250 km/h',
-        color: 'Verde British Racing',
-        doors: '5 portas',
-      },
-      optionals: [
-        'Terrain Response 2',
-        'Pivi Pro',
-        'Meridian Signature',
-        'Bancos Executive',
-        'Teto panorâmico',
-        'Rodas 23"',
-        'Pacote Black Pack',
-        'Câmera ClearSight',
-      ],
-    },
-  };
-
+  /**
+   * Abre o modal com dados do veículo
+   */
   const openModal = (vehicleId) => {
-    const vehicle = vehiclesData[vehicleId];
+    const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
     if (!vehicle) return;
 
-    // Preenche dados do modal
+    currentVehicle = vehicle;
+    currentImageIndex = 0;
+
+    // Preenche dados
     ApexUtils.qs('#modalTitle', modal).textContent = vehicle.name;
     ApexUtils.qs('#modalYear', modal).textContent = vehicle.year;
     ApexUtils.qs('#modalPrice', modal).textContent = ApexUtils.formatCurrency(vehicle.price);
     ApexUtils.qs('#modalDesc', modal).textContent = vehicle.description;
 
-    // Imagem principal
-    const mainImg = ApexUtils.qs('#modalMainImg', modal);
-    mainImg.src = vehicle.images[0];
-    mainImg.alt = `${vehicle.name} - Foto 1`;
+    // Renderiza thumbnails
+    renderModalThumbnails(vehicle);
 
-    // Thumbnails
+    // Renderiza specs
+    renderModalSpecs(vehicle);
+
+    // Renderiza optionals
+    renderModalOptionals(vehicle);
+
+    // Mostra primeira imagem
+    updateModalImage(0);
+
+    // Mostra modal
+    modal.removeAttribute('hidden');
+    ApexUtils.lockScroll(true);
+
+    requestAnimationFrame(() => {
+      modal.style.opacity = '1';
+    });
+  };
+
+  /**
+   * Renderiza thumbnails
+   */
+  const renderModalThumbnails = (vehicle) => {
     const thumbsContainer = ApexUtils.qs('#modalThumbs', modal);
     thumbsContainer.innerHTML = '';
 
     vehicle.images.forEach((img, index) => {
       const thumb = document.createElement('button');
       thumb.className = `modal__thumb ${index === 0 ? 'is-active' : ''}`;
-      thumb.innerHTML = `<img src="${img}" alt="${vehicle.name} - Miniatura ${index + 1}" width="64" height="48" />`;
+      thumb.innerHTML = `<img src="${img}" alt="${vehicle.name} - Miniatura ${index + 1}" width="80" height="60">`;
       thumb.setAttribute('aria-label', `Ver foto ${index + 1}`);
-
       thumb.addEventListener('click', () => {
-        mainImg.src = img;
-        mainImg.alt = `${vehicle.name} - Foto ${index + 1}`;
-
-        thumbsContainer.querySelectorAll('.modal__thumb').forEach((t) => t.classList.remove('is-active'));
+        updateModalImage(index);
+        
+        // Atualiza active state
+        thumbsContainer.querySelectorAll('.modal__thumb').forEach(t => t.classList.remove('is-active'));
         thumb.classList.add('is-active');
       });
 
       thumbsContainer.appendChild(thumb);
     });
+  };
 
-    // Specs
+  /**
+   * Atualiza imagem principal do modal
+   */
+  const updateModalImage = (index) => {
+    if (!currentVehicle) return;
+
+    currentImageIndex = index;
+    const mainImg = ApexUtils.qs('#modalMainImg', modal);
+    
+    mainImg.style.opacity = '0';
+    
+    setTimeout(() => {
+      mainImg.src = currentVehicle.images[index];
+      mainImg.alt = `${currentVehicle.name} - Foto ${index + 1}`;
+      mainImg.style.opacity = '1';
+    }, 150);
+
+    // Atualiza dots
+    const dots = ApexUtils.qsa('.modal__dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === index);
+    });
+  };
+
+  /**
+   * Renderiza specs
+   */
+  const renderModalSpecs = (vehicle) => {
     const specsContainer = ApexUtils.qs('#modalSpecs', modal);
     specsContainer.innerHTML = '';
 
@@ -1079,21 +939,22 @@ const VehicleModal = (() => {
       doors: '<path d="M21 2H3v20h18V2z"/><rect x="7" y="10" width="2" height="4"/>',
     };
 
+    const labels = {
+      km: 'Quilometragem',
+      power: 'Potência',
+      transmission: 'Transmissão',
+      fuel: 'Combustível',
+      acceleration: '0-100 km/h',
+      topSpeed: 'Vel. Máxima',
+      color: 'Cor',
+      doors: 'Portas',
+    };
+
     Object.entries(vehicle.specs).forEach(([key, value]) => {
       const specDiv = document.createElement('div');
       specDiv.className = 'modal__spec-item';
 
       const iconSVG = specsIcons[key] || '<circle cx="12" cy="12" r="10"/>';
-      const labels = {
-        km: 'Quilometragem',
-        power: 'Potência',
-        transmission: 'Transmissão',
-        fuel: 'Combustível',
-        acceleration: '0-100 km/h',
-        topSpeed: 'Vel. Máxima',
-        color: 'Cor',
-        doors: 'Portas',
-      };
 
       specDiv.innerHTML = `
         <span class="modal__spec-label">
@@ -1107,8 +968,12 @@ const VehicleModal = (() => {
 
       specsContainer.appendChild(specDiv);
     });
+  };
 
-    // Opcionais
+  /**
+   * Renderiza optionals
+   */
+  const renderModalOptionals = (vehicle) => {
     const optionalsList = ApexUtils.qs('#modalOptionalsList', modal);
     optionalsList.innerHTML = '';
 
@@ -1116,25 +981,6 @@ const VehicleModal = (() => {
       const li = document.createElement('li');
       li.textContent = optional;
       optionalsList.appendChild(li);
-    });
-
-    // Link WhatsApp personalizado
-    const whatsappBtn = ApexUtils.qs('#modalWhatsapp', modal);
-    const whatsappMsg = encodeURIComponent(
-      `Olá! Tenho interesse no ${vehicle.name} ${vehicle.year}. Gostaria de mais informações.`
-    );
-    whatsappBtn.href = `https://wa.me/5511999999999?text=${whatsappMsg}`;
-
-    // Mostra modal
-    modal.removeAttribute('hidden');
-    ApexUtils.lockScroll(true);
-
-    // Trap focus
-    cleanupTrapFocus = ApexUtils.trapFocus(modal);
-
-    // Animação
-    requestAnimationFrame(() => {
-      modal.style.opacity = '1';
     });
   };
 
@@ -1144,17 +990,8 @@ const VehicleModal = (() => {
     setTimeout(() => {
       modal.setAttribute('hidden', '');
       ApexUtils.lockScroll(false);
-
-      if (cleanupTrapFocus) {
-        cleanupTrapFocus();
-      }
+      currentVehicle = null;
     }, 250);
-  };
-
-  const handleEscKey = (e) => {
-    if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
-      closeModal();
-    }
   };
 
   const init = () => {
@@ -1162,14 +999,53 @@ const VehicleModal = (() => {
 
     // Abrir modal
     ApexUtils.on(openButtons, 'click', (e) => {
-      const vehicleId = e.currentTarget.getAttribute('data-vehicle');
+      const btn = e.target.closest('[data-vehicle-id]');
+      if (!btn) return;
+      
+      const vehicleId = btn.getAttribute('data-vehicle-id');
       openModal(vehicleId);
     });
 
     // Fechar modal
     ApexUtils.on(modalClose, 'click', closeModal);
     ApexUtils.on(modalOverlay, 'click', closeModal);
-    ApexUtils.on(document, 'keydown', handleEscKey);
+
+    // Navegação com setas
+    ApexUtils.on(ApexUtils.qs('#modalPrev', modal), 'click', () => {
+      if (!currentVehicle) return;
+      const newIndex = currentImageIndex > 0 ? currentImageIndex - 1 : currentVehicle.images.length - 1;
+      updateModalImage(newIndex);
+    });
+
+    ApexUtils.on(ApexUtils.qs('#modalNext', modal), 'click', () => {
+      if (!currentVehicle) return;
+      const newIndex = currentImageIndex < currentVehicle.images.length - 1 ? currentImageIndex + 1 : 0;
+      updateModalImage(newIndex);
+    });
+
+    // Navegação com dots
+    ApexUtils.on(modal, 'click', (e) => {
+      const dot = e.target.closest('.modal__dot');
+      if (!dot || !currentVehicle) return;
+      
+      const index = parseInt(dot.dataset.index);
+      updateModalImage(index);
+    });
+
+    // Keyboard
+    ApexUtils.on(document, 'keydown', (e) => {
+      if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
+        closeModal();
+      }
+      
+      if (!modal.hasAttribute('hidden')) {
+        if (e.key === 'ArrowLeft') {
+          ApexUtils.qs('#modalPrev', modal)?.click();
+        } else if (e.key === 'ArrowRight') {
+          ApexUtils.qs('#modalNext', modal)?.click();
+        }
+      }
+    });
   };
 
   return { init };
