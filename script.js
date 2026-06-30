@@ -995,16 +995,17 @@ const VehicleModal = (() => {
   };
 
   const init = () => {
-    if (!modal) return;
+  if (!modal) return;
 
-    // Abrir modal
-    ApexUtils.on(openButtons, 'click', (e) => {
-      const btn = e.target.closest('[data-vehicle-id]');
-      if (!btn) return;
-      
-      const vehicleId = btn.getAttribute('data-vehicle-id');
-      openModal(vehicleId);
-    });
+  // Abrir modal (usando event delegation para elementos dinâmicos)
+  ApexUtils.on(document.body, 'click', (e) => {
+    const btn = e.target.closest('[data-vehicle-id]');
+    if (!btn) return;
+    
+    e.preventDefault();
+    const vehicleId = btn.getAttribute('data-vehicle-id');
+    openModal(vehicleId);
+  });
 
     // Fechar modal
     ApexUtils.on(modalClose, 'click', closeModal);
