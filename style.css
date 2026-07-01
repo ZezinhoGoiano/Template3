@@ -1563,9 +1563,10 @@ address { font-style: normal; }
 
 .testimonials-track {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* ✅ 2 colunas */
   gap: var(--space-6);
   transition: transform var(--transition-slow);
+  width: 100%; /* ✅ IMPORTANTE */
 }
 
 .testimonial-card {
