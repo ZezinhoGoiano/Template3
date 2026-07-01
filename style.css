@@ -1552,25 +1552,30 @@ address { font-style: normal; }
 /* ================================================================
    17. DEPOIMENTOS (FIX #7)
 ================================================================ */
+/* ================================================================
+   DEPOIMENTOS
+================================================================ */
 .testimonials {
   background: var(--color-bg-secondary);
 }
 
 .testimonials-slider {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* ✅ ESSENCIAL! Esconde slides fora da view */
+  width: 100%;
 }
 
 .testimonials-track {
-  display: flex; /* ✅ Flex ao invés de grid */
+  display: flex;
   transition: transform var(--transition-slow);
   width: 100%;
 }
 
 .testimonials-slide {
-  flex: 0 0 100%; /* ✅ Cada slide ocupa 100% da largura */
+  flex: 0 0 100%; /* ✅ Cada slide ocupa exatamente 100% */
+  min-width: 100%; /* ✅ Garante que não encolhe */
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* ✅ 2 colunas dentro de cada slide */
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-6);
 }
 
@@ -1680,6 +1685,52 @@ address { font-style: normal; }
   color: var(--color-text-secondary);
   cursor: pointer;
   transition: all var(--transition-base);
+}
+
+.slider-btn:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.slider-dots {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-text-muted);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.slider-dot--active,
+.slider-dot[aria-selected="true"] {
+  width: 24px;
+  background: var(--color-accent);
+}
+
+/* Mobile: 1 coluna por slide */
+@media (max-width: 900px) {
+  .testimonials-slide {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials-controls {
+    margin-top: var(--space-8);
+  }
+  
+  .slider-btn {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .slider-btn:hover {
