@@ -1675,52 +1675,53 @@ const TestimonialsSlider = (() => {
   };
 
   const init = () => {
-    if (!track) return;
+  if (!track) return;
 
-    totalSlides = dots.length;
+  currentSlide = 0; // ✅ SEMPRE COMEÇA NO SLIDE 0
+  totalSlides = dots.length;
 
-    // Botões
-    ApexUtils.on(prevBtn, 'click', () => {
-      prevSlide();
-      stopAutoplay();
-      startAutoplay();
-    });
-
-    ApexUtils.on(nextBtn, 'click', () => {
-      nextSlide();
-      stopAutoplay();
-      startAutoplay();
-    });
-
-    // Dots
-    dots.forEach((dot, index) => {
-      ApexUtils.on(dot, 'click', () => {
-        goToSlide(index);
-        stopAutoplay();
-        startAutoplay();
-      });
-    });
-
-    // Atualiza ao redimensionar
-    ApexUtils.on(
-      window,
-      'resize',
-      ApexUtils.debounce(() => {
-        updateSlider();
-      }, 200)
-    );
-
-    // Inicializa
-    updateSlider();
-
-    // Autoplay
+  // Botões
+  ApexUtils.on(prevBtn, 'click', () => {
+    prevSlide();
+    stopAutoplay();
     startAutoplay();
+  });
 
-    // Pausa autoplay ao passar mouse
-    ApexUtils.on(track, 'mouseenter', stopAutoplay);
-    ApexUtils.on(track, 'mouseleave', startAutoplay);
-  };
+  ApexUtils.on(nextBtn, 'click', () => {
+    nextSlide();
+    stopAutoplay();
+    startAutoplay();
+  });
 
+  // Dots
+  dots.forEach((dot, index) => {
+    ApexUtils.on(dot, 'click', () => {
+      goToSlide(index);
+      stopAutoplay();
+      startAutoplay();
+    });
+  });
+
+  // Atualiza ao redimensionar
+  ApexUtils.on(
+    window,
+    'resize',
+    ApexUtils.debounce(() => {
+      currentSlide = 0; // ✅ RESETA AO REDIMENSIONAR
+      updateSlider();
+    }, 200)
+  );
+
+  // ✅ INICIALIZA (chama logo no início)
+  updateSlider();
+
+  // Autoplay
+  startAutoplay();
+
+  // Pausa autoplay ao passar mouse
+  ApexUtils.on(track, 'mouseenter', stopAutoplay);
+  ApexUtils.on(track, 'mouseleave', startAutoplay);
+};
   return { init };
 })();
 
