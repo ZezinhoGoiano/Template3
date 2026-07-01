@@ -1562,11 +1562,16 @@ address { font-style: normal; }
 }
 
 .testimonials-track {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* ✅ 2 colunas */
-  gap: var(--space-6);
+  display: flex; /* ✅ Flex ao invés de grid */
   transition: transform var(--transition-slow);
-  width: 100%; /* ✅ IMPORTANTE */
+  width: 100%;
+}
+
+.testimonials-slide {
+  flex: 0 0 100%; /* ✅ Cada slide ocupa 100% da largura */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ✅ 2 colunas dentro de cada slide */
+  gap: var(--space-6);
 }
 
 .testimonial-card {
@@ -3344,4 +3349,10 @@ body:has(.modal:not([hidden])) .header {
 .modal {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+@media (max-width: 900px) {
+  .testimonials-slide {
+    grid-template-columns: 1fr;
+  }
 }
