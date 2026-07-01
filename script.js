@@ -839,45 +839,47 @@ const VehicleModal = (() => {
     });
   };
 
-  const openModal = (vehicleId) => {
-    const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
-    if (!vehicle) return;
+  
+   const openModal = (vehicleId) => {
+  const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
+  if (!vehicle) return;
 
-    currentVehicle = vehicle;
-    currentImageIndex = 0;
+  currentVehicle = vehicle;
+  currentImageIndex = 0;
+  lastFocusedElement = document.activeElement;
 
-    // FIX: guarda elemento que tinha foco antes de abrir
-    lastFocusedElement = document.activeElement;
+  // Preenche conteúdo
+  ApexUtils.qs('#modalTitle', modal).textContent = vehicle.name;
+  ApexUtils.qs('#modalYear', modal).textContent = vehicle.year;
+  ApexUtils.qs('#modalPrice', modal).textContent = ApexUtils.formatCurrency(vehicle.price);
+  ApexUtils.qs('#modalDesc', modal).textContent = vehicle.description;
 
-    // Preenche conteúdo
-    ApexUtils.qs('#modalTitle', modal).textContent = vehicle.name;
-    ApexUtils.qs('#modalYear', modal).textContent = vehicle.year;
-    ApexUtils.qs('#modalPrice', modal).textContent = ApexUtils.formatCurrency(vehicle.price);
-    ApexUtils.qs('#modalDesc', modal).textContent = vehicle.description;
+  const waLink = ApexUtils.qs('#modalWhatsapp', modal);
+  if (waLink) {
+    const msg = encodeURIComponent(
+      `Olá! Tenho interesse no ${vehicle.name} ${vehicle.year}. Poderia me dar mais informações?`
+    );
+    waLink.href = `https://wa.me/5511999999999?text=${msg}`;
+  }
 
-    // Atualiza link do WhatsApp com o nome do veículo
-    const waLink = ApexUtils.qs('#modalWhatsapp', modal);
-    if (waLink) {
-      const msg = encodeURIComponent(
-        `Olá! Tenho interesse no ${vehicle.name} ${vehicle.year}. Poderia me dar mais informações?`
-      );
-      waLink.href = `https://wa.me/5511999999999?text=${msg}`;
-    }
+  renderModalThumbnails(vehicle);
+  renderModalSpecs(vehicle);
+  renderModalOptionals(vehicle);
+  updateModalImage(0);
 
-    renderModalThumbnails(vehicle);
-    renderModalSpecs(vehicle);
-    renderModalOptionals(vehicle);
-    updateModalImage(0);
+  // ✅ Reseta scroll interno do modal ANTES de abrir
+  modal.scrollTop = 0;
+  const modalInfo = ApexUtils.qs('.modal__info', modal);
+  if (modalInfo) modalInfo.scrollTop = 0;
 
-    modal.removeAttribute('hidden');
-    ApexUtils.lockScroll(true);
+  modal.removeAttribute('hidden');
+  ApexUtils.lockScroll(true);
 
-    // FIX: aplica focus trap
-    requestAnimationFrame(() => {
-      modal.style.opacity = '1';
-      cleanupTrapFocus = ApexUtils.trapFocus(modal);
-    });
-  };
+  requestAnimationFrame(() => {
+    modal.style.opacity = '1';
+    cleanupTrapFocus = ApexUtils.trapFocus(modal);
+  });
+};
 
   const closeModal = () => {
     modal.style.opacity = '0';
