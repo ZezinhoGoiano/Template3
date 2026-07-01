@@ -3235,3 +3235,21 @@ address { font-style: normal; }
     height: 45px;
   }
 }
+
+/* Garante que modal fique acima de tudo */
+.modal {
+  z-index: 9999 !important;
+}
+
+.modal__overlay {
+  z-index: 9998 !important;
+}
+
+.modal__container {
+  z-index: 9999 !important;
+}
+
+/* Header fica abaixo quando modal está aberto */
+body:has(.modal:not([hidden])) .header {
+  z-index: 100 !important;
+}
