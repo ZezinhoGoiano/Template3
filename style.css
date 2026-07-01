@@ -2134,11 +2134,13 @@ body:has(.modal:not([hidden])) .header {
   position: fixed;
   bottom: var(--space-6);
   left: var(--space-6);
-  z-index: var(--z-a11y);
+  z-index: var(--z-a11y); /* 500 — acima de tudo */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-2);
+  /* ✅ isolation cria contexto próprio, protegido de filtros externos */
+  isolation: isolate;
 }
 
 .a11y-toggle {
@@ -2299,14 +2301,13 @@ body:has(.modal:not([hidden])) .header {
   inset: 0;
   z-index: var(--z-modal);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center;     /* ✅ centraliza verticalmente */
+  justify-content: center; /* ✅ centraliza horizontalmente */
   padding: var(--space-4);
   opacity: 0;
-  overflow-y: auto;
+  /* ✅ SEM overflow-y: auto aqui — o scroll fica no .modal__info interno */
+  overflow: hidden;
   transition: opacity var(--transition-slow);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 .modal[hidden] { display: none; }
@@ -2326,7 +2327,8 @@ body:has(.modal:not([hidden])) .header {
   z-index: 2;
   width: 100%;
   max-width: 1100px;
-  max-height: 90vh;
+  /* ✅ max-height com margem para respirar na tela */
+  max-height: calc(100vh - var(--space-8));
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
@@ -2335,6 +2337,7 @@ body:has(.modal:not([hidden])) .header {
   grid-template-columns: 1fr 1fr;
   box-shadow: var(--shadow-xl);
   animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* ✅ margin: auto garante centralização mesmo com overflow */
   margin: auto;
 }
 
@@ -2460,8 +2463,8 @@ body:has(.modal:not([hidden])) .header {
 
 .modal__info {
   padding: var(--space-8);
-  overflow-y: auto;
-  max-height: 90vh;
+  overflow-y: auto;          /* ✅ só o painel interno scrolla */
+  max-height: calc(100vh - var(--space-8));
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
 }
@@ -2819,6 +2822,8 @@ body:has(.modal:not([hidden])) .header {
   bottom: var(--space-6);
   right: var(--space-6);
   z-index: calc(var(--z-sticky) + 1);
+  /* ✅ mesmo isolamento */
+  isolation: isolate;
   width: 48px;
   height: 48px;
   display: flex;
@@ -2989,22 +2994,25 @@ body:has(.modal:not([hidden])) .header {
 
   /* Modal mobile — ocupa tela toda e scrolla */
   .modal {
+    align-items: flex-end; /* ✅ cola na base — efeito bottom sheet */
     padding: 0;
-    align-items: flex-start;
+    overflow-y: auto;      /* ✅ scroll da página só no mobile */
   }
 
   .modal__container {
     grid-template-columns: 1fr;
-    max-height: none;
-    min-height: 100vh;
-    border-radius: 0;
+    max-height: 92vh;       /* ✅ deixa espaço para ver que está em overlay */
+    min-height: auto;
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; /* ✅ arredondado só no topo */
     margin: 0;
+    width: 100%;
   }
 
   .modal__info {
-    max-height: none;
-    overflow-y: visible;
+    max-height: 60vh; /* ✅ scroll interno no mobile também */
+    overflow-y: auto;
   }
+
 
   .modal__nav {
     opacity: 1;
@@ -3158,12 +3166,20 @@ body:has(.modal:not([hidden])) .header {
     max-width: calc(100% - var(--space-8));
   }
 
-  .modal__info    { padding: var(--space-6); }
-  .modal__title   { font-size: var(--text-xl); }
-  .modal__price   { font-size: var(--text-2xl); }
+  .modal__info {
+    padding: var(--space-6);
+    max-height: 55vh;
+  }
+
+  .modal__title { font-size: var(--text-xl); }
+  .modal__price { font-size: var(--text-2xl); }
 
   .lightbox__close,
   .lightbox__nav  { width: 40px; height: 40px; }
+
+  .modal__container {
+    max-height: 95vh;
+  }
 
   .a11y-widget    { bottom: var(--space-20); left: var(--space-4); }
 }
