@@ -503,6 +503,7 @@ address { font-style: normal; }
   display: flex;
   align-items: center;
   overflow: hidden;
+  padding-bottom: var(--space-20); /* ✅ ESPAÇO PARA OS STATS */
 }
 
 .hero__bg {
@@ -674,6 +675,9 @@ address { font-style: normal; }
 ================================================================ */
 .featured-vehicles {
   background: var(--color-bg);
+  position: relative;
+  z-index: 1;
+  margin-top: 0; /* ✅ SEM SOBREPOSIÇÃO */
 }
 
 .vehicles-filter {
@@ -2216,9 +2220,10 @@ address { font-style: normal; }
     --nav-height-scroll: 56px;
   }
 
-  .hero {
+   .hero {
     min-height: 100svh;
     max-height: none;
+    padding-bottom: var(--space-24); /* ✅ MAIS ESPAÇO NO MOBILE */
   }
 
   .hero__content {
@@ -2260,6 +2265,8 @@ address { font-style: normal; }
     gap: var(--space-4);
     width: 100%;
     max-width: 100%;
+    overflow: visible;
+    padding-bottom: var(--space-8); /* ✅ PADDING EXTRA */
   }
 
   .hero__stat {
