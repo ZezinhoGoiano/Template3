@@ -1615,32 +1615,41 @@ const TestimonialsSlider = (() => {
    const updateSlider = () => {
   if (!track) return;
 
+  const totalCards = track.children.length; // 3 depoimentos
+  
   // Em desktop, mostra 2 por vez. Em mobile, 1 por vez.
   const isMobile = window.innerWidth <= 900;
   const slidesToShow = isMobile ? 1 : 2;
 
-    totalSlides = Math.ceil(track.children.length / slidesToShow);
+  // Calcula quantos slides temos
+  // Desktop (2 por vez): ceil(3/2) = 2 slides (slide 0: cards 1-2, slide 1: card 3)
+  // Mobile (1 por vez): ceil(3/1) = 3 slides
+  totalSlides = Math.ceil(totalCards / slidesToShow);
 
-    // Ajusta currentSlide se necessário
-    if (currentSlide >= totalSlides) {
-      currentSlide = totalSlides - 1;
+  // Garante que currentSlide está dentro dos limites
+  if (currentSlide >= totalSlides) {
+    currentSlide = 0; // ✅ VOLTA PARA O INÍCIO
+  }
+  
+  if (currentSlide < 0) {
+    currentSlide = totalSlides - 1;
+  }
+
+  // Move track
+  const offset = currentSlide * -100;
+  track.style.transform = `translateX(${offset}%)`;
+
+  // Atualiza dots
+  dots.forEach((dot, index) => {
+    if (index === currentSlide) {
+      dot.classList.add('slider-dot--active');
+      dot.setAttribute('aria-selected', 'true');
+    } else {
+      dot.classList.remove('slider-dot--active');
+      dot.setAttribute('aria-selected', 'false');
     }
-
-    // Move track
-    const offset = currentSlide * -100;
-    track.style.transform = `translateX(${offset}%)`;
-
-    // Atualiza dots
-    dots.forEach((dot, index) => {
-      if (index === currentSlide) {
-        dot.classList.add('slider-dot--active');
-        dot.setAttribute('aria-selected', 'true');
-      } else {
-        dot.classList.remove('slider-dot--active');
-        dot.setAttribute('aria-selected', 'false');
-      }
-    });
-  };
+  });
+};
 
   const nextSlide = () => {
     currentSlide = (currentSlide + 1) % totalSlides;
