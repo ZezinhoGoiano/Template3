@@ -1937,26 +1937,26 @@
 
     <!-- GALERIA -->
     <div class="modal__gallery">
-      <!-- ✅ SETAS DENTRO DA GALERIA -->
-      <button class="modal__nav modal__nav--prev" id="modalPrev" aria-label="Foto anterior">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </button>
-      
-      <button class="modal__nav modal__nav--next" id="modalNext" aria-label="Próxima foto">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
+  
+  <div class="modal__gallery-main">
+    <!-- ✅ SETAS DENTRO DA MAIN IMAGE -->
+    <button class="modal__nav modal__nav--prev" id="modalPrev" aria-label="Foto anterior">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    
+    <button class="modal__nav modal__nav--next" id="modalNext" aria-label="Próxima foto">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
 
-      <div class="modal__gallery-main">
-        <img id="modalMainImg" class="modal__main-img" src="" alt="">
-      </div>
-      
-      <!-- THUMBNAILS -->
-      <div id="modalThumbs" class="modal__thumbs"></div>
-    </div>
+    <img id="modalMainImg" class="modal__main-img" src="" alt="">
+  </div>
+  
+  <div id="modalThumbs" class="modal__thumbs"></div>
+</div>
 
     <!-- INFORMAÇÕES -->
     <div class="modal__info">
