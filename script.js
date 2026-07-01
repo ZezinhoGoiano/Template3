@@ -900,26 +900,29 @@ const VehicleModal = (() => {
   /**
    * Atualiza imagem principal do modal
    */
-  const updateModalImage = (index) => {
-    if (!currentVehicle) return;
+  /**
+ * Atualiza imagem principal do modal
+ */
+const updateModalImage = (index) => {
+  if (!currentVehicle) return;
 
-    currentImageIndex = index;
-    const mainImg = ApexUtils.qs('#modalMainImg', modal);
-    
-    mainImg.style.opacity = '0';
-    
-    setTimeout(() => {
-      mainImg.src = currentVehicle.images[index];
-      mainImg.alt = `${currentVehicle.name} - Foto ${index + 1}`;
-      mainImg.style.opacity = '1';
-    }, 150);
+  currentImageIndex = index;
+  const mainImg = ApexUtils.qs('#modalMainImg', modal);
+  
+  mainImg.style.opacity = '0';
+  
+  setTimeout(() => {
+    mainImg.src = currentVehicle.images[index];
+    mainImg.alt = `${currentVehicle.name} - Foto ${index + 1}`;
+    mainImg.style.opacity = '1';
+  }, 150);
 
-    // Atualiza dots
-    const dots = ApexUtils.qsa('.modal__dot');
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('is-active', i === index);
-    });
-  };
+  // ✅ ATUALIZA THUMBNAILS também!
+  const thumbs = ApexUtils.qsa('.modal__thumb', modal);
+  thumbs.forEach((thumb, i) => {
+    thumb.classList.toggle('is-active', i === index);
+  });
+};
 
   /**
    * Renderiza specs
