@@ -663,47 +663,50 @@ const VehicleFilter = (() => {
    * Usa data-action para diferenciar setas, dots e "ver detalhes"
    * e.stopPropagation() nas setas/dots impede que o modal abra junto
    */
-  const initCardNavigation = () => {
-    if (navigationInitialized) return;
-    navigationInitialized = true;
+ const initCardNavigation = () => {
+  if (navigationInitialized) return;
+  navigationInitialized = true;
 
-    ApexUtils.on(vehiclesGrid, 'click', (e) => {
-      // ── Setas de navegação ──────────────────────────────
-      const arrow = e.target.closest('.vehicle-card__arrow');
-      if (arrow) {
-        e.stopPropagation(); // FIX: impede abertura do modal
-        const card = arrow.closest('.vehicle-card');
-        const img = ApexUtils.qs('.vehicle-card__img', card);
-        const vehicleId = card.dataset.vehicleId;
-        const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
-        if (!vehicle) return;
+  ApexUtils.on(vehiclesGrid, 'click', (e) => {
 
-        const current = parseInt(img.dataset.imageIndex);
-        const isPrev = arrow.classList.contains('vehicle-card__arrow--prev');
-        const newIndex = isPrev
-          ? (current > 0 ? current - 1 : vehicle.images.length - 1)
-          : (current < vehicle.images.length - 1 ? current + 1 : 0);
+    // ── Setas de navegação ──────────────────────────────
+    const arrow = e.target.closest('.vehicle-card__arrow');
+    if (arrow) {
+      e.stopPropagation();
+      e.preventDefault(); // ✅ garante que nenhum outro handler processe
+      const card = arrow.closest('.vehicle-card');
+      const img = ApexUtils.qs('.vehicle-card__img', card);
+      const vehicleId = card.dataset.vehicleId;
+      const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
+      if (!vehicle) return;
 
-        updateCardImage(card, vehicle, newIndex);
-        return;
-      }
+      const current = parseInt(img.dataset.imageIndex);
+      const isPrev = arrow.classList.contains('vehicle-card__arrow--prev');
+      const newIndex = isPrev
+        ? (current > 0 ? current - 1 : vehicle.images.length - 1)
+        : (current < vehicle.images.length - 1 ? current + 1 : 0);
 
-      // ── Dots de navegação ───────────────────────────────
-      const dot = e.target.closest('.vehicle-card__dot');
-      if (dot) {
-        e.stopPropagation(); // FIX: impede abertura do modal
-        const card = dot.closest('.vehicle-card');
-        const img = ApexUtils.qs('.vehicle-card__img', card);
-        const vehicleId = card.dataset.vehicleId;
-        const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
-        if (!vehicle) return;
+      updateCardImage(card, vehicle, newIndex);
+      return;
+    }
 
-        const newIndex = parseInt(dot.dataset.index);
-        updateCardImage(card, vehicle, newIndex);
-        return;
-      }
-    });
-  };
+    // ── Dots de navegação ───────────────────────────────
+    const dot = e.target.closest('.vehicle-card__dot');
+    if (dot) {
+      e.stopPropagation();
+      e.preventDefault(); // ✅ garante que nenhum outro handler processe
+      const card = dot.closest('.vehicle-card');
+      const img = ApexUtils.qs('.vehicle-card__img', card);
+      const vehicleId = card.dataset.vehicleId;
+      const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
+      if (!vehicle) return;
+
+      const newIndex = parseInt(dot.dataset.index);
+      updateCardImage(card, vehicle, newIndex);
+      return;
+    }
+  });
+};
 
   const handleFilterClick = (e) => {
     const button = e.currentTarget;
