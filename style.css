@@ -2263,7 +2263,17 @@ body:has(.modal:not([hidden])) .header {
 
 /* Classes de acessibilidade aplicadas via JS */
 .high-contrast {
-  filter: contrast(1.5) brightness(1.1);
+  --color-bg:             #000000;
+  --color-bg-secondary:   #0a0a0a;
+  --color-bg-card:        #111111;
+  --color-bg-elevated:    #1a1a1a;
+  --color-text-primary:   #ffffff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-muted:     #aaaaaa;
+  --color-border:         rgba(255, 255, 255, 0.25);
+  --color-accent:         #5BB8FF;
+  --color-accent-light:   rgba(91, 184, 255, 0.2);
+  --color-accent-hover:   #3aa0ff;
 }
 
 .reduce-motion *,
