@@ -899,20 +899,25 @@ const VehicleModal = (() => {
   };
 
   const init = () => {
-    if (!modal) return;
+  if (!modal) return;
 
-    // Abre modal via delegação no body
-    // FIX: só reage a [data-action="expand"] para não conflitar com setas/dots
-    ApexUtils.on(document.body, 'click', (e) => {
-      const trigger = e.target.closest('[data-action="expand"]');
-      if (!trigger) return;
+  // ✅ Só abre modal via data-action="expand"
+  // Não usa [data-vehicle-id] para não conflitar com o card pai
+  ApexUtils.on(document.body, 'click', (e) => {
+    // Ignora se o clique veio de seta ou dot
+    if (e.target.closest('.vehicle-card__arrow')) return;
+    if (e.target.closest('.vehicle-card__dot'))   return;
+    if (e.target.closest('.vehicle-card__nav'))   return;
 
-      const card = trigger.closest('[data-vehicle-id]');
-      if (!card) return;
+    const trigger = e.target.closest('[data-action="expand"]');
+    if (!trigger) return;
 
-      e.preventDefault();
-      openModal(card.dataset.vehicleId);
-    });
+    const card = trigger.closest('[data-vehicle-id]');
+    if (!card) return;
+
+    e.preventDefault();
+    openModal(card.dataset.vehicleId);
+  });
 
     // FIX: fecha por AMBOS os botões de fechar
     ApexUtils.on(modalCloseButtons, 'click', closeModal);
