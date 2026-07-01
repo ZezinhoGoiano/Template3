@@ -1611,45 +1611,37 @@ const TestimonialsSlider = (() => {
   let totalSlides = 0;
   let autoplayInterval;
 
-  
-   const updateSlider = () => {
-  if (!track) return;
+  const updateSlider = () => {
+    if (!track) return;
 
-  const totalCards = track.children.length; // 3 depoimentos
-  
-  // Em desktop, mostra 2 por vez. Em mobile, 1 por vez.
-  const isMobile = window.innerWidth <= 900;
-  const slidesToShow = isMobile ? 1 : 2;
+    // ✅ Total de SLIDES (não cards individuais)
+    const slides = track.querySelectorAll('.testimonials-slide');
+    totalSlides = slides.length; // Deve ser 2
 
-  // Calcula quantos slides temos
-  // Desktop (2 por vez): ceil(3/2) = 2 slides (slide 0: cards 1-2, slide 1: card 3)
-  // Mobile (1 por vez): ceil(3/1) = 3 slides
-  totalSlides = Math.ceil(totalCards / slidesToShow);
-
-  // Garante que currentSlide está dentro dos limites
-  if (currentSlide >= totalSlides) {
-    currentSlide = 0; // ✅ VOLTA PARA O INÍCIO
-  }
-  
-  if (currentSlide < 0) {
-    currentSlide = totalSlides - 1;
-  }
-
-  // Move track
-  const offset = currentSlide * -100;
-  track.style.transform = `translateX(${offset}%)`;
-
-  // Atualiza dots
-  dots.forEach((dot, index) => {
-    if (index === currentSlide) {
-      dot.classList.add('slider-dot--active');
-      dot.setAttribute('aria-selected', 'true');
-    } else {
-      dot.classList.remove('slider-dot--active');
-      dot.setAttribute('aria-selected', 'false');
+    // Garante que currentSlide está dentro dos limites
+    if (currentSlide >= totalSlides) {
+      currentSlide = 0;
     }
-  });
-};
+    
+    if (currentSlide < 0) {
+      currentSlide = totalSlides - 1;
+    }
+
+    // Move track (cada slide = 100%)
+    const offset = currentSlide * -100;
+    track.style.transform = `translateX(${offset}%)`;
+
+    // Atualiza dots
+    dots.forEach((dot, index) => {
+      if (index === currentSlide) {
+        dot.classList.add('slider-dot--active');
+        dot.setAttribute('aria-selected', 'true');
+      } else {
+        dot.classList.remove('slider-dot--active');
+        dot.setAttribute('aria-selected', 'false');
+      }
+    });
+  };
 
   const nextSlide = () => {
     currentSlide = (currentSlide + 1) % totalSlides;
@@ -1675,53 +1667,50 @@ const TestimonialsSlider = (() => {
   };
 
   const init = () => {
-  if (!track) return;
+    if (!track) return;
 
-  currentSlide = 0; // ✅ SEMPRE COMEÇA NO SLIDE 0
-  totalSlides = dots.length;
+    currentSlide = 0;
+    updateSlider(); // ✅ Inicializa logo
 
-  // Botões
-  ApexUtils.on(prevBtn, 'click', () => {
-    prevSlide();
-    stopAutoplay();
-    startAutoplay();
-  });
-
-  ApexUtils.on(nextBtn, 'click', () => {
-    nextSlide();
-    stopAutoplay();
-    startAutoplay();
-  });
-
-  // Dots
-  dots.forEach((dot, index) => {
-    ApexUtils.on(dot, 'click', () => {
-      goToSlide(index);
+    // Botões
+    ApexUtils.on(prevBtn, 'click', () => {
+      prevSlide();
       stopAutoplay();
       startAutoplay();
     });
-  });
 
-  // Atualiza ao redimensionar
-  ApexUtils.on(
-    window,
-    'resize',
-    ApexUtils.debounce(() => {
-      currentSlide = 0; // ✅ RESETA AO REDIMENSIONAR
-      updateSlider();
-    }, 200)
-  );
+    ApexUtils.on(nextBtn, 'click', () => {
+      nextSlide();
+      stopAutoplay();
+      startAutoplay();
+    });
 
-  // ✅ INICIALIZA (chama logo no início)
-  updateSlider();
+    // Dots
+    dots.forEach((dot, index) => {
+      ApexUtils.on(dot, 'click', () => {
+        goToSlide(index);
+        stopAutoplay();
+        startAutoplay();
+      });
+    });
 
-  // Autoplay
-  startAutoplay();
+    // Atualiza ao redimensionar
+    ApexUtils.on(
+      window,
+      'resize',
+      ApexUtils.debounce(() => {
+        updateSlider();
+      }, 200)
+    );
 
-  // Pausa autoplay ao passar mouse
-  ApexUtils.on(track, 'mouseenter', stopAutoplay);
-  ApexUtils.on(track, 'mouseleave', startAutoplay);
-};
+    // Autoplay
+    startAutoplay();
+
+    // Pausa autoplay ao passar mouse
+    ApexUtils.on(track, 'mouseenter', stopAutoplay);
+    ApexUtils.on(track, 'mouseleave', startAutoplay);
+  };
+
   return { init };
 })();
 
