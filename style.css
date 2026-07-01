@@ -2463,6 +2463,7 @@ address { font-style: normal; }
 }
 
 .modal__gallery-main {
+  position: relative; /* ✅ IMPORTANTE! */
   aspect-ratio: 16 / 10;
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -3125,6 +3126,8 @@ address { font-style: normal; }
   color: var(--color-text-primary);
   cursor: pointer;
   transition: all var(--transition-base);
+  opacity: 0; /* ✅ ESCONDIDAS POR PADRÃO */
+  pointer-events: none;
 }
 
 .modal__nav:hover {
@@ -3218,6 +3221,12 @@ address { font-style: normal; }
   background: var(--color-accent-light);
 }
 
+/* ✅ Mostra setas ao passar mouse na área da imagem principal */
+.modal__gallery-main:hover .modal__nav {
+  opacity: 1;
+  pointer-events: all;
+}
+
 /* ================================================================
    RESPONSIVIDADE DA NAVEGAÇÃO
 ================================================================ */
@@ -3299,6 +3308,11 @@ address { font-style: normal; }
   .modal__info {
     max-height: none; /* ✅ SEM LIMITE */
     overflow-y: visible;
+  }
+
+  .modal__nav {
+    opacity: 1;
+    pointer-events: all;
   }
 }
 
