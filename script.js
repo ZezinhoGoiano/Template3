@@ -614,12 +614,18 @@ const Hero = (() => {
       }, 100);
     });
 
-    // Parallax sutil no scroll (opcional)
+    // ✅ Parallax sutil no scroll (CORRIGIDO - para quando sai do hero)
     const handleParallax = ApexUtils.throttle(() => {
       const scrolled = window.pageYOffset;
       const heroBg = ApexUtils.qs('.hero__bg', hero);
-      if (heroBg && scrolled < hero.offsetHeight) {
+      const heroHeight = hero.offsetHeight;
+      
+      // ✅ SÓ APLICA PARALLAX ENQUANTO ESTÁ NO HERO
+      if (heroBg && scrolled < heroHeight) {
         heroBg.style.transform = `translateY(${scrolled * 0.4}px) scale(1)`;
+      } else if (heroBg) {
+        // ✅ TRAVA NA POSIÇÃO FINAL
+        heroBg.style.transform = `translateY(${heroHeight * 0.4}px) scale(1)`;
       }
     }, 16);
 
