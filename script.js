@@ -462,23 +462,6 @@ const Hero = (() => {
     window.addEventListener('load', () => {
       setTimeout(() => hero.classList.add('is-loaded'), 100);
     });
-
-    // FIX: passive listener para scroll
-    const handleParallax = ApexUtils.throttle(() => {
-      const scrolled = window.pageYOffset;
-      const heroBg = ApexUtils.qs('.hero__bg', hero);
-      const heroHeight = hero.offsetHeight;
-
-      if (!heroBg) return;
-
-      if (scrolled < heroHeight) {
-        heroBg.style.transform = `translateY(${scrolled * 0.4}px) scale(1)`;
-      } else {
-        heroBg.style.transform = `translateY(${heroHeight * 0.4}px) scale(1)`;
-      }
-    }, 16);
-
-    window.addEventListener('scroll', handleParallax, { passive: true });
   };
 
   return { init };
