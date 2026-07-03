@@ -72,20 +72,20 @@ const VEHICLES_DATA = [
     badgeColor: 'accent',
     description: 'Luxo e tecnologia em perfeita harmonia. Motor V8 híbrido com 435 cv, bancos massageadores, suspensão pneumática e o mais avançado sistema MBUX.',
     images: [
-      'assets/images/vehicles/S_1.webp'
-      'assets/images/vehicles/S_2.jpg'
-      'assets/images/vehicles/S_3.jpg'
-      'assets/images/vehicles/S_4.jpg'
-      'assets/images/vehicles/S_5.webp'
-      'assets/images/vehicles/S_6.jpg'
-      'assets/images/vehicles/S_7.webp'
-      'assets/images/vehicles/S_8.webp'
-      'assets/images/vehicles/S_9.jpg'
-      'assets/images/vehicles/S_10.jpg'
-      'assets/images/vehicles/S_11.webp'
-      'assets/images/vehicles/S_12.webp'
-      'assets/images/vehicles/S_13.jpg'
-      'assets/images/vehicles/S_14.webp'
+      'assets/images/vehicles/S_1.webp',
+      'assets/images/vehicles/S_2.jpg',
+      'assets/images/vehicles/S_3.jpg',
+      'assets/images/vehicles/S_4.jpg',
+      'assets/images/vehicles/S_5.webp',
+      'assets/images/vehicles/S_6.jpg',
+      'assets/images/vehicles/S_7.webp',
+      'assets/images/vehicles/S_8.webp',
+      'assets/images/vehicles/S_9.jpg',
+      'assets/images/vehicles/S_10.jpg',
+      'assets/images/vehicles/S_11.webp',
+      'assets/images/vehicles/S_12.webp',
+      'assets/images/vehicles/S_13.jpg',
+      'assets/images/vehicles/S_14.webp',
     ],
     specs: {
       km: '8.500 km',
