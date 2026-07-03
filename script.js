@@ -75,6 +75,17 @@ const VEHICLES_DATA = [
       'assets/images/vehicles/S_1.webp'
       'assets/images/vehicles/S_2.jpg'
       'assets/images/vehicles/S_3.jpg'
+      'assets/images/vehicles/S_4.jpg'
+      'assets/images/vehicles/S_5.webp'
+      'assets/images/vehicles/S_6.jpg'
+      'assets/images/vehicles/S_7.webp'
+      'assets/images/vehicles/S_8.webp'
+      'assets/images/vehicles/S_9.jpg'
+      'assets/images/vehicles/S_10.jpg'
+      'assets/images/vehicles/S_11.webp'
+      'assets/images/vehicles/S_12.webp'
+      'assets/images/vehicles/S_13.jpg'
+      'assets/images/vehicles/S_14.webp'
     ],
     specs: {
       km: '8.500 km',
