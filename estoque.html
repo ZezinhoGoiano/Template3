@@ -475,60 +475,12 @@
   <script src="script.js" defer></script>
 
   <!-- JavaScript das Tabs -->
-  <script>
-    function switchTab(tabName) {
-      // Remove classe active de todas as tabs
-      document.querySelectorAll('.estoque-tab').forEach(tab => {
-        tab.classList.remove('estoque-tab--active');
-      });
-      
-      // Adiciona classe active na tab clicada
-      document.querySelector(`[data-tab="${tabName}"]`).classList.add('estoque-tab--active');
-      
-      // Esconde todos os grids
-      document.getElementById('grid-disponiveis').style.display = 'none';
-      document.getElementById('grid-disponiveis').classList.remove('is-active');
-      document.getElementById('grid-vendidos').style.display = 'none';
-      document.getElementById('grid-vendidos').classList.remove('is-active');
-      
-      // Mostra o grid correto
-      const activeGrid = document.getElementById(`grid-${tabName}`);
-      activeGrid.style.display = 'grid';
-      activeGrid.classList.add('is-active');
-      
-      // Re-trigger reveal animation nos cards visíveis
-      activeGrid.querySelectorAll('.reveal').forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(28px)';
-        setTimeout(() => {
-          el.style.transition = 'all 0.65s ease';
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-        }, index * 100);
-      });
-    }
-
-    function filterVehicles(category) {
-      // Atualiza botões ativos
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('filter-btn--active');
-      });
-      event.target.classList.add('filter-btn--active');
-      
-      // Filtra cards no grid ativo
-      const activeGrid = document.querySelector('.estoque-grid.is-active');
-      if (!activeGrid) return;
-      
-      const cards = activeGrid.querySelectorAll('.vehicle-card');
-      cards.forEach(card => {
-        if (category === 'all' || card.getAttribute('data-category') === category) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-  </script>
+  <!-- 1. Dados compartilhados (primeiro, sempre) -->
+<script src="vehicles-data.js"></script>
+<!-- 2. Script principal (traz VehicleModel, ApexUtils, Toast etc.) -->
+<script src="script.js" defer></script>
+<!-- 3. Lógica específica do estoque -->
+<script src="estoque.js" defer></script>
 
 </body>
 </html>
