@@ -86,7 +86,7 @@ const VEHICLES_DATA = [
       'assets/images/vehicles/S_12.webp',
       'assets/images/vehicles/S_13.jpg',
       'assets/images/vehicles/S_14.webp',
-    ],
+     ],
     specs: {
       km: '8.500 km',
       power: '435 cv',
