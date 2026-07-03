@@ -72,9 +72,9 @@ const VEHICLES_DATA = [
     badgeColor: 'accent',
     description: 'Luxo e tecnologia em perfeita harmonia. Motor V8 híbrido com 435 cv, bancos massageadores, suspensão pneumática e o mais avançado sistema MBUX.',
     images: [
-      'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-      'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-      'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&q=80',
+      'assets/images/vehicles/S_1.webp'
+      'assets/images/vehicles/S_2.jpg'
+      'assets/images/vehicles/S_3.jpg'
     ],
     specs: {
       km: '8.500 km',
