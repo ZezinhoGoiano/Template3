@@ -3109,13 +3109,41 @@ body:has(.modal:not([hidden])) .header {
 
   /* FIX: hero__stats fora do bloco aninhado */
   .hero__stats {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-4);
-    width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  padding: var(--space-3) 0;
   }
 
-  .hero__stat-divider { display: none; }
+   .hero__stat {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.hero__stat-number {
+  font-size: var(--text-lg); /* Reduzido do 2xl para caber na linha */
+  font-weight: var(--weight-extrabold);
+}
+
+.hero__stat-label {
+  font-size: 0.6rem; /* Bem compacto */
+  letter-spacing: 0.03em;
+}
+
+  .hero__stat-divider {
+  display: block; /* Mantém o divisor vertical */
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+  }
 
   .hero__scroll { display: none; }
 
