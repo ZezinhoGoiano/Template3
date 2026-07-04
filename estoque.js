@@ -211,6 +211,13 @@ const updateCardImage = (card, vehicle, newIndex) => {
 const initCardNav = (grid) => {
   grid.addEventListener('click', (e) => {
 
+    // ── SE FOR BOTÃO DE ABRIR MODAL, DEIXA PASSAR ────────
+    if (e.target.closest('[data-action="expand"]')) {
+      // Não faz nada aqui — deixa o VehicleModal (em document.body)
+      // processar o clique normalmente
+      return;
+    }
+
     // ── Setas ──────────────────────────────────────────────
     const arrow = e.target.closest('.vehicle-card__arrow');
     if (arrow) {
@@ -247,6 +254,7 @@ const initCardNav = (grid) => {
     }
   });
 };
+
 
 /* ================================================================
    MODAL (reutiliza a lógica do script.js — VehicleModal)
