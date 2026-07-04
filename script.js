@@ -401,8 +401,8 @@ const VehicleFilter = (() => {
    */
   const renderVehicles = (filter = 'all') => {
     const filtered = filter === 'all'
-      ? VEHICLES_DATA
-      : VEHICLES_DATA.filter(v => v.category === filter);
+  ? VEHICLES_DATA.filter(v => v.status === 'available') // ← ignora vendidos
+  : VEHICLES_DATA.filter(v => v.category === filter && v.status === 'available');
 
     vehiclesGrid.innerHTML = filtered.map(createVehicleCard).join('');
 
