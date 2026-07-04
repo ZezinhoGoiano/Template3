@@ -213,7 +213,7 @@ const VEHICLES_DATA = [
       fuel: 'Gasolina',
       acceleration: '4.4s (0-100)',
       topSpeed: '250 km/h',
-      color: 'Preto Mythos',
+      color: 'Preto Brilhante',
       doors: '4 portas',
     },
     optionals: [
