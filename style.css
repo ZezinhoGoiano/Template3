@@ -843,7 +843,7 @@ body:has(.modal:not([hidden])) .header {
   color: #fff;
   background: var(--color-accent);
   border-radius: var(--radius-full);
-  z-index: 3; /* FIX: garante camada correta abaixo dos dots */
+  z-index: 6; /* Sempre acima dos dots */
 }
 
 .vehicle-card__badge--new     { background: var(--color-success); }
@@ -995,14 +995,13 @@ body:has(.modal:not([hidden])) .header {
 
 .vehicle-card__dots {
   position: absolute;
-  /* FIX: dots reposicionados mais acima para não sobrepor
-     o badge colorido (que fica no bottom-left) */
-  bottom: var(--space-10);
+  bottom: auto;           /* Remove o bottom */
+  top: var(--space-3);    /* Vai para o topo */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: var(--space-2);
-  z-index: 5;
+  z-index: 4;
 }
 
 .vehicle-card__dot {
