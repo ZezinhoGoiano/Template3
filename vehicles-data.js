@@ -122,7 +122,7 @@ const VEHICLES_DATA = [
       fuel: 'Gasolina',
       acceleration: '4.5s (0-100)',
       topSpeed: '250 km/h',
-      color: 'Branco Alpino',
+      color: 'Sparkling Copper Metallic',
       doors: '5 portas',
     },
     optionals: [
