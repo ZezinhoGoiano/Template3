@@ -528,24 +528,36 @@ const VehicleModal = (() => {
   let cleanupTrapFocus = null;   // FIX: cleanup do focus trap
 
   const updateModalImage = (index) => {
-    if (!currentVehicle) return;
-    currentImageIndex = index;
+  if (!currentVehicle) return;
+  currentImageIndex = index;
 
-    const mainImg = ApexUtils.qs('#modalMainImg', modal);
-    mainImg.style.opacity = '0';
+  const mainImg = ApexUtils.qs('#modalMainImg', modal);
+  mainImg.style.opacity = '0';
 
-    setTimeout(() => {
-      mainImg.src = currentVehicle.images[index];
-      mainImg.alt = `${currentVehicle.name} — foto ${index + 1} de ${currentVehicle.images.length}`;
-      mainImg.style.opacity = '1';
-    }, 150);
+  setTimeout(() => {
+    mainImg.src = currentVehicle.images[index];
+    mainImg.alt = `${currentVehicle.name} — foto ${index + 1} de ${currentVehicle.images.length}`;
+    mainImg.style.opacity = '1';
+  }, 150);
 
-    // Sincroniza thumbnails
-    ApexUtils.qsa('.modal__thumb', modal).forEach((thumb, i) => {
-      thumb.classList.toggle('is-active', i === index);
-      thumb.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+  // Sincroniza thumbnails
+  const thumbs = ApexUtils.qsa('.modal__thumb', modal);
+  
+  thumbs.forEach((thumb, i) => {
+    thumb.classList.toggle('is-active', i === index);
+    thumb.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+  });
+
+  // FIX: Scroll do container de thumbnails para mostrar o thumb ativo
+  const activeThumb = thumbs[index];
+  if (activeThumb) {
+    activeThumb.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center'
     });
-  };
+  }
+};
 
   const renderModalThumbnails = (vehicle) => {
     const thumbsContainer = ApexUtils.qs('#modalThumbs', modal);
