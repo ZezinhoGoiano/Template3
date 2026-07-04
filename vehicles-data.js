@@ -80,7 +80,7 @@ const VEHICLES_DATA = [
       fuel: 'Híbrido',
       acceleration: '4.5s (0-100)',
       topSpeed: '250 km/h',
-      color: 'Preto Obsidiana',
+      color: 'Exclusive Silver Metallic',
       doors: '4 portas',
     },
     optionals: [
