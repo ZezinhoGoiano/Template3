@@ -168,7 +168,7 @@ const VEHICLES_DATA = [
       fuel: 'Gasolina',
       acceleration: '2.9s (0-100)',
       topSpeed: '325 km/h',
-      color: 'Amarelo Orion',
+      color: 'Verde Mantis',
       doors: '2 portas',
     },
     optionals: [
