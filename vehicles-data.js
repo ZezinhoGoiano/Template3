@@ -285,7 +285,7 @@ const VEHICLES_DATA = [
     badgeColor: null,
     status: 'sold', // ← muda para 'available' para reativar
     description: 'O mais poderoso V8 da história da Ferrari. Motor biturbo 3.9L com 720 cv, 0-100 km/h em 2.9 segundos. Uma obra de arte em movimento.',
-    images: 
+    images: [
        'assets/images/vehicles/F8_1.webp',
        'assets/images/vehicles/F8_2.webp',
        'assets/images/vehicles/F8_3.webp',
