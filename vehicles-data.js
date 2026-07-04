@@ -257,7 +257,7 @@ const VEHICLES_DATA = [
       fuel: 'Diesel',
       acceleration: '4.6s (0-100)',
       topSpeed: '250 km/h',
-      color: 'Verde British Racing',
+      color: 'Ouro Batumi',
       doors: '5 portas',
     },
     optionals: [
