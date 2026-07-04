@@ -3071,23 +3071,17 @@ body:has(.modal:not([hidden])) .header {
     --nav-height:        64px;
     --nav-height-scroll: 56px;
   }
+   .hero {
+  min-height: 100svh;
+  max-height: none;
+  padding-bottom: var(--space-24);
+  align-items: flex-start; /* Para de centralizar verticalmente */
+}
 
-  .hero {
-    min-height: 100svh;
-    max-height: none;
-    padding-bottom: var(--space-24);
-    /* FIX: alinha o conteúdo ao topo (em vez de centralizar).
-       Isso garante folga fixa abaixo do header, independente
-       da altura do conteúdo ou do dispositivo */
-    align-items: flex-start;
-    padding-top: calc(var(--nav-height) + var(--space-5));
-  }
-
-  .hero__content {
-    /* FIX: padding-top reduzido — a folga principal já é
-       garantida pelo .hero acima */
-    padding-top: var(--space-2);
-  }
+.hero__content {
+  padding-top: calc(var(--nav-height) + var(--space-8));
+  /* nav-height no mobile = 64px + space-8 = 2rem = 96px de folga total */
+}
 
   .hero__title {
     font-size: clamp(2rem, 12vw, 3rem);
