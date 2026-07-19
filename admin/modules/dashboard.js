@@ -1,0 +1,613 @@
+/* ================================================================
+   APEX MOTORS ADMIN — modules/dashboard.js
+   Busca dados do Supabase e preenche o dashboard
+================================================================ */
+
+'use strict';
+
+/* ================================================================
+   HELPERS
+================================================================ */
+const fmt = (value) =>
+  new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+
+const fmtNum = (n) =>
+  new Intl.NumberFormat('pt-BR').format(n);
+
+const el = (id) => document.getElementById(id);
+
+/* ================================================================
+   DADOS SIMULADOS (enquanto não há dados reais no Supabase)
+   Substitua pelas queries reais conforme os dados forem chegando
+================================================================ */
+const getMockData = () => ({
+  // Métricas
+  stock:       6,
+  stockValue:  11210000,
+  featured:    2,
+  soldMonth:   3,
+  leads:       28,
+  whatsapp:    74,
+  revenue:     4890000,
+  conversion:  10.7,
+  topViewed:   'Porsche 911 S',
+  lastUpdate:  new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+
+  // Gráficos — últimos 6 meses
+  months: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+
+  revenue_data:  [1800000, 2400000, 1900000, 3200000, 2800000, 4890000],
+  views_data:    [1200,    1850,    1400,    2100,    1780,    2640],
+  clicks_data:   [340,     520,     410,     680,     590,     820],
+  leads_data:    [12,      18,      14,      24,      20,      28],
+  sales_data:    [1,       2,       1,       3,       2,       3],
+  whatsapp_data: [28,      41,      35,      58,      49,      74],
+
+  // Por marca
+  brands:       ['Porsche', 'Mercedes', 'BMW', 'Lamborghini', 'Audi', 'Range Rover'],
+  brands_sales: [8, 5, 7, 3, 6, 4],
+
+  // Por origem
+  origins:       ['WhatsApp', 'Instagram', 'Google', 'Facebook', 'Direto'],
+  origins_leads: [38, 27, 18, 9, 8],
+
+  // Status estoque
+  stock_available: 6,
+  stock_reserved:  1,
+  stock_sold:      1,
+  stock_preparing: 0,
+});
+
+/* ================================================================
+   PREENCHE CARDS DE MÉTRICAS
+================================================================ */
+const fillMetrics = (data) => {
+  const set = (id, value) => {
+    const el_ = el(id);
+    if (el_) el_.textContent = value;
+  };
+
+  set('metricStock',       data.stock);
+  set('metricStockValue',  fmt(data.stockValue));
+  set('metricFeatured',    data.featured);
+  set('metricSoldMonth',   data.soldMonth);
+  set('metricLeads',       fmtNum(data.leads));
+  set('metricWhatsapp',    fmtNum(data.whatsapp));
+  set('metricRevenue',     fmt(data.revenue));
+  set('metricConversion',  `${data.conversion}%`);
+  set('metricTopViewed',   data.topViewed);
+  set('metricLastUpdate',  data.lastUpdate);
+  set('lastUpdate',        data.lastUpdate);
+};
+
+/* ================================================================
+   GRÁFICO PRINCIPAL — configurações por tipo
+================================================================ */
+const CHART_CONFIGS = {
+  revenue: {
+    title:    'Faturamento',
+    subtitle: 'Receita dos últimos 6 meses',
+    type:     'area',
+    getTotal: (d) => `Total: ${fmt(d.revenue_data.reduce((a, b) => a + b, 0))}`,
+    getSeries: (d) => [{
+      name: 'Faturamento',
+      data: d.revenue_data,
+    }],
+    getCategories: (d) => d.months,
+    yFormatter: (val) => fmt(val),
+    tooltipFormatter: (val) => fmt(val),
+    color: '#1E88E5',
+  },
+
+  views: {
+    title:    'Visualizações',
+    subtitle: 'Visitas ao site nos últimos 6 meses',
+    type:     'area',
+    getTotal: (d) => `Total: ${fmtNum(d.views_data.reduce((a, b) => a + b, 0))} visitas`,
+    getSeries: (d) => [{
+      name: 'Visualizações',
+      data: d.views_data,
+    }],
+    getCategories: (d) => d.months,
+    yFormatter: (val) => fmtNum(val),
+    tooltipFormatter: (val) => `${fmtNum(val)} visitas`,
+    color: '#22C55E',
+  },
+
+  clicks: {
+    title:    'Cliques nos Cards',
+    subtitle: 'Interações com cards de veículos',
+    type:     'bar',
+    getTotal: (d) => `Total: ${fmtNum(d.clicks_data.reduce((a, b) => a + b, 0))} cliques`,
+    getSeries: (d) => [{
+      name: 'Cliques',
+      data: d.clicks_data,
+    }],
+    getCategories: (d) => d.months,
+    yFormatter: (val) => fmtNum(val),
+    tooltipFormatter: (val) => `${fmtNum(val)} cliques`,
+    color: '#F59E0B',
+  },
+
+  leads: {
+    title:    'Leads Recebidos',
+    subtitle: 'Novos contatos nos últimos 6 meses',
+    type:     'bar',
+    getTotal: (d) => `Total: ${fmtNum(d.leads_data.reduce((a, b) => a + b, 0))} leads`,
+    getSeries: (d) => [{
+      name: 'Leads',
+      data: d.leads_data,
+    }],
+    getCategories: (d) => d.months,
+    yFormatter: (val) => fmtNum(val),
+    tooltipFormatter: (val) => `${fmtNum(val)} leads`,
+    color: '#A855F7',
+  },
+
+  sales: {
+    title:    'Vendas Realizadas',
+    subtitle: 'Veículos vendidos por mês',
+    type:     'bar',
+    getTotal: (d) => `Total: ${d.sales_data.reduce((a, b) => a + b, 0)} vendas`,
+    getSeries: (d) => [{
+      name: 'Vendas',
+      data: d.sales_data,
+    }],
+    getCategories: (d) => d.months,
+    yFormatter: (val) => `${val}`,
+    tooltipFormatter: (val) => `${val} venda(s)`,
+    color: '#22C55E',
+  },
+
+  whatsapp: {
+    title:    'Cliques no WhatsApp',
+    subtitle: 'Conversas iniciadas via WhatsApp',
+    type:     'area',
+    getTotal: (d) => `Total: ${fmtNum(d.whatsapp_data.reduce((a, b) => a + b, 0))} cliques`,
+    getSeries: (d) => [{
+      name: 'WhatsApp',
+      data: d.whatsapp_data,
+    }],
+    getCategories: (d) => d.months,
+    yFormatter: (val) => fmtNum(val),
+    tooltipFormatter: (val) => `${fmtNum(val)} cliques`,
+    color: '#25D366',
+  },
+
+  brands: {
+    title:    'Marcas Mais Vendidas',
+    subtitle: 'Total de vendas por marca',
+    type:     'bar',
+    getTotal: (d) => `${d.brands_sales.reduce((a, b) => a + b, 0)} vendas no total`,
+    getSeries: (d) => [{
+      name: 'Vendas',
+      data: d.brands_sales,
+    }],
+    getCategories: (d) => d.brands,
+    yFormatter: (val) => `${val}`,
+    tooltipFormatter: (val) => `${val} venda(s)`,
+    color: '#1E88E5',
+    horizontal: true,
+  },
+
+  origin: {
+    title:    'Leads por Origem',
+    subtitle: 'De onde vieram seus contatos',
+    type:     'donut',
+    getTotal: (d) => `${d.origins_leads.reduce((a, b) => a + b, 0)} leads no total`,
+    getSeries: (d) => d.origins_leads,
+    getCategories: (d) => d.origins,
+    color: '#1E88E5',
+  },
+};
+
+/* ================================================================
+   INSTÂNCIA DO GRÁFICO (singleton para destruir e recriar)
+================================================================ */
+let chartInstance = null;
+
+const destroyChart = () => {
+  if (chartInstance) {
+    chartInstance.destroy();
+    chartInstance = null;
+  }
+};
+
+/* ================================================================
+   RENDERIZA O GRÁFICO
+================================================================ */
+const renderChart = (type, data) => {
+  const config  = CHART_CONFIGS[type];
+  const wrapper = document.getElementById('mainChart');
+  if (!config || !wrapper) return;
+
+  // Anima saída
+  wrapper.classList.add('is-changing');
+
+  setTimeout(() => {
+    destroyChart();
+    wrapper.innerHTML = '';
+
+    // Atualiza header do card
+    const titleEl    = el('chartTitle');
+    const subtitleEl = el('chartSubtitle');
+    const totalEl    = el('chartTotal');
+
+    if (titleEl)    titleEl.textContent    = config.title;
+    if (subtitleEl) subtitleEl.textContent = config.subtitle;
+    if (totalEl)    totalEl.textContent    = config.getTotal(data);
+
+    // Opções base ApexCharts (tema dark)
+    const baseOptions = {
+      chart: {
+        background: 'transparent',
+        toolbar: { show: false },
+        animations: {
+          enabled: true,
+          speed: 600,
+          animateGradually: { enabled: true, delay: 80 },
+        },
+        fontFamily: 'Inter, sans-serif',
+      },
+      theme: { mode: 'dark' },
+      grid: {
+        borderColor: 'rgba(255,255,255,0.06)',
+        strokeDashArray: 4,
+      },
+      tooltip: {
+        theme: 'dark',
+        style: { fontFamily: 'Inter, sans-serif' },
+      },
+    };
+
+    let options = {};
+
+    if (config.type === 'donut') {
+      // Gráfico de rosca para "por origem"
+      options = {
+        ...baseOptions,
+        chart: {
+          ...baseOptions.chart,
+          type: 'donut',
+          height: 320,
+        },
+        series: config.getSeries(data),
+        labels: config.getCategories(data),
+        colors: ['#25D366', '#E1306C', '#1E88E5', '#1877F2', '#8B949E'],
+        legend: {
+          position: 'bottom',
+          labels: { colors: '#8B949E' },
+        },
+        dataLabels: {
+          style: { fontFamily: 'Inter, sans-serif', fontSize: '12px' },
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: '65%',
+              labels: {
+                show: true,
+                total: {
+                  show: true,
+                  label: 'Total',
+                  color: '#8B949E',
+                  fontSize: '13px',
+                  formatter: () => config.getTotal(data),
+                },
+              },
+            },
+          },
+        },
+      };
+
+    } else if (config.type === 'bar' && config.horizontal) {
+      // Barras horizontais para "por marca"
+      options = {
+        ...baseOptions,
+        chart: {
+          ...baseOptions.chart,
+          type: 'bar',
+          height: 320,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            borderRadius: 4,
+            dataLabels: { position: 'top' },
+          },
+        },
+        series: config.getSeries(data),
+        xaxis: {
+          categories: config.getCategories(data),
+          labels: { style: { colors: '#8B949E', fontFamily: 'Inter, sans-serif' } },
+        },
+        yaxis: {
+          labels: { style: { colors: '#8B949E', fontFamily: 'Inter, sans-serif' } },
+        },
+        colors: [config.color],
+        dataLabels: {
+          enabled: true,
+          formatter: (val) => `${val}`,
+          style: { colors: ['#F5F5F5'], fontFamily: 'Inter, sans-serif' },
+        },
+        tooltip: {
+          ...baseOptions.tooltip,
+          y: { formatter: config.tooltipFormatter },
+        },
+      };
+
+    } else if (config.type === 'bar') {
+      // Barras verticais
+      options = {
+        ...baseOptions,
+        chart: {
+          ...baseOptions.chart,
+          type: 'bar',
+          height: 320,
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 6,
+            columnWidth: '55%',
+          },
+        },
+        series: config.getSeries(data),
+        xaxis: {
+          categories: config.getCategories(data),
+          labels: { style: { colors: '#8B949E', fontFamily: 'Inter, sans-serif' } },
+          axisBorder: { show: false },
+          axisTicks:  { show: false },
+        },
+        yaxis: {
+          labels: {
+            style: { colors: '#8B949E', fontFamily: 'Inter, sans-serif' },
+            formatter: config.yFormatter,
+          },
+        },
+        colors: [config.color],
+        dataLabels: { enabled: false },
+        tooltip: {
+          ...baseOptions.tooltip,
+          y: { formatter: config.tooltipFormatter },
+        },
+      };
+
+    } else {
+      // Area / Line
+      options = {
+        ...baseOptions,
+        chart: {
+          ...baseOptions.chart,
+          type: 'area',
+          height: 320,
+        },
+        stroke: { curve: 'smooth', width: 2.5 },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.3,
+            opacityTo: 0,
+            stops: [0, 100],
+          },
+        },
+        series: config.getSeries(data),
+        xaxis: {
+          categories: config.getCategories(data),
+          labels: { style: { colors: '#8B949E', fontFamily: 'Inter, sans-serif' } },
+          axisBorder: { show: false },
+          axisTicks:  { show: false },
+        },
+        yaxis: {
+          labels: {
+            style: { colors: '#8B949E', fontFamily: 'Inter, sans-serif' },
+            formatter: config.yFormatter,
+          },
+        },
+        markers: { size: 4, hover: { size: 6 } },
+        colors: [config.color],
+        dataLabels: { enabled: false },
+        tooltip: {
+          ...baseOptions.tooltip,
+          y: { formatter: config.tooltipFormatter },
+        },
+      };
+    }
+
+    chartInstance = new ApexCharts(wrapper, options);
+    chartInstance.render();
+
+    // Anima entrada
+    wrapper.classList.remove('is-changing');
+
+  }, 200);
+};
+
+/* ================================================================
+   ABAS DE ALTERNÂNCIA DO GRÁFICO
+================================================================ */
+const initChartTabs = (data) => {
+  const tabs = document.querySelectorAll('.chart-tab');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      // Remove active de todos
+      tabs.forEach((t) => {
+        t.classList.remove('chart-tab--active');
+        t.setAttribute('aria-selected', 'false');
+      });
+
+      // Ativa o clicado
+      tab.classList.add('chart-tab--active');
+      tab.setAttribute('aria-selected', 'true');
+
+      // Renderiza o gráfico correspondente
+      const chartType = tab.getAttribute('data-chart');
+      renderChart(chartType, data);
+    });
+  });
+};
+
+/* ================================================================
+   IA INSIGHTS — geração automática com base nos dados
+================================================================ */
+const generateInsights = (data) => {
+  const list = el('aiInsightsList');
+  if (!list) return;
+
+  const insights = [];
+
+  // Insight 1 — conversão
+  if (data.conversion < 5) {
+    insights.push({
+      icon: '📉',
+      text: `A taxa de conversão está em <strong>${data.conversion}%</strong>. 
+             Considere revisar os preços ou melhorar as fotos dos anúncios.`,
+    });
+  } else {
+    insights.push({
+      icon: '📈',
+      text: `Taxa de conversão de <strong>${data.conversion}%</strong> — acima da média do setor (6-8%). 
+             Continue com a estratégia atual!`,
+    });
+  }
+
+  // Insight 2 — WhatsApp vs Leads
+  const whatsappRate = ((data.whatsapp / data.views_data.at(-1)) * 100).toFixed(1);
+  insights.push({
+    icon: '💬',
+    text: `<strong>${fmtNum(data.whatsapp)}</strong> cliques no WhatsApp este mês — 
+           representando <strong>${whatsappRate}%</strong> dos visitantes. 
+           WhatsApp é seu principal canal de conversão.`,
+  });
+
+  // Insight 3 — Estoque vs Vendas
+  const monthsToSell = (data.stock / (data.soldMonth || 1)).toFixed(1);
+  insights.push({
+    icon: '🚗',
+    text: `Com <strong>${data.stock} veículos</strong> em estoque e 
+           <strong>${data.soldMonth} vendas</strong> este mês, o giro estimado é de 
+           <strong>${monthsToSell} meses</strong> para zerar o estoque.`,
+  });
+
+  // Insight 4 — Faturamento
+  const lastTwo = data.revenue_data.slice(-2);
+  const growth  = (((lastTwo[1] - lastTwo[0]) / lastTwo[0]) * 100).toFixed(1);
+  const trend   = growth >= 0 ? `cresceu ${growth}%` : `caiu ${Math.abs(growth)}%`;
+  insights.push({
+    icon: growth >= 0 ? '🔥' : '⚠️',
+    text: `O faturamento <strong>${trend}</strong> em relação ao mês anterior. 
+           Receita atual: <strong>${fmt(lastTwo[1])}</strong>.`,
+  });
+
+  // Insight 5 — Veículo mais visto
+  insights.push({
+    icon: '⭐',
+    text: `O <strong>${data.topViewed}</strong> é o veículo mais visualizado do estoque. 
+           Considere destacá-lo ou criar uma campanha específica para ele.`,
+  });
+
+  // Renderiza
+  list.innerHTML = insights
+    .map(
+      (i) => `
+      <div class="ai-insight-item">
+        <span class="ai-insight-item__icon">${i.icon}</span>
+        <p>${i.text}</p>
+      </div>`
+    )
+    .join('');
+};
+
+/* ================================================================
+   BUSCA DADOS REAIS DO SUPABASE
+   (por enquanto usa mock, mas a estrutura está pronta para dados reais)
+================================================================ */
+const fetchDashboardData = async () => {
+  try {
+    // Tenta buscar dados reais do Supabase
+    const [vehiclesRes, leadsRes] = await Promise.all([
+      supabaseClient.from('vehicles').select('id, price, status, is_featured, views, updated_at'),
+      supabaseClient.from('leads').select('id, status, origin, created_at'),
+    ]);
+
+    // Se tiver dados reais, usa — senão usa mock
+    const vehicles = vehiclesRes.data || [];
+    const leads    = leadsRes.data    || [];
+
+    const mock = getMockData();
+
+    // Métricas reais (se houver dados)
+    if (vehicles.length > 0) {
+      const now  = new Date();
+      const mes  = now.getMonth();
+      const ano  = now.getFullYear();
+
+      mock.stock      = vehicles.filter(v => v.status === 'available').length;
+      mock.featured   = vehicles.filter(v => v.is_featured).length;
+      mock.stockValue = vehicles
+        .filter(v => v.status === 'available')
+        .reduce((sum, v) => sum + (v.price || 0), 0);
+
+      mock.soldMonth = vehicles.filter(v => {
+        const d = new Date(v.updated_at);
+        return v.status === 'sold' && d.getMonth() === mes && d.getFullYear() === ano;
+      }).length;
+
+      const topV = vehicles.sort((a, b) => (b.views || 0) - (a.views || 0))[0];
+      if (topV) mock.topViewed = topV.name || 'N/A';
+    }
+
+    if (leads.length > 0) {
+      mock.leads = leads.length;
+      const closed = leads.filter(l => l.status === 'closed').length;
+      mock.conversion = leads.length > 0
+        ? parseFloat(((closed / leads.length) * 100).toFixed(1))
+        : 0;
+    }
+
+    return mock;
+
+  } catch (err) {
+    console.warn('Supabase indisponível, usando dados de demonstração:', err);
+    return getMockData();
+  }
+};
+
+/* ================================================================
+   INIT DASHBOARD
+================================================================ */
+const initDashboard = async () => {
+  try {
+    // Busca dados
+    const data = await fetchDashboardData();
+
+    // Preenche métricas
+    fillMetrics(data);
+
+    // Inicia abas do gráfico
+    initChartTabs(data);
+
+    // Renderiza gráfico inicial (faturamento)
+    renderChart('revenue', data);
+
+    // Gera insights de IA
+    generateInsights(data);
+
+  } catch (err) {
+    console.error('Erro ao inicializar dashboard:', err);
+    AdminToast.show('Erro ao carregar dados do dashboard', 'error');
+  }
+};
+
+// Inicia quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDashboard);
+} else {
+  initDashboard();
+  }
