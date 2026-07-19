@@ -1092,3 +1092,114 @@ h1, h2, h3, h4, h5, h6 {
   .metrics-grid  { grid-template-columns: 1fr; }
   .quick-actions { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ================================================================
+   19. GRÁFICO PRINCIPAL COM ABAS
+================================================================ */
+.chart-section {
+  margin-bottom: var(--space-8);
+}
+
+/* Wrapper com fade nas bordas indicando scroll */
+.chart-tabs-wrap {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.chart-tabs-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, var(--color-bg));
+  pointer-events: none;
+  border-radius: var(--radius-full);
+}
+
+.chart-tabs {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chart-tabs::-webkit-scrollbar { display: none; }
+
+.chart-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-family: var(--font-body);
+  flex-shrink: 0;
+}
+
+.chart-tab:hover {
+  color: var(--color-text-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.chart-tab--active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(30, 136, 229, 0.35);
+}
+
+/* Card do gráfico */
+.chart-main-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  min-height: 380px;
+}
+
+.chart-main-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.chart-main-card__title {
+  font-size: var(--text-xl);
+  margin-bottom: 4px;
+}
+
+.chart-main-card__subtitle {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.chart-main-card__total {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  text-align: right;
+}
+
+/* Animação de troca de gráfico */
+#mainChart {
+  transition: opacity 0.2s ease;
+}
+
+#mainChart.is-changing {
+  opacity: 0;
+}
