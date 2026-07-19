@@ -623,54 +623,147 @@ const calcFromVehiclesData = (vehicles) => {
    BUSCA DADOS DO SUPABASE (leads, views, whatsapp)
    + combina com vehicles-data.js
 ================================================================ */
+
 const fetchDashboardData = async () => {
   const mock = getMockData();
 
   try {
     // 1. Carrega vehicles-data.js
     const vehicles = await loadVehiclesData();
-
     if (vehicles.length > 0) {
       const calcs = calcFromVehiclesData(vehicles);
       Object.assign(mock, calcs);
     }
 
-    // 2. Tenta buscar leads do Supabase
-    const { data: leads, error } = await supabaseClient
+    // 2. Busca todos os analytics do Supabase
+    const { data: events, error: eventsError } = await supabaseClient
+      .from('analytics')
+      .select('*');
+
+    if (!eventsError && events && events.length > 0) {
+
+      const now   = new Date();
+      const mes   = now.getMonth();
+      const ano   = now.getFullYear();
+
+      // Filtra eventos deste mês
+      const thisMonth = events.filter(e => {
+        const d = new Date(e.created_at);
+        return d.getMonth() === mes && d.getFullYear() === ano;
+      });
+
+      // Métricas gerais
+      mock.views     = events.filter(e => e.event_type === 'page_view').length;
+      mock.whatsapp  = events.filter(e => e.event_type === 'whatsapp_click').length;
+
+      // Cliques nos cards (modal_open + card_click)
+      const cardClicks = events.filter(e =>
+        e.event_type === 'card_click' || e.event_type === 'modal_open'
+      ).length;
+
+      // Veículo mais visualizado
+      const modalEvents = events.filter(e => e.event_type === 'modal_open' && e.vehicle_name);
+      if (modalEvents.length > 0) {
+        const countByVehicle = {};
+        modalEvents.forEach(e => {
+          countByVehicle[e.vehicle_name] = (countByVehicle[e.vehicle_name] || 0) + 1;
+        });
+        const topVehicle = Object.entries(countByVehicle)
+          .sort((a, b) => b[1] - a[1])[0];
+        if (topVehicle) mock.topViewed = topVehicle[0];
+      }
+
+      // Dados mensais para gráficos (últimos 6 meses)
+      const months     = [];
+      const viewsData  = [];
+      const clicksData = [];
+      const waData     = [];
+
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(ano, mes - i, 1);
+        const m = d.getMonth();
+        const a = d.getFullYear();
+
+        months.push(d.toLocaleDateString('pt-BR', { month: 'short' }));
+
+        const monthEvents = events.filter(e => {
+          const ed = new Date(e.created_at);
+          return ed.getMonth() === m && ed.getFullYear() === a;
+        });
+
+        viewsData.push(
+          monthEvents.filter(e => e.event_type === 'page_view').length
+        );
+        clicksData.push(
+          monthEvents.filter(e =>
+            e.event_type === 'card_click' || e.event_type === 'modal_open'
+          ).length
+        );
+        waData.push(
+          monthEvents.filter(e => e.event_type === 'whatsapp_click').length
+        );
+      }
+
+      mock.months        = months;
+      mock.views_data    = viewsData;
+      mock.clicks_data   = clicksData;
+      mock.whatsapp_data = waData;
+
+      // Origem dos visitantes
+      const originCount = {};
+      events
+        .filter(e => e.event_type === 'page_view')
+        .forEach(e => {
+          const o = e.origin || 'direto';
+          originCount[o] = (originCount[o] || 0) + 1;
+        });
+
+      if (Object.keys(originCount).length > 0) {
+        mock.origins       = Object.keys(originCount);
+        mock.origins_leads = Object.values(originCount);
+      }
+
+      // Última atualização
+      const lastEvent = events[events.length - 1];
+      if (lastEvent) {
+        mock.lastUpdate = new Date(lastEvent.created_at)
+          .toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+
+    // 3. Busca leads do Supabase
+    const { data: leads, error: leadsError } = await supabaseClient
       .from('leads')
       .select('id, status, origin, created_at');
 
-    if (!error && leads && leads.length > 0) {
+    if (!leadsError && leads && leads.length > 0) {
       mock.leads = leads.length;
-
       const closed = leads.filter(l => l.status === 'closed').length;
-      mock.conversion = parseFloat(((closed / leads.length) * 100).toFixed(1));
+      mock.conversion = parseFloat(
+        ((closed / leads.length) * 100).toFixed(1)
+      );
 
-      // Agrupa leads por origem para o gráfico
-      const originCount = {};
-      leads.forEach(l => {
-        const o = l.origin || 'direto';
-        originCount[o] = (originCount[o] || 0) + 1;
+      // Leads por mês para gráfico
+      const leadsData = mock.months.map((_, i) => {
+        const d = new Date();
+        const targetMonth = new Date(d.getFullYear(), d.getMonth() - (5 - i), 1);
+        return leads.filter(l => {
+          const ld = new Date(l.created_at);
+          return ld.getMonth()    === targetMonth.getMonth() &&
+                 ld.getFullYear() === targetMonth.getFullYear();
+        }).length;
       });
-
-      mock.origins       = Object.keys(originCount);
-      mock.origins_leads = Object.values(originCount);
-
+      mock.leads_data = leadsData;
     }
 
-    // 3. Tenta buscar dados de analytics do Supabase (views, clicks, whatsapp)
-    // Esses dados virão de uma tabela de analytics futura
-    // Por enquanto mantém os valores mock para esses campos
-
     mock.lastUpdate = new Date().toLocaleTimeString('pt-BR', {
-      hour: '2-digit',
-      minute: '2-digit'
+      hour: '2-digit', minute: '2-digit'
     });
 
     return mock;
 
   } catch (err) {
-    console.warn('Usando dados de demonstração:', err.message);
+    console.warn('Erro ao buscar dados:', err.message);
     return mock;
   }
 };
