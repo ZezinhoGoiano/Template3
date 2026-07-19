@@ -212,11 +212,23 @@ const initCardNav = (grid) => {
   grid.addEventListener('click', (e) => {
 
     // ── SE FOR BOTÃO DE ABRIR MODAL, DEIXA PASSAR ────────
-    if (e.target.closest('[data-action="expand"]')) {
-      // Não faz nada aqui — deixa o VehicleModal (em document.body)
-      // processar o clique normalmente
-      return;
+    // No initCardNav, onde o modal é aberto:
+if (e.target.closest('[data-action="expand"]')) {
+
+  const card = e.target.closest('[data-vehicle-id]');
+  if (card) {
+    const vehicleId = card.dataset.vehicleId;
+    const vehicle   = VEHICLES_DATA.find(v => v.id === vehicleId);
+
+    // ✅ ANALYTICS
+    if (window.ApexAnalytics && vehicle) {
+      window.ApexAnalytics.trackCardClick(vehicleId, vehicle.name);
     }
+  }
+  return;
+}
+
+
 
     // ── Setas ──────────────────────────────────────────────
     const arrow = e.target.closest('.vehicle-card__arrow');
