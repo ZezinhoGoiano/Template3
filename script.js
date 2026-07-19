@@ -635,6 +635,10 @@ const VehicleModal = (() => {
   const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
   if (!vehicle) return;
 
+      if (window.ApexAnalytics) {
+  window.ApexAnalytics.trackModalOpen(vehicleId, vehicle.name);
+      }
+
   currentVehicle = vehicle;
   currentImageIndex = 0;
   lastFocusedElement = document.activeElement;
