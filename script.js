@@ -635,13 +635,14 @@ const VehicleModal = (() => {
   const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
   if (!vehicle) return;
 
-      if (window.ApexAnalytics) {
-  window.ApexAnalytics.trackModalOpen(vehicleId, vehicle.name);
-      }
+     // ✅ ANALYTICS — registra abertura do modal
+  if (window.ApexAnalytics) {
+    window.ApexAnalytics.trackModalOpen(vehicleId, vehicle.name);
+  }
 
   currentVehicle = vehicle;
   currentImageIndex = 0;
-  lastFocusedElement = document.activeElement;
+  lastFocusedElement = document.activeElement; 
 
   // Preenche conteúdo
   ApexUtils.qs('#modalTitle', modal).textContent = vehicle.name;
