@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Dashboard — Apex Motors Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="admin.css" />
+
+  <!-- ApexCharts -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body class="admin-body">
+
+  <!-- ============================================================
+       SIDEBAR
+  ============================================================ -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar__header">
+      <a href="dashboard.html" class="sidebar__logo">
+        <svg width="130" height="34" viewBox="0 0 140 36" fill="none" aria-hidden="true">
+          <path d="M6 28 L18 6 L30 28" stroke="#1E88E5" stroke-width="2.5" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 28 L18 12 L26 28" stroke="#1E88E5" stroke-width="1.2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+          <text x="36" y="24" font-family="Space Grotesk, sans-serif" font-weight="800"
+            font-size="18" fill="#F5F5F5" letter-spacing="2">APEX</text>
+          <text x="36" y="34" font-family="Inter, sans-serif" font-weight="400"
+            font-size="9" fill="#8B949E" letter-spacing="4">MOTORS</text>
+        </svg>
+      </a>
+      <button class="sidebar__toggle" id="sidebarToggle" aria-label="Recolher menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar__nav" aria-label="Menu administrativo">
+
+      <span class="sidebar__section-title">Principal</span>
+      <a href="dashboard.html" class="sidebar__link is-active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/>
+          <rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="estoque.html" class="sidebar__link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 13h18M5 13V8a2 2 0 012-2h10a2 2 0 012 2v5M5 13l-1 6h16l-1-6"/>
+          <circle cx="7.5" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/>
+        </svg>
+        <span>Estoque</span>
+      </a>
+
+      <a href="veiculo-form.html" class="sidebar__link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        <span>Adicionar Veículo</span>
+      </a>
+
+      <a href="leads.html" class="sidebar__link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        <span>Clientes (Leads)</span>
+      </a>
+
+      <span class="sidebar__section-title">Gestão</span>
+
+      <a href="agenda.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>Agenda</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <a href="funcionarios.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Funcionários</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <a href="financeiro.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+        </svg>
+        <span>Financeiro</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <a href="relatorios.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 20V10M12 20V4M6 20v-6"/>
+        </svg>
+        <span>Relatórios</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <span class="sidebar__section-title">Sistema</span>
+
+      <a href="configuracoes.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+        <span>Configurações</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="sidebar__avatar" id="userAvatar">A</div>
+        <div class="sidebar__user-info">
+          <strong id="userEmail">Carregando...</strong>
+          <span>Administrador</span>
+        </div>
+      </div>
+      <button class="sidebar__logout" id="logoutBtn" aria-label="Sair">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+        </svg>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ============================================================
+       CONTEÚDO PRINCIPAL
+  ============================================================ -->
+  <div class="admin-content" id="adminContent">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="mobileMenuToggle" aria-label="Abrir menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="topbar__search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" placeholder="Pesquisar veículo, cliente..." id="globalSearch" />
+      </div>
+
+      <div class="topbar__actions">
+        <button class="topbar__icon-btn" aria-label="Notificações">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 01-3.46 0"/>
+          </svg>
+          <span class="topbar__badge">3</span>
+        </button>
+
+        <a href="../index.html" target="_blank" class="btn btn--outline btn--sm">
+          Ver site
+        </a>
+      </div>
+    </header>
+
+    <!-- Conteúdo da página -->
+    <main class="admin-main">
+
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Dashboard</h1>
+          <p class="admin-page-subtitle">Visão geral do desempenho da Apex Motors</p>
+        </div>
+        <div class="admin-page-header__meta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+          </svg>
+          <span>Última atualização: <strong id="lastUpdate">agora</strong></span>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           CARDS DE MÉTRICAS
+      ============================================================ -->
+      <div class="metrics-grid" id="metricsGrid">
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 13h18M5 13V8a2 2 0 012-2h10a2 2 0 012 2v5M5 13l-1 6h16l-1-6"/>
+              <circle cx="7.5" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Veículos em estoque</span>
+            <strong class="metric-card__value" id="metricStock">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Valor total do estoque</span>
+            <strong class="metric-card__value" id="metricStockValue">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8.5 14.5A2.5 2.5 0 1011 12a2.5 2.5 0 00-2.5 2.5z"/>
+              <path d="M12 2C8 6 4 8.5 4 13a8 8 0 0016 0c0-4.5-4-7-8-11z"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Veículos em destaque</span>
+            <strong class="metric-card__value" id="metricFeatured">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Vendidos (mês)</span>
+            <strong class="metric-card__value" id="metricSoldMonth">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 20V10M12 20V4M6 20v-6"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Leads recebidos</span>
+            <strong class="metric-card__value" id="metricLeads">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.09 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Cliques no WhatsApp</span>
+            <strong class="metric-card__value" id="metricWhatsapp">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Receita estimada (mês)</span>
+            <strong class="metric-card__value" id="metricRevenue">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v18h18M18 17V9M13 17V5M8 17v-4"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Taxa de conversão</span>
+            <strong class="metric-card__value" id="metricConversion">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Mais visualizado</span>
+            <strong class="metric-card__value metric-card__value--sm" id="metricTopViewed">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card__icon metric-card__icon--muted">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <div class="metric-card__body">
+            <span class="metric-card__label">Última atualização</span>
+            <strong class="metric-card__value metric-card__value--sm" id="metricLastUpdate">—</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           GRÁFICOS
+      ============================================================ -->
+      <div class="charts-grid">
+
+        <div class="chart-card chart-card--large">
+          <div class="chart-card__header">
+            <h3 class="chart-card__title">Vendas por mês</h3>
+            <span class="chart-card__subtitle">Últimos 6 meses</span>
+          </div>
+          <div id="chartSales"></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card__header">
+            <h3 class="chart-card__title">Leads por origem</h3>
+          </div>
+          <div id="chartLeadsOrigin"></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card__header">
+            <h3 class="chart-card__title">Marcas mais vendidas</h3>
+          </div>
+          <div id="chartBrands"></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card__header">
+            <h3 class="chart-card__title">Status do estoque</h3>
+          </div>
+          <div id="chartStockStatus"></div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           IA ANALÍTICA
+      ============================================================ -->
+      <div class="ai-insights">
+        <div class="ai-insights__header">
+          <div class="ai-insights__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a7 7 0 00-7 7c0 2.4 1.2 4.5 3 5.7V17a2 2 0 002 2h4a2 2 0 002-2v-2.3c1.8-1.2 3-3.3 3-5.7a7 7 0 00-7-7z"/>
+              <line x1="9" y1="21" x2="15" y2="21"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="ai-insights__title">Inteligência Apex</h3>
+            <span class="ai-insights__subtitle">Insights automáticos baseados nos seus dados</span>
+          </div>
+        </div>
+        <div class="ai-insights__list" id="aiInsightsList">
+          <!-- Preenchido via JS -->
+        </div>
+      </div>
+
+      <!-- ============================================================
+           AÇÕES RÁPIDAS
+      ============================================================ -->
+      <div class="quick-actions">
+        <a href="veiculo-form.html" class="quick-action">
+          <span class="quick-action__icon">➕</span>
+          <span>Adicionar veículo</span>
+        </a>
+        <button class="quick-action" disabled>
+          <span class="quick-action__icon">📷</span>
+          <span>Adicionar fotos</span>
+        </button>
+        <button class="quick-action" disabled>
+          <span class="quick-action__icon">💰</span>
+          <span>Alterar preço</span>
+        </button>
+        <button class="quick-action" disabled>
+          <span class="quick-action__icon">🔥</span>
+          <span>Destacar veículo</span>
+        </button>
+        <button class="quick-action" disabled>
+          <span class="quick-action__icon">✅</span>
+          <span>Marcar vendido</span>
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Overlay mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="admin.js"></script>
+  <script src="modules/charts.js"></script>
+  <script src="modules/dashboard.js"></script>
+
+</body>
+</html>
