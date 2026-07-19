@@ -1100,31 +1100,32 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--space-8);
 }
 
-/* Wrapper com fade nas bordas indicando scroll */
 .chart-tabs-wrap {
   position: relative;
   margin-bottom: var(--space-4);
 }
 
+/* Fade direito indicando scroll */
 .chart-tabs-wrap::after {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
-  width: 60px;
+  width: 48px;
   height: 100%;
   background: linear-gradient(to right, transparent, var(--color-bg));
   pointer-events: none;
-  border-radius: var(--radius-full);
+  z-index: 1;
 }
 
 .chart-tabs {
   display: flex;
   gap: var(--space-2);
   overflow-x: auto;
-  padding-bottom: var(--space-2);
+  padding-bottom: var(--space-1);
   scrollbar-width: none;
   -ms-overflow-style: none;
+  padding-right: var(--space-10); /* espaço para o fade */
 }
 
 .chart-tabs::-webkit-scrollbar { display: none; }
@@ -1138,18 +1139,26 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   color: var(--color-text-secondary);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
   transition: all var(--transition-base);
-  font-family: var(--font-body);
   flex-shrink: 0;
+  line-height: 1;
+}
+
+.chart-tab svg {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
 }
 
 .chart-tab:hover {
   color: var(--color-text-primary);
   border-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-bg-elevated);
 }
 
 .chart-tab--active {
@@ -1159,7 +1168,13 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 4px 16px rgba(30, 136, 229, 0.35);
 }
 
-/* Card do gráfico */
+.chart-tab--active:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: #fff;
+}
+
+/* Card principal do gráfico */
 .chart-main-card {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
@@ -1173,13 +1188,14 @@ h1, h2, h3, h4, h5, h6 {
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-5);
   flex-wrap: wrap;
 }
 
 .chart-main-card__title {
   font-size: var(--text-xl);
   margin-bottom: 4px;
+  font-family: var(--font-display);
 }
 
 .chart-main-card__subtitle {
@@ -1193,13 +1209,99 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   color: var(--color-accent);
   text-align: right;
+  white-space: nowrap;
 }
 
-/* Animação de troca de gráfico */
 #mainChart {
   transition: opacity 0.2s ease;
+  min-height: 300px;
 }
 
-#mainChart.is-changing {
-  opacity: 0;
+#mainChart.is-changing { opacity: 0; }
+
+/* ================================================================
+   20. MÉTRICAS — SCROLL HORIZONTAL NO MOBILE
+================================================================ */
+.metrics-section {
+  margin-bottom: var(--space-8);
 }
+
+.metrics-section__title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-4);
+}
+
+/* Container com scroll horizontal */
+.metrics-scroll-wrap {
+  position: relative;
+}
+
+/* Fade direito */
+.metrics-scroll-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, var(--color-bg));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.metrics-grid {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding-bottom: var(--space-3);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-bottom: 0;
+}
+
+.metrics-grid::-webkit-scrollbar { display: none; }
+
+/* Cada card tem largura fixa para não encolher */
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-base);
+  flex-shrink: 0;       /* ← não encolhe */
+  min-width: 220px;     /* ← largura mínima fixa */
+  width: 220px;         /* ← largura consistente */
+}
+
+.metric-card:hover {
+  border-color: rgba(30, 136, 229, 0.25);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* No desktop, vira grid normal */
+@media (min-width: 900px) {
+  .metrics-scroll-wrap::after { display: none; }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    overflow-x: visible;
+    padding-bottom: 0;
+    margin-bottom: var(--space-8);
+  }
+
+  .metric-card {
+    width: auto;
+    min-width: 0;
+  }
+}
+  
+  
