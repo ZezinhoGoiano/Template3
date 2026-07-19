@@ -528,54 +528,150 @@ const generateInsights = (data) => {
    BUSCA DADOS REAIS DO SUPABASE
    (por enquanto usa mock, mas a estrutura está pronta para dados reais)
 ================================================================ */
+
+/* ================================================================
+   LÊ DADOS DO VEHICLES_DATA (vehicles-data.js do site principal)
+   Como o admin está na subpasta /admin/, precisamos carregar
+   o arquivo do diretório pai dinamicamente
+================================================================ */
+const loadVehiclesData = () => {
+  return new Promise((resolve) => {
+
+    // Se VEHICLES_DATA já está disponível (carregado via script tag)
+    if (typeof VEHICLES_DATA !== 'undefined') {
+      resolve(VEHICLES_DATA);
+      return;
+    }
+
+    // Carrega dinamicamente do diretório pai
+    const script = document.createElement('script');
+    script.src = '../vehicles-data.js';
+    script.onload = () => {
+      if (typeof VEHICLES_DATA !== 'undefined') {
+        resolve(VEHICLES_DATA);
+      } else {
+        resolve([]);
+      }
+    };
+    script.onerror = () => resolve([]);
+    document.head.appendChild(script);
+  });
+};
+
+/* ================================================================
+   CALCULA MÉTRICAS A PARTIR DO VEHICLES_DATA
+================================================================ */
+const calcFromVehiclesData = (vehicles) => {
+  const now     = new Date();
+  const mes     = now.getMonth();
+  const ano     = now.getFullYear();
+
+  const available  = vehicles.filter(v => v.status === 'available');
+  const sold       = vehicles.filter(v => v.status === 'sold');
+  const featured   = vehicles.filter(v => v.badge !== null);
+
+  // Vendidos neste mês (usa updated_at se tiver, senão conta todos os sold)
+  const soldThisMonth = sold.filter(v => {
+    if (!v.updated_at) return true; // sem data, conta
+    const d = new Date(v.updated_at);
+    return d.getMonth() === mes && d.getFullYear() === ano;
+  });
+
+  const stockValue = available.reduce((sum, v) => sum + (v.price || 0), 0);
+  const revenue    = sold.reduce((sum, v) => sum + (v.price || 0), 0);
+
+  // Veículo com mais views (se tiver campo views, senão pega o primeiro)
+  const topViewed = vehicles.reduce((top, v) =>
+    (v.views || 0) > (top.views || 0) ? v : top,
+    vehicles[0]
+  );
+
+  // Contagem por categoria
+  const byCategory = {};
+  available.forEach(v => {
+    byCategory[v.category] = (byCategory[v.category] || 0) + 1;
+  });
+
+  // Contagem por marca (para gráfico)
+  const byBrand = {};
+  vehicles.forEach(v => {
+    const brand = v.name?.split(' ')[0] || 'Outro';
+    byBrand[brand] = (byBrand[brand] || 0) + 1;
+  });
+
+  return {
+    stock:       available.length,
+    stockValue,
+    featured:    featured.length,
+    soldMonth:   soldThisMonth.length,
+    revenue,
+    topViewed:   topViewed?.name || '—',
+
+    // Dados para gráficos de marcas
+    brands:       Object.keys(byBrand),
+    brands_sales: Object.values(byBrand),
+
+    // Status do estoque
+    stock_available: available.length,
+    stock_sold:      sold.length,
+    stock_reserved:  vehicles.filter(v => v.status === 'reserved').length,
+    stock_preparing: vehicles.filter(v => v.status === 'preparing').length,
+  };
+};
+
+/* ================================================================
+   BUSCA DADOS DO SUPABASE (leads, views, whatsapp)
+   + combina com vehicles-data.js
+================================================================ */
 const fetchDashboardData = async () => {
+  const mock = getMockData();
+
   try {
-    // Tenta buscar dados reais do Supabase
-    const [vehiclesRes, leadsRes] = await Promise.all([
-      supabaseClient.from('vehicles').select('id, price, status, is_featured, views, updated_at'),
-      supabaseClient.from('leads').select('id, status, origin, created_at'),
-    ]);
+    // 1. Carrega vehicles-data.js
+    const vehicles = await loadVehiclesData();
 
-    // Se tiver dados reais, usa — senão usa mock
-    const vehicles = vehiclesRes.data || [];
-    const leads    = leadsRes.data    || [];
-
-    const mock = getMockData();
-
-    // Métricas reais (se houver dados)
     if (vehicles.length > 0) {
-      const now  = new Date();
-      const mes  = now.getMonth();
-      const ano  = now.getFullYear();
-
-      mock.stock      = vehicles.filter(v => v.status === 'available').length;
-      mock.featured   = vehicles.filter(v => v.is_featured).length;
-      mock.stockValue = vehicles
-        .filter(v => v.status === 'available')
-        .reduce((sum, v) => sum + (v.price || 0), 0);
-
-      mock.soldMonth = vehicles.filter(v => {
-        const d = new Date(v.updated_at);
-        return v.status === 'sold' && d.getMonth() === mes && d.getFullYear() === ano;
-      }).length;
-
-      const topV = vehicles.sort((a, b) => (b.views || 0) - (a.views || 0))[0];
-      if (topV) mock.topViewed = topV.name || 'N/A';
+      const calcs = calcFromVehiclesData(vehicles);
+      Object.assign(mock, calcs);
     }
 
-    if (leads.length > 0) {
+    // 2. Tenta buscar leads do Supabase
+    const { data: leads, error } = await supabaseClient
+      .from('leads')
+      .select('id, status, origin, created_at');
+
+    if (!error && leads && leads.length > 0) {
       mock.leads = leads.length;
+
       const closed = leads.filter(l => l.status === 'closed').length;
-      mock.conversion = leads.length > 0
-        ? parseFloat(((closed / leads.length) * 100).toFixed(1))
-        : 0;
+      mock.conversion = parseFloat(((closed / leads.length) * 100).toFixed(1));
+
+      // Agrupa leads por origem para o gráfico
+      const originCount = {};
+      leads.forEach(l => {
+        const o = l.origin || 'direto';
+        originCount[o] = (originCount[o] || 0) + 1;
+      });
+
+      mock.origins       = Object.keys(originCount);
+      mock.origins_leads = Object.values(originCount);
+
     }
+
+    // 3. Tenta buscar dados de analytics do Supabase (views, clicks, whatsapp)
+    // Esses dados virão de uma tabela de analytics futura
+    // Por enquanto mantém os valores mock para esses campos
+
+    mock.lastUpdate = new Date().toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
 
     return mock;
 
   } catch (err) {
-    console.warn('Supabase indisponível, usando dados de demonstração:', err);
-    return getMockData();
+    console.warn('Usando dados de demonstração:', err.message);
+    return mock;
   }
 };
 
