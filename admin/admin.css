@@ -1,12 +1,10 @@
 /* ================================================================
    APEX MOTORS ADMIN — admin.css
-   Versão: 1.0.0
-   Reaproveita tokens de design do site público, com ajustes
-   para um layout de painel administrativo.
+   Versão: 1.0.0 — COMPLETO (Login + Dashboard)
 ================================================================ */
 
 /* ================================================================
-   1. VARIÁVEIS (mesma base do site + extras do admin)
+   1. VARIÁVEIS
 ================================================================ */
 :root {
   --color-bg:           #0E1116;
@@ -59,19 +57,18 @@
   --radius-2xl:  24px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.7);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.7);
 
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms cubic-bezier(0.4,0,0.2,1);
+  --transition-base: 250ms cubic-bezier(0.4,0,0.2,1);
+  --transition-slow: 400ms cubic-bezier(0.4,0,0.2,1);
 
-  /* Específico do admin */
-  --sidebar-width:          280px;
+  --sidebar-width:           280px;
   --sidebar-width-collapsed: 80px;
-  --topbar-height:          72px;
+  --topbar-height:           72px;
 }
 
 /* ================================================================
@@ -130,7 +127,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ================================================================
-   3. BOTÕES (subconjunto do site principal)
+   3. BOTÕES
 ================================================================ */
 .btn {
   display: inline-flex;
@@ -146,13 +143,14 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   transition: all var(--transition-base);
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .btn--primary {
   background: var(--color-accent);
   color: #fff;
   border-color: var(--color-accent);
-  box-shadow: 0 4px 20px rgba(30, 136, 229, 0.3);
+  box-shadow: 0 4px 20px rgba(30,136,229,0.3);
 }
 
 .btn--primary:hover:not(:disabled) {
@@ -185,11 +183,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn--danger:hover { background: #dc2626; }
 
-.btn--sm { padding: var(--space-2) var(--space-4); font-size: var(--text-xs); }
+.btn--sm  { padding: var(--space-2) var(--space-4); font-size: var(--text-xs); }
 .btn--full { width: 100%; }
 
 /* ================================================================
-   4. FORMULÁRIOS (subconjunto do site principal)
+   4. FORMULÁRIOS
 ================================================================ */
 .form-group {
   display: flex;
@@ -218,14 +216,17 @@ h1, h2, h3, h4, h5, h6 {
   appearance: none;
 }
 
-.form-textarea { resize: vertical; min-height: 120px; }
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
 
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+  box-shadow: 0 0 0 3px rgba(30,136,229,0.15);
 }
 
 .form-input::placeholder { color: var(--color-text-muted); }
@@ -238,16 +239,43 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-4);
-}
-
+.form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
 .form-row--3 { grid-template-columns: 1fr 1fr 1fr; }
 
 /* ================================================================
-   5. PÁGINA DE LOGIN
+   5. TOAST
+================================================================ */
+.toast-container {
+  position: fixed;
+  top: var(--space-6);
+  right: var(--space-6);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 380px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: var(--space-4);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  animation: toastIn 0.3s ease;
+  pointer-events: all;
+}
+
+.toast--success { border-left: 3px solid var(--color-success); }
+.toast--error   { border-left: 3px solid var(--color-error); }
+.toast--info    { border-left: 3px solid var(--color-accent); }
+.toast.is-removing { animation: toastOut 0.25s ease forwards; }
+
+/* ================================================================
+   6. LOGIN
 ================================================================ */
 .login-page {
   min-height: 100vh;
@@ -256,8 +284,8 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   padding: var(--space-6);
   background:
-    radial-gradient(circle at 20% 20%, rgba(30, 136, 229, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(30, 136, 229, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 20% 20%, rgba(30,136,229,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(30,136,229,0.06) 0%, transparent 50%),
     var(--color-bg);
 }
 
@@ -283,7 +311,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.1em;
   color: var(--color-accent);
   background: var(--color-accent-light);
-  border: 1px solid rgba(30, 136, 229, 0.3);
+  border: 1px solid rgba(30,136,229,0.3);
   border-radius: var(--radius-full);
 }
 
@@ -309,14 +337,9 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.5;
 }
 
-.login-form {
-  display: flex;
-  flex-direction: column;
-}
+.login-form { display: flex; flex-direction: column; }
 
-.password-wrap {
-  position: relative;
-}
+.password-wrap { position: relative; }
 
 .password-toggle {
   position: absolute;
@@ -332,8 +355,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .login-error {
   padding: var(--space-3) var(--space-4);
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
   border-radius: var(--radius-md);
   color: #FCA5A5;
   font-size: var(--text-sm);
@@ -348,14 +371,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .login-message--success {
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
   color: #86EFAC;
 }
 
 .login-message--error {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
   color: #FCA5A5;
 }
 
@@ -388,57 +411,14 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 /* ================================================================
-   6. TOAST (versão enxuta)
-================================================================ */
-.toast-container {
-  position: fixed;
-  top: var(--space-6);
-  right: var(--space-6);
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  max-width: 380px;
-}
-
-.toast {
-  padding: var(--space-4);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  font-size: var(--text-sm);
-  animation: toastIn 0.3s ease;
-}
-
-.toast--success { border-left: 3px solid var(--color-success); }
-.toast--error   { border-left: 3px solid var(--color-error); }
-.toast--info    { border-left: 3px solid var(--color-accent); }
-
-.toast.is-removing { animation: toastOut 0.25s ease forwards; }
-
-@keyframes toastIn {
-  from { opacity: 0; transform: translateX(100%); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes toastOut {
-  to { opacity: 0; transform: translateX(100%); }
-}
-
-/* ================================================================
-   7. LAYOUT BASE DO ADMIN (Sidebar + Conteúdo)
+   7. LAYOUT ADMIN (Sidebar + Conteúdo)
 ================================================================ */
 .admin-body {
   display: flex;
   min-height: 100vh;
   background: var(--color-bg);
+  overflow-x: hidden;
 }
 
 /* ================================================================
@@ -456,6 +436,7 @@ h1, h2, h3, h4, h5, h6 {
   border-right: 1px solid var(--color-border);
   transition: width var(--transition-slow);
   z-index: 50;
+  overflow: hidden;
 }
 
 .sidebar.is-collapsed {
@@ -466,29 +447,38 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-5) var(--space-5);
+  padding: 0 var(--space-5);
   height: var(--topbar-height);
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
+  gap: var(--space-3);
 }
 
 .sidebar__logo {
+  flex: 1;
   overflow: hidden;
   transition: opacity var(--transition-base);
+  display: flex;
+  align-items: center;
 }
 
-.sidebar.is-collapsed .sidebar__logo { opacity: 0; width: 0; }
+.sidebar.is-collapsed .sidebar__logo {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  flex: 0;
+}
 
 .sidebar__toggle {
   width: 32px;
   height: 32px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-text-secondary);
   border-radius: var(--radius-md);
   transition: all var(--transition-base);
-  flex-shrink: 0;
 }
 
 .sidebar__toggle:hover {
@@ -496,11 +486,14 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
 }
 
-.sidebar.is-collapsed .sidebar__toggle svg { transform: rotate(180deg); }
+.sidebar.is-collapsed .sidebar__toggle svg {
+  transform: rotate(180deg);
+}
 
 .sidebar__nav {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--space-4) var(--space-3);
   display: flex;
   flex-direction: column;
@@ -508,7 +501,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar__nav::-webkit-scrollbar { width: 4px; }
-.sidebar__nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.sidebar__nav::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
 
 .sidebar__section-title {
   font-size: var(--text-xs);
@@ -518,10 +514,16 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-muted);
   padding: var(--space-4) var(--space-3) var(--space-2);
   white-space: nowrap;
-  overflow: hidden;
+  transition: all var(--transition-base);
+  display: block;
 }
 
-.sidebar.is-collapsed .sidebar__section-title { opacity: 0; height: 0; padding: 0; }
+.sidebar.is-collapsed .sidebar__section-title {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
 .sidebar__link {
   position: relative;
@@ -536,9 +538,16 @@ h1, h2, h3, h4, h5, h6 {
   transition: all var(--transition-fast);
   white-space: nowrap;
   overflow: hidden;
+  text-decoration: none;
 }
 
 .sidebar__link svg { flex-shrink: 0; }
+
+.sidebar__link span:not(.sidebar__badge) {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .sidebar__link:hover {
   background: var(--color-bg-elevated);
@@ -553,17 +562,17 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar__link.is-active::before {
   content: '';
   position: absolute;
-  left: -12px;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
   height: 60%;
   background: var(--color-accent);
-  border-radius: var(--radius-full);
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
 }
 
 .sidebar__link--disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -575,13 +584,17 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.03em;
   text-transform: uppercase;
   padding: 2px 6px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.08);
   color: var(--color-text-muted);
   border-radius: var(--radius-full);
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.sidebar.is-collapsed .sidebar__link span,
+.sidebar.is-collapsed .sidebar__link span {
+  display: none;
+}
+
 .sidebar.is-collapsed .sidebar__badge {
   display: none;
 }
@@ -593,6 +606,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   gap: var(--space-3);
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .sidebar__user {
@@ -601,6 +615,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: var(--space-3);
   flex: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .sidebar__avatar {
@@ -652,20 +667,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar__logout:hover {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239,68,68,0.1);
   color: var(--color-error);
 }
 
 /* ================================================================
-   9. CONTEÚDO PRINCIPAL / TOPBAR
+   9. CONTEÚDO PRINCIPAL
 ================================================================ */
 .admin-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 100vh;
 }
 
+/* ================================================================
+   10. TOPBAR
+================================================================ */
 .topbar {
   height: var(--topbar-height);
   flex-shrink: 0;
@@ -688,6 +707,13 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   color: var(--color-text-secondary);
   border-radius: var(--radius-md);
+  flex-shrink: 0;
+  transition: all var(--transition-base);
+}
+
+.topbar__menu-btn:hover {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
 }
 
 .topbar__search {
@@ -704,14 +730,13 @@ h1, h2, h3, h4, h5, h6 {
   transition: border-color var(--transition-base);
 }
 
-.topbar__search:focus-within {
-  border-color: var(--color-accent);
-}
+.topbar__search:focus-within { border-color: var(--color-accent); }
 
 .topbar__search input {
   flex: 1;
   background: none;
   border: none;
+  outline: none;
   color: var(--color-text-primary);
   font-size: var(--text-sm);
 }
@@ -761,14 +786,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ================================================================
-   10. ÁREA DE CONTEÚDO / PÁGINAS
+   11. MAIN
 ================================================================ */
 .admin-main {
   flex: 1;
   padding: var(--space-6) var(--space-8);
   max-width: 1600px;
   width: 100%;
-  margin: 0 auto;
 }
 
 .admin-page-header {
@@ -780,15 +804,8 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--space-8);
 }
 
-.admin-page-title {
-  font-size: var(--text-3xl);
-  margin-bottom: var(--space-1);
-}
-
-.admin-page-subtitle {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
+.admin-page-title  { font-size: var(--text-3xl); margin-bottom: var(--space-1); }
+.admin-page-subtitle { font-size: var(--text-sm); color: var(--color-text-secondary); }
 
 .admin-page-header__meta {
   display: flex;
@@ -805,11 +822,11 @@ h1, h2, h3, h4, h5, h6 {
 .admin-page-header__meta strong { color: var(--color-text-secondary); }
 
 /* ================================================================
-   11. CARDS DE MÉTRICAS
+   12. MÉTRICAS
 ================================================================ */
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: var(--space-4);
   margin-bottom: var(--space-8);
 }
@@ -826,7 +843,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .metric-card:hover {
-  border-color: rgba(30, 136, 229, 0.25);
+  border-color: rgba(30,136,229,0.25);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -841,9 +858,9 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-lg);
 }
 
-.metric-card__icon--blue   { background: rgba(30, 136, 229, 0.12); color: #1E88E5; }
-.metric-card__icon--green  { background: rgba(34, 197, 94, 0.12); color: #22C55E; }
-.metric-card__icon--orange { background: rgba(245, 158, 11, 0.12); color: #F59E0B; }
+.metric-card__icon--blue   { background: rgba(30,136,229,0.12); color: #1E88E5; }
+.metric-card__icon--green  { background: rgba(34,197,94,0.12);  color: #22C55E; }
+.metric-card__icon--orange { background: rgba(245,158,11,0.12); color: #F59E0B; }
 .metric-card__icon--muted  { background: rgba(255,255,255,0.06); color: var(--color-text-muted); }
 
 .metric-card__body {
@@ -871,12 +888,10 @@ h1, h2, h3, h4, h5, h6 {
   text-overflow: ellipsis;
 }
 
-.metric-card__value--sm {
-  font-size: var(--text-base);
-}
+.metric-card__value--sm { font-size: var(--text-base); }
 
 /* ================================================================
-   12. GRÁFICOS
+   13. GRÁFICOS
 ================================================================ */
 .charts-grid {
   display: grid;
@@ -892,11 +907,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: var(--space-6);
 }
 
-.chart-card--large {
-  grid-column: 1 / -1;
-}
-
-.charts-grid > .chart-card:nth-child(1) { grid-column: 1 / -1; }
+.chart-card--full { grid-column: 1 / -1; }
 
 .chart-card__header {
   display: flex;
@@ -905,21 +916,17 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--space-5);
 }
 
-.chart-card__title {
-  font-size: var(--text-lg);
-}
-
-.chart-card__subtitle {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
+.chart-card__title   { font-size: var(--text-lg); }
+.chart-card__subtitle { font-size: var(--text-xs); color: var(--color-text-muted); }
 
 /* ================================================================
-   13. IA INSIGHTS
+   14. IA INSIGHTS
 ================================================================ */
 .ai-insights {
-  background: linear-gradient(135deg, rgba(30, 136, 229, 0.08), rgba(30, 136, 229, 0.02));
-  border: 1px solid rgba(30, 136, 229, 0.2);
+  background: linear-gradient(135deg,
+    rgba(30,136,229,0.08),
+    rgba(30,136,229,0.02));
+  border: 1px solid rgba(30,136,229,0.2);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   margin-bottom: var(--space-8);
@@ -944,7 +951,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-lg);
 }
 
-.ai-insights__title { font-size: var(--text-lg); }
+.ai-insights__title    { font-size: var(--text-lg); }
 .ai-insights__subtitle { font-size: var(--text-xs); color: var(--color-text-secondary); }
 
 .ai-insights__list {
@@ -958,7 +965,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: flex-start;
   gap: var(--space-3);
   padding: var(--space-4);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255,255,255,0.03);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
@@ -970,11 +977,11 @@ h1, h2, h3, h4, h5, h6 {
 .ai-insight-item strong { color: var(--color-text-primary); }
 
 /* ================================================================
-   14. AÇÕES RÁPIDAS
+   15. AÇÕES RÁPIDAS
 ================================================================ */
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: var(--space-4);
 }
 
@@ -991,6 +998,8 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-secondary);
   text-align: center;
   transition: all var(--transition-base);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .quick-action:hover:not(:disabled) {
@@ -1007,21 +1016,45 @@ h1, h2, h3, h4, h5, h6 {
 .quick-action__icon { font-size: 24px; }
 
 /* ================================================================
-   15. RESPONSIVIDADE — SIDEBAR MOBILE
+   16. SIDEBAR OVERLAY (mobile)
 ================================================================ */
 .sidebar-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   z-index: 45;
+  backdrop-filter: blur(4px);
 }
 
 .sidebar-overlay.is-active { display: block; }
 
+/* ================================================================
+   17. ANIMAÇÕES
+================================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastOut {
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+/* ================================================================
+   18. RESPONSIVIDADE
+================================================================ */
+@media (max-width: 1200px) {
+  .charts-grid { grid-template-columns: 1fr 1fr; }
+}
+
 @media (max-width: 1024px) {
   .charts-grid { grid-template-columns: 1fr; }
-  .charts-grid > .chart-card:nth-child(1) { grid-column: auto; }
 }
 
 @media (max-width: 900px) {
@@ -1029,24 +1062,33 @@ h1, h2, h3, h4, h5, h6 {
     position: fixed;
     left: 0;
     top: 0;
+    height: 100vh;
     transform: translateX(-100%);
     transition: transform var(--transition-slow);
-    width: var(--sidebar-width);
+    width: var(--sidebar-width) !important;
+    z-index: 50;
   }
 
   .sidebar.is-mobile-open {
     transform: translateX(0);
+    box-shadow: var(--shadow-xl);
   }
 
-  .topbar__menu-btn { display: flex; }
-  .topbar__search { display: none; }
-
-  .admin-main { padding: var(--space-5); }
-
-  .metrics-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .topbar__menu-btn  { display: flex; }
+  .topbar__search    { max-width: 200px; }
+  .admin-main        { padding: var(--space-4); }
+  .metrics-grid      { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 }
 
-@media (max-width: 480px) {
-  .metrics-grid { grid-template-columns: 1fr 1fr; }
-  .admin-page-header { flex-direction: column; }
+@media (max-width: 600px) {
+  .metrics-grid         { grid-template-columns: 1fr 1fr; }
+  .quick-actions        { grid-template-columns: repeat(3, 1fr); }
+  .topbar__search       { display: none; }
+  .admin-page-header    { flex-direction: column; }
+  .admin-main           { padding: var(--space-3); }
+}
+
+@media (max-width: 400px) {
+  .metrics-grid  { grid-template-columns: 1fr; }
+  .quick-actions { grid-template-columns: repeat(2, 1fr); }
 }
