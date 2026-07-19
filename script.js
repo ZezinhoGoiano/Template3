@@ -491,6 +491,11 @@ const VehicleFilter = (() => {
     const button = e.currentTarget;
     const category = button.getAttribute('data-filter');
 
+     // ✅ ANALYTICS — registra uso de filtro
+  if (window.ApexAnalytics) {
+    window.ApexAnalytics.trackFilterClick(category);
+  }
+
     filterButtons.forEach((btn) => {
       btn.classList.remove('filter-btn--active');
       btn.setAttribute('aria-pressed', 'false');
