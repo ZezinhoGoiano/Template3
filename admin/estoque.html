@@ -493,16 +493,26 @@
                       rows="2"></textarea>
           </div>
 
-          <!-- Imagens -->
-          <div class="form-group">
-            <label class="form-label" for="fieldImages">
-              Caminhos das imagens
-              <span class="form-hint">Um por linha — Ex: assets/images/vehicles/911/img1.webp</span>
-            </label>
-            <textarea class="form-input form-textarea" id="fieldImages"
-                      placeholder="assets/images/vehicles/911/img1.webp&#10;assets/images/vehicles/911/img2.webp"
-                      rows="4"></textarea>
-          </div>
+          <!-- Fotos e Vídeos -->
+<div class="form-group">
+  <label class="form-label">
+    Fotos e vídeos do veículo
+    <span class="form-hint">Arraste arquivos ou clique para selecionar — JPG, PNG, WEBP, MP4, WEBM</span>
+  </label>
+
+  <div class="media-dropzone" id="mediaDropzone">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    <p><strong>Arraste arquivos aqui</strong> ou clique para selecionar</p>
+    <span class="media-dropzone__hint">Fotos e vídeos apenas — máx. 8MB (foto) / 60MB (vídeo)</span>
+    <input type="file" id="mediaFileInput" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" multiple hidden />
+  </div>
+
+  <div class="media-grid" id="mediaGrid"></div>
+</div>
 
         </form>
       </div>
