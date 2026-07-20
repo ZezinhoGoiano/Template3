@@ -58,8 +58,6 @@
         <span>Estoque</span>
       </a>
 
-      <!-- ✅ "Adicionar Veículo" removido do sidebar -->
-
       <a href="leads.html" class="sidebar__link">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
@@ -176,13 +174,12 @@
 
     <main class="admin-main">
 
-      <!-- Cabeçalho -->
+      <!-- Cabeçalho da página -->
       <div class="admin-page-header">
         <div>
           <h1 class="admin-page-title">Estoque</h1>
           <p class="admin-page-subtitle">Gerencie os veículos cadastrados na plataforma</p>
         </div>
-        <!-- ✅ Agora abre o modal em vez de navegar para outra página -->
         <button class="btn btn--primary" id="btnAddVehicle">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M12 5v14M5 12h14"/>
@@ -215,7 +212,7 @@
         </div>
       </div>
 
-      <!-- Barra de busca + filtros -->
+      <!-- Toolbar: busca + filtros -->
       <div class="estoque-toolbar">
         <div class="estoque-search">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -331,12 +328,12 @@
 
   <!-- ================================================================
        MODAL — ADICIONAR / EDITAR VEÍCULO
+       ✅ Sem "hidden" — visibilidade controlada pelo CSS
   ================================================================ -->
-  <div class="modal-overlay" id="vehicleModal" role="dialog" aria-modal="true"
-       aria-labelledby="modalTitle" hidden>
+  <div class="modal-overlay" id="vehicleModal" role="dialog"
+       aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
 
-      <!-- Header -->
       <div class="modal__header">
         <h2 class="modal__title" id="modalTitle">Adicionar Veículo</h2>
         <button class="modal__close" id="modalClose" aria-label="Fechar modal">
@@ -348,7 +345,6 @@
         </button>
       </div>
 
-      <!-- Body -->
       <div class="modal__body">
         <form id="vehicleForm" novalidate autocomplete="off">
 
@@ -389,8 +385,8 @@
             </div>
           </div>
 
-          <!-- Linha 3: Status + Badge -->
-          <div class="form-row">
+          <!-- Linha 3: Status + Badge + Cor do badge ✅ form-row--3 -->
+          <div class="form-row form-row--3">
             <div class="form-group">
               <label class="form-label" for="fieldStatus">Status *</label>
               <select class="form-input" id="fieldStatus" required>
@@ -426,10 +422,8 @@
                       placeholder="Descrição do veículo..." rows="3"></textarea>
           </div>
 
-          <!-- Divisor: Especificações -->
-          <div class="form-divider">
-            <span>Especificações</span>
-          </div>
+          <!-- Divisor -->
+          <div class="form-divider"><span>Especificações</span></div>
 
           <!-- Linha specs 1: KM + Potência -->
           <div class="form-row">
@@ -459,7 +453,7 @@
             </div>
           </div>
 
-          <!-- Linha specs 3: Aceleração + Vel. Máxima -->
+          <!-- Linha specs 3: Aceleração + Vel. máxima -->
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="fieldAcceleration">Aceleração</label>
@@ -512,9 +506,8 @@
         </form>
       </div>
 
-      <!-- Footer -->
       <div class="modal__footer">
-        <!-- Botão excluir (só aparece no modo edição) -->
+        <!-- ✅ Só aparece no modo edição (controlado pelo JS) -->
         <button class="btn btn--danger" id="btnDeleteVehicle" hidden>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="2">
@@ -545,10 +538,12 @@
 
   <!-- ================================================================
        MODAL — CONFIRMAR EXCLUSÃO
+       ✅ Sem "hidden" — visibilidade controlada pelo CSS
   ================================================================ -->
   <div class="modal-overlay modal-overlay--danger" id="deleteModal"
-       role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle" hidden>
+       role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
     <div class="modal modal--sm">
+
       <div class="modal__header">
         <h2 class="modal__title" id="deleteModalTitle">Excluir veículo</h2>
         <button class="modal__close" id="deleteModalClose" aria-label="Fechar">
@@ -559,6 +554,7 @@
           </svg>
         </button>
       </div>
+
       <div class="modal__body">
         <div class="delete-confirm">
           <div class="delete-confirm__icon">
@@ -573,6 +569,7 @@
           <span>Esta ação não pode ser desfeita.</span>
         </div>
       </div>
+
       <div class="modal__footer modal__footer--centered">
         <button class="btn btn--outline" id="btnDeleteCancel">Cancelar</button>
         <button class="btn btn--danger" id="btnDeleteConfirm">
@@ -586,6 +583,7 @@
           Sim, excluir
         </button>
       </div>
+
     </div>
   </div>
 
