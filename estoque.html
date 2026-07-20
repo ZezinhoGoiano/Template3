@@ -303,34 +303,28 @@
   </svg>
 </button>
 
-  <!-- ============================================================
-       JAVASCRIPT — ordem correta
-  ============================================================ -->
+  <!-- 1. Supabase SDK — SEMPRE PRIMEIRO -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- 1. Supabase SDK (SEMPRE PRIMEIRO) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- 2. Carrega veículos do Supabase → window.VEHICLES_DATA -->
+<script src="vehicles-data.js"></script>
 
-  <!-- 2. Carrega veículos do Supabase -->
-  <script src="vehicles-data.js"></script>
+<!-- 3. Analytics -->
+<script src="analytics.js"></script>
 
-  <!-- 3. Analytics -->
-  <script src="analytics.js"></script>
-
-  <!-- 4. Scripts — carregados em sequência após VEHICLES_DATA -->
-  <script>
-    window.vehiclesDataReady.then(function () {
-      // Carrega script.js primeiro (VehicleModal depende dele)
-      // Depois carrega estoque.js
-      var s1 = document.createElement('script');
-      s1.src = 'script.js';
-      s1.onload = function () {
-        var s2 = document.createElement('script');
-        s2.src = 'estoque.js';
-        document.body.appendChild(s2);
-      };
-      document.body.appendChild(s1);
-    });
-  </script>
+<!-- 4. script.js + estoque.js em sequência, após dados prontos -->
+<script>
+  window.vehiclesDataReady.then(function () {
+    var s1 = document.createElement('script');
+    s1.src = 'script.js';
+    s1.onload = function () {
+      var s2 = document.createElement('script');
+      s2.src = 'estoque.js';
+      document.body.appendChild(s2);
+    };
+    document.body.appendChild(s1);
+  });
+</script>
 
 </body>
 </html>
