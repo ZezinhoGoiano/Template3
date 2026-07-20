@@ -1557,11 +1557,22 @@ const ApexMotors = (() => {
 
 /* ================================================================
    BOOTSTRAP
+   ✅ Aguarda os dados do Supabase carregarem antes de inicializar
 ================================================================ */
+const startApexMotors = () => {
+  if (window.vehiclesDataReady) {
+    window.vehiclesDataReady.then(() => {
+      ApexMotors.init();
+    });
+  } else {
+    ApexMotors.init();
+  }
+};
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', ApexMotors.init);
+  document.addEventListener('DOMContentLoaded', startApexMotors);
 } else {
-  ApexMotors.init();
+  startApexMotors();
 }
 
 // Expõe globalmente para debugging (remover em produção)
