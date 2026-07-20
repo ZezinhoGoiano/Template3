@@ -1,6 +1,6 @@
 /* ================================================================
    APEX MOTORS ADMIN — modules/estoque.js
-   Tabela de estoque com dados do Supabase
+   Tabela de estoque com CRUD completo via Supabase
 ================================================================ */
 
 'use strict';
@@ -21,9 +21,10 @@ const el = (id) => document.getElementById(id);
 /* ================================================================
    ESTADO
 ================================================================ */
-let allVehicles   = [];   // todos os veículos carregados
-let sortField     = null; // campo de ordenação ativo
-let sortDirection = 'asc';
+let allVehicles    = [];
+let sortField      = null;
+let sortDirection  = 'asc';
+let editingId      = null; // null = modo adicionar | string = modo editar
 
 /* ================================================================
    LABELS
@@ -42,20 +43,48 @@ const STATUS_LABELS = {
 };
 
 /* ================================================================
-   BUSCA OS VEÍCULOS NO SUPABASE
+   SUPABASE — CRUD
 ================================================================ */
 const fetchVehicles = async () => {
   const { data, error } = await supabaseClient
     .from('vehicles')
     .select('*')
     .order('created_at', { ascending: false });
-
   if (error) throw error;
   return data || [];
 };
 
+const insertVehicle = async (payload) => {
+  const { data, error } = await supabaseClient
+    .from('vehicles')
+    .insert(payload)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+};
+
+const updateVehicle = async (id, payload) => {
+  const { data, error } = await supabaseClient
+    .from('vehicles')
+    .update(payload)
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+};
+
+const deleteVehicle = async (id) => {
+  const { error } = await supabaseClient
+    .from('vehicles')
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+};
+
 /* ================================================================
-   CALCULA E PREENCHE AS MÉTRICAS DO TOPO
+   MÉTRICAS
 ================================================================ */
 const fillMetrics = (vehicles) => {
   const available = vehicles.filter(v => v.status === 'available');
@@ -64,7 +93,6 @@ const fillMetrics = (vehicles) => {
   const totalVal  = available.reduce((sum, v) => sum + (v.price || 0), 0);
 
   const set = (id, val) => { const e = el(id); if (e) e.textContent = val; };
-
   set('metTotal',      vehicles.length);
   set('metAvailable',  available.length);
   set('metReserved',   reserved.length);
@@ -76,48 +104,36 @@ const fillMetrics = (vehicles) => {
    RENDERIZA UMA LINHA DA TABELA
 ================================================================ */
 const renderRow = (v) => {
-  const images   = Array.isArray(v.images) ? v.images : (v.images || []);
+  const images   = Array.isArray(v.images) ? v.images : [];
   const firstImg = images[0] || null;
   const specs    = v.specs || {};
   const km       = specs.km || '—';
 
-  // Thumb
   const thumbHtml = firstImg
-    ? `<img
-         src="../${firstImg}"
-         alt="${v.name}"
-         class="vehicle-thumb"
-         loading="lazy"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-       />
+    ? `<img src="../${firstImg}" alt="${v.name}" class="vehicle-thumb" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
        <div class="vehicle-thumb-placeholder" style="display:none">
          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
            <rect x="1" y="3" width="15" height="13"/>
            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-           <circle cx="5.5" cy="18.5" r="2.5"/>
-           <circle cx="18.5" cy="18.5" r="2.5"/>
+           <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
          </svg>
        </div>`
     : `<div class="vehicle-thumb-placeholder">
          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
            <rect x="1" y="3" width="15" height="13"/>
            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-           <circle cx="5.5" cy="18.5" r="2.5"/>
-           <circle cx="18.5" cy="18.5" r="2.5"/>
+           <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
          </svg>
        </div>`;
 
-  // Badge do veículo
   const badgeHtml = v.badge
     ? `<span class="vehicle-badge vehicle-badge--${v.badge_color || 'accent'}">${v.badge}</span>`
     : '';
 
-  // Status
   const statusLabel = STATUS_LABELS[v.status] || v.status;
   const statusClass = `status-badge--${v.status || 'available'}`;
-
-  // Categoria
-  const catLabel = CATEGORY_LABELS[v.category] || v.category || '—';
+  const catLabel    = CATEGORY_LABELS[v.category] || v.category || '—';
 
   const tr = document.createElement('tr');
   tr.dataset.id = v.id;
@@ -149,14 +165,24 @@ const renderRow = (v) => {
     </td>
 
     <td class="col-actions">
-      <a href="veiculo-form.html?id=${v.id}" class="btn-edit">
+      <button class="btn-edit" data-id="${v.id}" aria-label="Editar ${v.name}">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2">
+             stroke="currentColor" stroke-width="2">
           <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
           <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
         </svg>
-        Editar anúncio
-      </a>
+        Editar
+      </button>
+      <button class="btn-delete" data-id="${v.id}" data-name="${v.name}" aria-label="Excluir ${v.name}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6M14 11v6"/>
+          <path d="M9 6V4h6v2"/>
+        </svg>
+        Excluir
+      </button>
     </td>
   `;
 
@@ -167,17 +193,16 @@ const renderRow = (v) => {
    RENDERIZA A TABELA
 ================================================================ */
 const renderTable = (vehicles) => {
-  const tbody  = el('estoqueTableBody');
-  const empty  = el('estoqueEmpty');
-  const count  = el('estoqueCount');
+  const tbody = el('estoqueTableBody');
+  const empty = el('estoqueEmpty');
+  const count = el('estoqueCount');
 
   if (!tbody) return;
-
   tbody.innerHTML = '';
 
   if (vehicles.length === 0) {
-    if (empty)  empty.hidden  = false;
-    if (count)  count.textContent = '0 veículos';
+    if (empty) empty.hidden = false;
+    if (count) count.textContent = '0 veículos';
     return;
   }
 
@@ -190,35 +215,41 @@ const renderTable = (vehicles) => {
   if (count) {
     count.textContent = `${vehicles.length} veículo${vehicles.length !== 1 ? 's' : ''}`;
   }
+
+  // ✅ Delega eventos de editar e excluir para as linhas renderizadas
+  tbody.querySelectorAll('.btn-edit').forEach(btn => {
+    btn.addEventListener('click', () => openEditModal(btn.dataset.id));
+  });
+
+  tbody.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', () =>
+      openDeleteModal(btn.dataset.id, btn.dataset.name)
+    );
+  });
 };
 
 /* ================================================================
-   FILTRA E ORDENA OS VEÍCULOS
+   FILTROS E ORDENAÇÃO
 ================================================================ */
 const applyFilters = () => {
-  const query    = (el('estoqueSearch')?.value   || '').toLowerCase().trim();
-  const status   = el('filterStatus')?.value    || '';
-  const category = el('filterCategory')?.value  || '';
+  const query    = (el('estoqueSearch')?.value  || '').toLowerCase().trim();
+  const status   = el('filterStatus')?.value   || '';
+  const category = el('filterCategory')?.value || '';
 
   let filtered = allVehicles.filter(v => {
-    // Busca por texto
     const matchQuery = !query ||
       v.name?.toLowerCase().includes(query) ||
       v.category?.toLowerCase().includes(query) ||
       v.year?.toString().includes(query) ||
-      (v.specs?.fuel || '').toLowerCase().includes(query) ||
+      (v.specs?.fuel  || '').toLowerCase().includes(query) ||
       (v.specs?.color || '').toLowerCase().includes(query);
 
-    // Filtro de status
-    const matchStatus = !status || v.status === status;
-
-    // Filtro de categoria
-    const matchCat = !category || v.category === category;
+    const matchStatus = !status   || v.status   === status;
+    const matchCat    = !category || v.category === category;
 
     return matchQuery && matchStatus && matchCat;
   });
 
-  // Ordenação
   if (sortField) {
     filtered.sort((a, b) => {
       let valA = a[sortField];
@@ -233,7 +264,7 @@ const applyFilters = () => {
       }
 
       if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
-      if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+      if (valA > valB) return sortDirection === 'asc' ?  1 : -1;
       return 0;
     });
   }
@@ -241,9 +272,6 @@ const applyFilters = () => {
   renderTable(filtered);
 };
 
-/* ================================================================
-   INICIALIZA BUSCA E FILTROS
-================================================================ */
 const initFilters = () => {
   const searchInput  = el('estoqueSearch');
   const clearBtn     = el('searchClear');
@@ -251,75 +279,387 @@ const initFilters = () => {
   const statusSel    = el('filterStatus');
   const categorySel  = el('filterCategory');
 
-  // Busca com debounce
   let debounce;
   searchInput?.addEventListener('input', () => {
     clearTimeout(debounce);
-
-    // Mostra/esconde botão de limpar
     if (clearBtn) clearBtn.hidden = !searchInput.value;
-
     debounce = setTimeout(applyFilters, 280);
   });
 
-  // Limpa busca
   clearBtn?.addEventListener('click', () => {
     if (searchInput) searchInput.value = '';
     clearBtn.hidden = true;
     applyFilters();
   });
 
-  // Filtros de select
   statusSel?.addEventListener('change',   applyFilters);
   categorySel?.addEventListener('change', applyFilters);
 
-  // Limpa todos os filtros
   clearFilters?.addEventListener('click', () => {
-    if (searchInput)  searchInput.value   = '';
-    if (statusSel)    statusSel.value     = '';
-    if (categorySel)  categorySel.value   = '';
-    if (clearBtn)     clearBtn.hidden     = true;
+    if (searchInput) searchInput.value  = '';
+    if (statusSel)   statusSel.value    = '';
+    if (categorySel) categorySel.value  = '';
+    if (clearBtn)    clearBtn.hidden    = true;
     sortField     = null;
     sortDirection = 'asc';
-
-    // Remove estilos de ordenação
-    document.querySelectorAll('.th-sort').forEach(btn => {
-      btn.classList.remove('is-asc', 'is-desc');
-    });
-
+    document.querySelectorAll('.th-sort').forEach(b =>
+      b.classList.remove('is-asc', 'is-desc')
+    );
     applyFilters();
   });
 };
 
-/* ================================================================
-   INICIALIZA ORDENAÇÃO POR COLUNA
-================================================================ */
 const initSort = () => {
   document.querySelectorAll('.th-sort').forEach(btn => {
     btn.addEventListener('click', () => {
       const field = btn.dataset.sort;
-
       if (sortField === field) {
-        // Inverte direção
         sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
       } else {
         sortField     = field;
         sortDirection = 'asc';
       }
-
-      // Atualiza visual dos botões
-      document.querySelectorAll('.th-sort').forEach(b => {
-        b.classList.remove('is-asc', 'is-desc');
-      });
+      document.querySelectorAll('.th-sort').forEach(b =>
+        b.classList.remove('is-asc', 'is-desc')
+      );
       btn.classList.add(sortDirection === 'asc' ? 'is-asc' : 'is-desc');
-
       applyFilters();
     });
   });
 };
 
 /* ================================================================
-   REALTIME — atualiza tabela quando houver mudanças
+   MODAL — UTILITÁRIOS
+================================================================ */
+const openModal  = () => {
+  const modal = el('vehicleModal');
+  modal.hidden = false;
+  // Força reflow para a transição CSS funcionar
+  requestAnimationFrame(() => modal.classList.add('is-open'));
+  document.body.style.overflow = 'hidden';
+};
+
+const closeModal = () => {
+  const modal = el('vehicleModal');
+  modal.classList.remove('is-open');
+  modal.addEventListener('transitionend', () => {
+    modal.hidden = true;
+  }, { once: true });
+  document.body.style.overflow = '';
+  resetForm();
+};
+
+const resetForm = () => {
+  el('vehicleForm')?.reset();
+  editingId = null;
+  el('modalTitle').textContent       = 'Adicionar Veículo';
+  el('btnDeleteVehicle').hidden      = true;
+  el('btnModalSave').textContent     = 'Salvar';
+
+  // Limpa erros
+  ['errName', 'errYear', 'errPrice', 'errCategory'].forEach(id => {
+    const e = el(id);
+    if (e) e.textContent = '';
+  });
+};
+
+/* ================================================================
+   MODAL — PREENCHE COM DADOS DO VEÍCULO (modo edição)
+================================================================ */
+const fillForm = (v) => {
+  const specs = v.specs || {};
+
+  el('fieldName').value         = v.name        || '';
+  el('fieldYear').value         = v.year        || '';
+  el('fieldPrice').value        = v.price       || '';
+  el('fieldCategory').value     = v.category    || '';
+  el('fieldStatus').value       = v.status      || 'available';
+  el('fieldBadge').value        = v.badge       || '';
+  el('fieldBadgeColor').value   = v.badge_color || '';
+  el('fieldDescription').value  = v.description || '';
+
+  // Specs
+  el('fieldKm').value           = specs.km           || '';
+  el('fieldPower').value        = specs.power        || '';
+  el('fieldTransmission').value = specs.transmission || '';
+  el('fieldFuel').value         = specs.fuel         || '';
+  el('fieldAcceleration').value = specs.acceleration || '';
+  el('fieldTopSpeed').value     = specs.topSpeed     || '';
+  el('fieldColor').value        = specs.color        || '';
+  el('fieldDoors').value        = specs.doors        || '';
+
+  // Opcionais — array → string separada por vírgula
+  const optionals = Array.isArray(v.optionals) ? v.optionals : [];
+  el('fieldOptionals').value = optionals.join(', ');
+
+  // Imagens — array → uma por linha
+  const images = Array.isArray(v.images) ? v.images : [];
+  el('fieldImages').value = images.join('\n');
+};
+
+/* ================================================================
+   MODAL — ABRE EM MODO ADICIONAR
+================================================================ */
+const openAddModal = () => {
+  resetForm();
+  el('modalTitle').textContent   = 'Adicionar Veículo';
+  el('btnDeleteVehicle').hidden  = true;
+  el('btnModalSave').innerHTML   = `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+      <polyline points="17 21 17 13 7 13 7 21"/>
+      <polyline points="7 3 7 8 15 8"/>
+    </svg>
+    Salvar`;
+  openModal();
+};
+
+/* ================================================================
+   MODAL — ABRE EM MODO EDITAR
+================================================================ */
+const openEditModal = (id) => {
+  const vehicle = allVehicles.find(v => String(v.id) === String(id));
+  if (!vehicle) return;
+
+  editingId = vehicle.id;
+  resetForm();
+  fillForm(vehicle);
+
+  el('modalTitle').textContent  = 'Editar Veículo';
+  el('btnDeleteVehicle').hidden = false;
+  el('btnModalSave').innerHTML  = `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+      <polyline points="17 21 17 13 7 13 7 21"/>
+      <polyline points="7 3 7 8 15 8"/>
+    </svg>
+    Atualizar`;
+  openModal();
+};
+
+/* ================================================================
+   MODAL — COLETA E VALIDA DADOS DO FORMULÁRIO
+================================================================ */
+const collectFormData = () => {
+  let valid = true;
+
+  // Limpa erros anteriores
+  ['errName', 'errYear', 'errPrice', 'errCategory'].forEach(id => {
+    const e = el(id);
+    if (e) e.textContent = '';
+  });
+
+  const name     = el('fieldName').value.trim();
+  const year     = el('fieldYear').value.trim();
+  const price    = el('fieldPrice').value.trim();
+  const category = el('fieldCategory').value;
+
+  if (!name) {
+    el('errName').textContent = 'Nome obrigatório.';
+    valid = false;
+  }
+  if (!year || isNaN(year)) {
+    el('errYear').textContent = 'Ano inválido.';
+    valid = false;
+  }
+  if (!price || isNaN(price) || Number(price) < 0) {
+    el('errPrice').textContent = 'Preço inválido.';
+    valid = false;
+  }
+  if (!category) {
+    el('errCategory').textContent = 'Selecione uma categoria.';
+    valid = false;
+  }
+
+  if (!valid) return null;
+
+  // Processa opcionais (string → array limpo)
+  const optionalsRaw = el('fieldOptionals').value;
+  const optionals = optionalsRaw
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  // Processa imagens (uma por linha → array limpo)
+  const imagesRaw = el('fieldImages').value;
+  const images = imagesRaw
+    .split('\n')
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  return {
+    name,
+    year:        year,
+    price:       Number(price),
+    category,
+    status:      el('fieldStatus').value,
+    badge:       el('fieldBadge').value       || null,
+    badge_color: el('fieldBadgeColor').value  || null,
+    description: el('fieldDescription').value.trim() || null,
+    specs: {
+      km:           el('fieldKm').value.trim()           || null,
+      power:        el('fieldPower').value.trim()        || null,
+      transmission: el('fieldTransmission').value.trim() || null,
+      fuel:         el('fieldFuel').value.trim()         || null,
+      acceleration: el('fieldAcceleration').value.trim() || null,
+      topSpeed:     el('fieldTopSpeed').value.trim()     || null,
+      color:        el('fieldColor').value.trim()        || null,
+      doors:        el('fieldDoors').value.trim()        || null,
+    },
+    optionals,
+    images,
+  };
+};
+
+/* ================================================================
+   MODAL — SALVA (ADICIONAR ou ATUALIZAR)
+================================================================ */
+const saveVehicle = async () => {
+  const payload = collectFormData();
+  if (!payload) return; // validação falhou
+
+  const saveBtn = el('btnModalSave');
+  saveBtn.disabled    = true;
+  saveBtn.textContent = 'Salvando...';
+
+  try {
+    if (editingId) {
+      // ── ATUALIZAR ──
+      await updateVehicle(editingId, payload);
+      await logAction('UPDATE', 'vehicle', String(editingId), { name: payload.name });
+      AdminToast.show(`"${payload.name}" atualizado com sucesso!`, 'success');
+    } else {
+      // ── INSERIR ──
+      const created = await insertVehicle(payload);
+      await logAction('INSERT', 'vehicle', String(created.id), { name: payload.name });
+      AdminToast.show(`"${payload.name}" adicionado com sucesso!`, 'success');
+    }
+
+    closeModal();
+
+    // Recarrega lista
+    allVehicles = await fetchVehicles();
+    fillMetrics(allVehicles);
+    applyFilters();
+
+  } catch (err) {
+    console.error('[Estoque] Erro ao salvar veículo:', err);
+    AdminToast.show(`Erro: ${err.message}`, 'error');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = editingId ? 'Atualizar' : 'Salvar';
+  }
+};
+
+/* ================================================================
+   MODAL DE CONFIRMAÇÃO — EXCLUIR
+================================================================ */
+let pendingDeleteId   = null;
+let pendingDeleteName = '';
+
+const openDeleteModal = (id, name) => {
+  pendingDeleteId   = id;
+  pendingDeleteName = name;
+  el('deleteVehicleName').textContent = name;
+
+  const modal = el('deleteModal');
+  modal.hidden = false;
+  requestAnimationFrame(() => modal.classList.add('is-open'));
+  document.body.style.overflow = 'hidden';
+};
+
+const closeDeleteModal = () => {
+  const modal = el('deleteModal');
+  modal.classList.remove('is-open');
+  modal.addEventListener('transitionend', () => {
+    modal.hidden = true;
+  }, { once: true });
+  document.body.style.overflow = '';
+  pendingDeleteId   = null;
+  pendingDeleteName = '';
+};
+
+const confirmDelete = async () => {
+  if (!pendingDeleteId) return;
+
+  const confirmBtn = el('btnDeleteConfirm');
+  confirmBtn.disabled    = true;
+  confirmBtn.textContent = 'Excluindo...';
+
+  try {
+    await deleteVehicle(pendingDeleteId);
+    await logAction('DELETE', 'vehicle', String(pendingDeleteId), {
+      name: pendingDeleteName,
+    });
+
+    AdminToast.show(`"${pendingDeleteName}" removido do estoque.`, 'success');
+
+    closeDeleteModal();
+    closeModal(); // fecha o modal de edição também, se estiver aberto
+
+    // Recarrega lista
+    allVehicles = await fetchVehicles();
+    fillMetrics(allVehicles);
+    applyFilters();
+
+  } catch (err) {
+    console.error('[Estoque] Erro ao excluir veículo:', err);
+    AdminToast.show(`Erro ao excluir: ${err.message}`, 'error');
+  } finally {
+    confirmBtn.disabled    = false;
+    confirmBtn.textContent = 'Sim, excluir';
+  }
+};
+
+/* ================================================================
+   INICIALIZA EVENTOS DOS MODAIS
+================================================================ */
+const initModalEvents = () => {
+  // Abre modal de adicionar
+  el('btnAddVehicle')?.addEventListener('click', openAddModal);
+
+  // Fecha modal principal
+  el('modalClose')?.addEventListener('click',     closeModal);
+  el('btnModalCancel')?.addEventListener('click', closeModal);
+
+  // Clique no overlay fecha o modal
+  el('vehicleModal')?.addEventListener('click', (e) => {
+    if (e.target === el('vehicleModal')) closeModal();
+  });
+
+  // Salva
+  el('btnModalSave')?.addEventListener('click', saveVehicle);
+
+  // Abre modal de exclusão a partir do botão dentro do modal de edição
+  el('btnDeleteVehicle')?.addEventListener('click', () => {
+    const vehicle = allVehicles.find(v => String(v.id) === String(editingId));
+    if (vehicle) openDeleteModal(vehicle.id, vehicle.name);
+  });
+
+  // Fecha modal de exclusão
+  el('deleteModalClose')?.addEventListener('click',  closeDeleteModal);
+  el('btnDeleteCancel')?.addEventListener('click',   closeDeleteModal);
+
+  // Clique no overlay do modal de exclusão
+  el('deleteModal')?.addEventListener('click', (e) => {
+    if (e.target === el('deleteModal')) closeDeleteModal();
+  });
+
+  // Confirma exclusão
+  el('btnDeleteConfirm')?.addEventListener('click', confirmDelete);
+
+  // ESC fecha qualquer modal aberto
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!el('deleteModal').hidden) { closeDeleteModal(); return; }
+    if (!el('vehicleModal').hidden) { closeModal(); }
+  });
+};
+
+/* ================================================================
+   REALTIME
 ================================================================ */
 const initRealtime = () => {
   supabaseClient
@@ -328,7 +668,6 @@ const initRealtime = () => {
       'postgres_changes',
       { event: '*', schema: 'public', table: 'vehicles' },
       async () => {
-        // Recarrega os dados do Supabase
         try {
           allVehicles = await fetchVehicles();
           fillMetrics(allVehicles);
@@ -347,26 +686,15 @@ const initRealtime = () => {
 ================================================================ */
 const initEstoque = async () => {
   try {
-    // Carrega dados
     allVehicles = await fetchVehicles();
-
-    // Preenche métricas
     fillMetrics(allVehicles);
-
-    // Renderiza tabela inicial
     renderTable(allVehicles);
-
-    // Liga filtros e ordenação
     initFilters();
     initSort();
-
-    // Liga realtime
+    initModalEvents();
     initRealtime();
-
   } catch (err) {
     console.error('Erro ao carregar estoque:', err);
-
-    // Mostra erro na tabela
     const tbody = el('estoqueTableBody');
     if (tbody) {
       tbody.innerHTML = `
@@ -376,12 +704,10 @@ const initEstoque = async () => {
           </td>
         </tr>`;
     }
-
     AdminToast.show('Erro ao carregar estoque', 'error');
   }
 };
 
-// Inicia quando o DOM estiver pronto
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initEstoque);
 } else {
