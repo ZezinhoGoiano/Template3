@@ -346,6 +346,7 @@ const closeModal = () => {
 const resetForm = () => {
   el('vehicleForm')?.reset();
   editingId = null;
+  MediaManager.reset();   // ✅ NOVO — limpa fotos/vídeos
   el('modalTitle').textContent  = 'Adicionar Veículo';
   el('btnDeleteVehicle').hidden = true;
   el('btnModalSave').innerHTML  = `
@@ -390,8 +391,10 @@ const fillForm = (v) => {
   const optionals = Array.isArray(v.optionals) ? v.optionals : [];
   el('fieldOptionals').value = optionals.join(', ');
 
+  // ✅ NOVO — carrega fotos/vídeos existentes no MediaManager
   const images = Array.isArray(v.images) ? v.images : [];
-  el('fieldImages').value = images.join('\n');
+  const videos = Array.isArray(v.videos) ? v.videos : [];
+  MediaManager.setExisting(images, videos);
 };
 
 /* ================================================================
@@ -474,11 +477,7 @@ const collectFormData = () => {
     .map(s => s.trim())
     .filter(Boolean);
 
-  const imagesRaw = el('fieldImages').value;
-  const images = imagesRaw
-    .split('\n')
-    .map(s => s.trim())
-    .filter(Boolean);
+  // ❌ REMOVIDO: leitura de imagesRaw/images do textarea
 
   return {
     name,
@@ -490,43 +489,49 @@ const collectFormData = () => {
     badge_color: el('fieldBadgeColor').value  || null,
     description: el('fieldDescription').value.trim() || null,
     specs: {
-      km:           el('fieldKm').value.trim()            || null,
-      power:        el('fieldPower').value.trim()         || null,
-      transmission: el('fieldTransmission').value.trim()  || null,
-      fuel:         el('fieldFuel').value.trim()          || null,
-      acceleration: el('fieldAcceleration').value.trim()  || null,
-      topSpeed:     el('fieldTopSpeed').value.trim()      || null,
-      color:        el('fieldColor').value.trim()         || null,
-      doors:        el('fieldDoors').value.trim()         || null,
+      km:           el('fieldKm').value.trim()           || null,
+      power:        el('fieldPower').value.trim()        || null,
+      transmission: el('fieldTransmission').value.trim() || null,
+      fuel:         el('fieldFuel').value.trim()         || null,
+      acceleration: el('fieldAcceleration').value.trim() || null,
+      topSpeed:     el('fieldTopSpeed').value.trim()     || null,
+      color:        el('fieldColor').value.trim()        || null,
+      doors:        el('fieldDoors').value.trim()        || null,
     },
     optionals,
-    images,
+    // images e videos serão adicionados depois do upload, em saveVehicle()
   };
 };
 
 /* ================================================================
    MODAL — SALVA (ADICIONAR ou ATUALIZAR) ✅ CORRIGIDO
 ================================================================ */
-const saveVehicle = async () => {
+const saveVehicle = async (e) => {
+  e?.preventDefault(); // ✅ evita reload acidental do form
+
   const payload = collectFormData();
   if (!payload) return;
 
-  // ✅ Captura o editingId no momento exato do clique em salvar
   const currentEditingId = editingId;
 
   const saveBtn = el('btnModalSave');
   const originalHtml = saveBtn.innerHTML;
   saveBtn.disabled = true;
-  saveBtn.textContent = 'Salvando...';
+  saveBtn.textContent = 'Enviando mídia...';
 
   try {
+    // ✅ NOVO — faz upload de fotos/vídeos pendentes e pega as URLs finais
+    const media = await MediaManager.uploadAll();
+    payload.images = media.images;
+    payload.videos = media.videos;
+
+    saveBtn.textContent = 'Salvando...';
+
     if (currentEditingId) {
-      // ✅ UPDATE — atualiza o veículo existente
       await updateVehicle(currentEditingId, payload);
       await logAction('UPDATE', 'vehicle', String(currentEditingId), { name: payload.name });
       AdminToast.show(`"${payload.name}" atualizado com sucesso!`, 'success');
     } else {
-      // ✅ INSERT — cria novo veículo
       const created = await insertVehicle(payload);
       await logAction('INSERT', 'vehicle', String(created.id), { name: payload.name });
       AdminToast.show(`"${payload.name}" adicionado com sucesso!`, 'success');
@@ -681,6 +686,7 @@ const initEstoque = async () => {
     initSort();
     initModalEvents();
     initRealtime();
+    MediaManager.init(); // ✅ NOVO
   } catch (err) {
     console.error('Erro ao carregar estoque:', err);
     const tbody = el('estoqueTableBody');
