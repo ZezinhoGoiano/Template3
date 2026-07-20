@@ -6,7 +6,8 @@
 'use strict';
 
 const _SUPABASE_URL      = 'https://lbwbdwzcyljtelaadbnx.supabase.co';
-const _SUPABASE_ANON_KEY = 'sua_anon_key_aqui'; // ← cole sua anon key aqui
+const _SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxid2Jkd3pjeWxqdGVsYWFkYm54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MTI5NDEsImV4cCI6MjA5OTk4ODk0MX0.fkvnX5tEM6Fi0USj6M3zpwXurDZK32XlB7xiJ0C5R00';
+ // ← cole sua anon key aqui
 
 // Começa vazio — preenchido antes dos outros scripts rodarem
 window.VEHICLES_DATA = [];
