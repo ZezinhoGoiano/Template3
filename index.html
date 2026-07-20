@@ -2056,16 +2056,17 @@
        JAVASCRIPT — ordem correta
   ============================================================ -->
 
-  <!-- 1. Supabase SDK (SEMPRE PRIMEIRO — vehicles-data.js depende dele) -->
+  
+    <!-- 1. Supabase SDK — SEMPRE PRIMEIRO -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- 2. Carrega veículos do Supabase e popula window.VEHICLES_DATA -->
+  <!-- 2. Carrega veículos do Supabase → window.VEHICLES_DATA -->
   <script src="vehicles-data.js"></script>
 
-  <!-- 3. Analytics (não depende de VEHICLES_DATA) -->
+  <!-- 3. Analytics -->
   <script src="analytics.js"></script>
 
-  <!-- 4. Script principal — só executa após VEHICLES_DATA estar pronto -->
+  <!-- 4. script.js — só executa após VEHICLES_DATA estar pronto -->
   <script>
     window.vehiclesDataReady.then(function () {
       var s = document.createElement('script');
