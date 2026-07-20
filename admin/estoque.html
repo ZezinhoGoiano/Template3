@@ -17,7 +17,7 @@
 </head>
 <body class="admin-body">
 
-  <!-- SIDEBAR (idêntica ao dashboard) -->
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar__header">
       <a href="dashboard.html" class="sidebar__logo">
@@ -58,12 +58,7 @@
         <span>Estoque</span>
       </a>
 
-      <a href="veiculo-form.html" class="sidebar__link">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 5v14M5 12h14"/>
-        </svg>
-        <span>Adicionar Veículo</span>
-      </a>
+      <!-- ✅ "Adicionar Veículo" removido do sidebar -->
 
       <a href="leads.html" class="sidebar__link">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -187,15 +182,16 @@
           <h1 class="admin-page-title">Estoque</h1>
           <p class="admin-page-subtitle">Gerencie os veículos cadastrados na plataforma</p>
         </div>
-        <a href="veiculo-form.html" class="btn btn--primary" id="btnAddVehicle">
+        <!-- ✅ Agora abre o modal em vez de navegar para outra página -->
+        <button class="btn btn--primary" id="btnAddVehicle">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M12 5v14M5 12h14"/>
           </svg>
           Adicionar Veículo
-        </a>
+        </button>
       </div>
 
-      <!-- Cards de métricas rápidas -->
+      <!-- Cards de métricas -->
       <div class="estoque-metrics">
         <div class="estoque-metric">
           <span class="estoque-metric__label">Total</span>
@@ -221,7 +217,6 @@
 
       <!-- Barra de busca + filtros -->
       <div class="estoque-toolbar">
-
         <div class="estoque-search">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
@@ -259,7 +254,6 @@
             Limpar filtros
           </button>
         </div>
-
       </div>
 
       <!-- Tabela -->
@@ -299,7 +293,6 @@
             </tr>
           </thead>
           <tbody id="estoqueTableBody">
-            <!-- Skeleton loader -->
             <tr class="skeleton-row">
               <td colspan="8">
                 <div class="skeleton-wrap">
@@ -314,7 +307,6 @@
           </tbody>
         </table>
 
-        <!-- Estado vazio -->
         <div class="estoque-empty" id="estoqueEmpty" hidden>
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
@@ -324,7 +316,6 @@
         </div>
       </div>
 
-      <!-- Rodapé da tabela -->
       <div class="estoque-table-footer" id="estoqueTableFooter">
         <span id="estoqueCount">0 veículos</span>
       </div>
@@ -337,6 +328,266 @@
 
   <!-- Toast -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ================================================================
+       MODAL — ADICIONAR / EDITAR VEÍCULO
+  ================================================================ -->
+  <div class="modal-overlay" id="vehicleModal" role="dialog" aria-modal="true"
+       aria-labelledby="modalTitle" hidden>
+    <div class="modal">
+
+      <!-- Header -->
+      <div class="modal__header">
+        <h2 class="modal__title" id="modalTitle">Adicionar Veículo</h2>
+        <button class="modal__close" id="modalClose" aria-label="Fechar modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal__body">
+        <form id="vehicleForm" novalidate autocomplete="off">
+
+          <!-- Linha 1: Nome + Ano -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fieldName">Nome do veículo *</label>
+              <input class="form-input" type="text" id="fieldName"
+                     placeholder="Ex: Porsche 911 Carrera S" required />
+              <span class="form-error" id="errName"></span>
+            </div>
+            <div class="form-group form-group--sm">
+              <label class="form-label" for="fieldYear">Ano *</label>
+              <input class="form-input" type="number" id="fieldYear"
+                     placeholder="2024" min="1900" max="2099" required />
+              <span class="form-error" id="errYear"></span>
+            </div>
+          </div>
+
+          <!-- Linha 2: Preço + Categoria -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fieldPrice">Preço (R$) *</label>
+              <input class="form-input" type="number" id="fieldPrice"
+                     placeholder="1290000" min="0" required />
+              <span class="form-error" id="errPrice"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fieldCategory">Categoria *</label>
+              <select class="form-input" id="fieldCategory" required>
+                <option value="">Selecione...</option>
+                <option value="sport">Esportivo</option>
+                <option value="luxury">Luxo</option>
+                <option value="suv">SUV</option>
+                <option value="sedan">Sedan</option>
+              </select>
+              <span class="form-error" id="errCategory"></span>
+            </div>
+          </div>
+
+          <!-- Linha 3: Status + Badge -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fieldStatus">Status *</label>
+              <select class="form-input" id="fieldStatus" required>
+                <option value="available">Disponível</option>
+                <option value="reserved">Reservado</option>
+                <option value="sold">Vendido</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fieldBadge">Badge</label>
+              <select class="form-input" id="fieldBadge">
+                <option value="">Nenhum</option>
+                <option value="NOVO">NOVO</option>
+                <option value="DESTAQUE">DESTAQUE</option>
+                <option value="PREMIUM">PREMIUM</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fieldBadgeColor">Cor do badge</label>
+              <select class="form-input" id="fieldBadgeColor">
+                <option value="">—</option>
+                <option value="success">Verde (NOVO)</option>
+                <option value="accent">Azul (DESTAQUE)</option>
+                <option value="warning">Amarelo (PREMIUM)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Descrição -->
+          <div class="form-group">
+            <label class="form-label" for="fieldDescription">Descrição</label>
+            <textarea class="form-input form-textarea" id="fieldDescription"
+                      placeholder="Descrição do veículo..." rows="3"></textarea>
+          </div>
+
+          <!-- Divisor: Especificações -->
+          <div class="form-divider">
+            <span>Especificações</span>
+          </div>
+
+          <!-- Linha specs 1: KM + Potência -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fieldKm">Quilometragem</label>
+              <input class="form-input" type="text" id="fieldKm"
+                     placeholder="Ex: 14.200 km" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fieldPower">Potência</label>
+              <input class="form-input" type="text" id="fieldPower"
+                     placeholder="Ex: 450 cv" />
+            </div>
+          </div>
+
+          <!-- Linha specs 2: Transmissão + Combustível -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fieldTransmission">Transmissão</label>
+              <input class="form-input" type="text" id="fieldTransmission"
+                     placeholder="Ex: PDK 8 vel." />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fieldFuel">Combustível</label>
+              <input class="form-input" type="text" id="fieldFuel"
+                     placeholder="Ex: Gasolina" />
+            </div>
+          </div>
+
+          <!-- Linha specs 3: Aceleração + Vel. Máxima -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fieldAcceleration">Aceleração</label>
+              <input class="form-input" type="text" id="fieldAcceleration"
+                     placeholder="Ex: 3.5s (0-100)" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fieldTopSpeed">Vel. máxima</label>
+              <input class="form-input" type="text" id="fieldTopSpeed"
+                     placeholder="Ex: 308 km/h" />
+            </div>
+          </div>
+
+          <!-- Linha specs 4: Cor + Portas -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fieldColor">Cor</label>
+              <input class="form-input" type="text" id="fieldColor"
+                     placeholder="Ex: Branco" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fieldDoors">Portas</label>
+              <input class="form-input" type="text" id="fieldDoors"
+                     placeholder="Ex: 2 portas" />
+            </div>
+          </div>
+
+          <!-- Opcionais -->
+          <div class="form-group">
+            <label class="form-label" for="fieldOptionals">
+              Opcionais
+              <span class="form-hint">Separe por vírgula</span>
+            </label>
+            <textarea class="form-input form-textarea" id="fieldOptionals"
+                      placeholder="Teto panorâmico, Sistema de som Bose, Bancos com aquecimento"
+                      rows="2"></textarea>
+          </div>
+
+          <!-- Imagens -->
+          <div class="form-group">
+            <label class="form-label" for="fieldImages">
+              Caminhos das imagens
+              <span class="form-hint">Um por linha — Ex: assets/images/vehicles/911/img1.webp</span>
+            </label>
+            <textarea class="form-input form-textarea" id="fieldImages"
+                      placeholder="assets/images/vehicles/911/img1.webp&#10;assets/images/vehicles/911/img2.webp"
+                      rows="4"></textarea>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal__footer">
+        <!-- Botão excluir (só aparece no modo edição) -->
+        <button class="btn btn--danger" id="btnDeleteVehicle" hidden>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+          Excluir veículo
+        </button>
+
+        <div class="modal__footer-actions">
+          <button class="btn btn--outline" id="btnModalCancel">Cancelar</button>
+          <button class="btn btn--primary" id="btnModalSave">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Salvar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL — CONFIRMAR EXCLUSÃO
+  ================================================================ -->
+  <div class="modal-overlay modal-overlay--danger" id="deleteModal"
+       role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle" hidden>
+    <div class="modal modal--sm">
+      <div class="modal__header">
+        <h2 class="modal__title" id="deleteModalTitle">Excluir veículo</h2>
+        <button class="modal__close" id="deleteModalClose" aria-label="Fechar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal__body">
+        <div class="delete-confirm">
+          <div class="delete-confirm__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <p>Tem certeza que deseja excluir <strong id="deleteVehicleName"></strong>?</p>
+          <span>Esta ação não pode ser desfeita.</span>
+        </div>
+      </div>
+      <div class="modal__footer modal__footer--centered">
+        <button class="btn btn--outline" id="btnDeleteCancel">Cancelar</button>
+        <button class="btn btn--danger" id="btnDeleteConfirm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+          Sim, excluir
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
