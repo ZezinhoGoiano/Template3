@@ -1,319 +1,72 @@
 /* ================================================================
    APEX MOTORS — vehicles-data.js
-   Fonte única de dados de veículos.
-   Usado por: index.html (via script.js) e estoque.html (via estoque.js)
+   Busca veículos do Supabase e expõe como VEHICLES_DATA global.
 ================================================================ */
 
-const VEHICLES_DATA = [
-  {
-    id: '1',
-    name: 'Porsche 911 Carrera S',
-    year: '2023',
-    price: 1290000,
-    category: 'sport',
-    badge: 'NOVO',
-    badgeColor: 'success',
-    status: 'available', // 'available' | 'sold'
-    description: 'O ícone absoluto dos esportivos. Motor boxer de 6 cilindros 3.0 biturbo entregando 450 cv de potência pura. Aceleração de 0-100 km/h em apenas 3.5 segundos.',
-    images: [
-      'assets/images/vehicles/992-Carrera-S/992_1.webp',
-      'assets/images/vehicles/992-Carrera-S/992_2.webp',
-      'assets/images/vehicles/992-Carrera-S/992_3.webp',
-      'assets/images/vehicles/992-Carrera-S/992_4.webp',
-      'assets/images/vehicles/992-Carrera-S/992_5.webp',
-      'assets/images/vehicles/992-Carrera-S/992_6.webp',
-      'assets/images/vehicles/992-Carrera-S/992_7.webp',
-      'assets/images/vehicles/992-Carrera-S/992_8.webp',
-      'assets/images/vehicles/992-Carrera-S/992_9.webp',
-      'assets/images/vehicles/992-Carrera-S/992_10.webp',
-      'assets/images/vehicles/992-Carrera-S/992_11.webp',
-    ],
-    specs: {
-      km: '14.200 km',
-      power: '450 cv',
-      transmission: 'PDK 8 vel.',
-      fuel: 'Gasolina',
-      acceleration: '3.5s (0-100)',
-      topSpeed: '308 km/h',
-      color: 'Branco',
-      doors: '2 portas',
-    },
-    optionals: [
-      'Teto panorâmico',
-      'Sistema de som Bose',
-      'Bancos com aquecimento',
-      'Rodas 20" liga leve',
-      'Controle de cruzeiro adaptativo',
-      'Câmera 360°',
-    ],
-  },
-  {
-    id: '2',
-    name: 'Mercedes-Benz S 500',
-    year: '2023',
-    price: 1650000,
-    category: 'luxury',
-    badge: 'DESTAQUE',
-    badgeColor: 'accent',
-    status: 'available',
-    description: 'Luxo e tecnologia em perfeita harmonia. Motor V8 híbrido com 435 cv, bancos massageadores, suspensão pneumática e o mais avançado sistema MBUX.',
-    images: [
-      'assets/images/vehicles/S_1.webp',
-      'assets/images/vehicles/S_2.jpg',
-      'assets/images/vehicles/S_3.jpg',
-      'assets/images/vehicles/S_4.jpg',
-      'assets/images/vehicles/S_5.webp',
-      'assets/images/vehicles/S_6.jpg',
-      'assets/images/vehicles/S_7.webp',
-      'assets/images/vehicles/S_8.webp',
-      'assets/images/vehicles/S_9.jpg',
-      'assets/images/vehicles/S_10.jpg',
-      'assets/images/vehicles/S_11.webp',
-      'assets/images/vehicles/S_12.webp',
-      'assets/images/vehicles/S_13.jpg',
-      'assets/images/vehicles/S_14.webp',
-    ],
-    specs: {
-      km: '8.500 km',
-      power: '435 cv',
-      transmission: '9G-Tronic',
-      fuel: 'Híbrido',
-      acceleration: '4.5s (0-100)',
-      topSpeed: '250 km/h',
-      color: 'Exclusive Silver Metallic',
-      doors: '4 portas',
-    },
-    optionals: [
-      'MBUX com IA',
-      'Head-up Display',
-      'Bancos massageadores',
-      'Suspensão pneumática',
-      'Sistema Burmester 4D',
-      'Perfume interior',
-    ],
-  },
-  {
-    id: '3',
-    name: 'BMW X7 M60i',
-    year: '2024',
-    price: 1180000,
-    category: 'suv',
-    badge: 'NOVO',
-    badgeColor: 'success',
-    status: 'available',
-    description: 'O SUV definitivo. Motor V8 4.4 biturbo com 530 cv, sete lugares com conforto de primeira classe, tecnologia xDrive e acabamento Vernasca.',
-    images: [
-      'assets/images/vehicles/X7_1.webp',
-      'assets/images/vehicles/X7_2.webp',
-      'assets/images/vehicles/X7_3.webp',
-      'assets/images/vehicles/X7_4.webp',
-      'assets/images/vehicles/X7_5.webp',
-      'assets/images/vehicles/X7_6.webp',
-      'assets/images/vehicles/X7_7.webp',
-      'assets/images/vehicles/X7_8.webp',
-      'assets/images/vehicles/X7_9.webp',
-      'assets/images/vehicles/X7_10.webp',
-      'assets/images/vehicles/X7_11.webp',
-    ],
-    specs: {
-      km: '0 km',
-      power: '530 cv',
-      transmission: 'Steptronic 8',
-      fuel: 'Gasolina',
-      acceleration: '4.5s (0-100)',
-      topSpeed: '250 km/h',
-      color: 'Sparkling Copper Metallic',
-      doors: '5 portas',
-    },
-    optionals: [
-      'Pacote M Sport Pro',
-      'iDrive 8.0',
-      'Bancos Vernasca',
-      'Rodas 22" M',
-      'Tração xDrive',
-      'Faróis Laserlight',
-    ],
-  },
-  {
-    id: '4',
-    name: 'Lamborghini Huracán EVO',
-    year: '2022',
-    price: 3490000,
-    category: 'sport',
-    badge: 'PREMIUM',
-    badgeColor: 'warning',
-    status: 'available',
-    description: 'Pura emoção italiana. V10 aspirado de 5.2 litros gerando 640 cv de adrenalina pura. Sistema LDVI que prevê suas intenções ao volante.',
-    images: [
-      'assets/images/vehicles/HEVO_1.webp',
-      'assets/images/vehicles/HEVO_2.webp',
-      'assets/images/vehicles/HEVO_3.webp',
-      'assets/images/vehicles/HEVO_4.webp',
-      'assets/images/vehicles/HEVO_5.webp',
-      'assets/images/vehicles/HEVO_6.webp',
-      'assets/images/vehicles/HEVO_7.webp',
-      'assets/images/vehicles/HEVO_8.webp',
-      'assets/images/vehicles/HEVO_9.webp',
-      'assets/images/vehicles/HEVO_10.webp',
-      'assets/images/vehicles/HEVO_11.webp',
-      'assets/images/vehicles/HEVO_12.webp',
-      'assets/images/vehicles/HEVO_13.webp',
-      'assets/images/vehicles/HEVO_14.webp',
+'use strict';
 
-    ],
-    specs: {
-      km: '22.000 km',
-      power: '640 cv',
-      transmission: 'LDF 7 vel.',
-      fuel: 'Gasolina',
-      acceleration: '2.9s (0-100)',
-      topSpeed: '325 km/h',
-      color: 'Verde Mantis',
-      doors: '2 portas',
-    },
-    optionals: [
-      'Sistema LDVI',
-      'Câmera frontal lift',
-      'Bancos esportivos',
-      'Escapamento Akrapovič',
-      'Rodas Giano 20"',
-      'Pintura especial',
-    ],
-  },
-  {
-    id: '5',
-    name: 'Audi A8 L 60 TFSI',
-    year: '2023',
-    price: 1420000,
-    category: 'luxury',
-    badge: null,
-    badgeColor: null,
-    status: 'available',
-    description: 'Sofisticação tecnológica alemã. Motor V8 TFSI com 462 cv, suspensão preditiva que lê a pista, interior em couro Valcona e Matrix LED.',
-    images: [
-          'assets/images/vehicles/A8_1.jpeg',
-       'assets/images/vehicles/A8_2.jpeg',
-       'assets/images/vehicles/A8_3.jpeg',
-       'assets/images/vehicles/A8_4.jpeg',
-       'assets/images/vehicles/A8_5.jpeg',
-       'assets/images/vehicles/A8_6.jpeg',
-       'assets/images/vehicles/A8_7.jpeg',
-       'assets/images/vehicles/A8_8.jpeg',
-       'assets/images/vehicles/A8_9.jpeg',
-       'assets/images/vehicles/A8_10.jpeg',
-       'assets/images/vehicles/A8_11.jpeg',
-       'assets/images/vehicles/A8_12.jpeg',
-       'assets/images/vehicles/A8_13.jpeg',
-       'assets/images/vehicles/A8_14.jpeg',
-    ],
-    specs: {
-      km: '18.600 km',
-      power: '462 cv',
-      transmission: 'Tiptronic 8',
-      fuel: 'Gasolina',
-      acceleration: '4.4s (0-100)',
-      topSpeed: '250 km/h',
-      color: 'Preto Brilhante',
-      doors: '4 portas',
-    },
-    optionals: [
-      'Suspensão preditiva',
-      'Virtual Cockpit Plus',
-      'Bang & Olufsen 3D',
-      'Matrix LED',
-      'Bancos massageadores',
-      'Tração Quattro',
-    ],
-  },
-  {
-    id: '6',
-    name: 'Range Rover Autobiography',
-    year: '2024',
-    price: 2180000,
-    category: 'suv',
-    badge: 'NOVO',
-    badgeColor: 'success',
-    status: 'available',
-    description: 'Luxo britânico incomparável. Motor diesel V8 com 530 cv, capacidade off-road excepcional, interior em couro Windsor premium.',
-    images: [
-       'assets/images/vehicles/LR_1.webp',
-       'assets/images/vehicles/LR_2.webp',
-       'assets/images/vehicles/LR_3.webp',
-       'assets/images/vehicles/LR_4.webp',
-       'assets/images/vehicles/LR_5.webp',
-       'assets/images/vehicles/LR_6.webp',
-       'assets/images/vehicles/LR_7.webp',
-       'assets/images/vehicles/LR_8.webp',
-       'assets/images/vehicles/LR_9.webp',
-       'assets/images/vehicles/LR_10.webp',
-       'assets/images/vehicles/LR_11.webp',
-       'assets/images/vehicles/LR_12.webp',
+const _SUPABASE_URL      = 'https://lbwbdwzcyljtelaadbnx.supabase.co';
+const _SUPABASE_ANON_KEY = 'sua_anon_key_aqui'; // ← cole sua anon key aqui
 
-      ],
-    specs: {
-      km: '5.200 km',
-      power: '530 cv',
-      transmission: 'Auto 8 vel.',
-      fuel: 'Diesel',
-      acceleration: '4.6s (0-100)',
-      topSpeed: '250 km/h',
-      color: 'Ouro Batumi',
-      doors: '5 portas',
-    },
-    optionals: [
-      'Terrain Response 2',
-      'Pivi Pro',
-      'Meridian Signature',
-      'Bancos Executive',
-      'Teto panorâmico',
-      'Rodas 23"',
-    ],
-  },
+// Começa vazio — preenchido antes dos outros scripts rodarem
+window.VEHICLES_DATA = [];
 
-  // ============================================================
-  // VEÍCULOS VENDIDOS
-  // Para marcar um veículo como vendido, mude status: 'sold'
-  // Ele automaticamente aparece na aba "Vendidos" do estoque
-  // ============================================================
-  {
-    id: '7',
-    name: 'Ferrari F8 Tributo',
-    year: '2021',
-    price: 4200000,
-    category: 'sport',
-    badge: null,
-    badgeColor: null,
-    status: 'sold', // ← muda para 'available' para reativar
-    description: 'O mais poderoso V8 da história da Ferrari. Motor biturbo 3.9L com 720 cv, 0-100 km/h em 2.9 segundos. Uma obra de arte em movimento.',
-    images: [
-       'assets/images/vehicles/F8_1.webp',
-       'assets/images/vehicles/F8_2.webp',
-       'assets/images/vehicles/F8_3.webp',
-       'assets/images/vehicles/F8_4.webp',
-       'assets/images/vehicles/F8_5.webp',
-       'assets/images/vehicles/F8_6.webp',
-       'assets/images/vehicles/F8_7.webp',
-       'assets/images/vehicles/F8_8.webp',
-       'assets/images/vehicles/F8_9.webp',
-       'assets/images/vehicles/F8_10.webp',
-       'assets/images/vehicles/F8_11.webp',
-       'assets/images/vehicles/F8_12.webp',
-    ],
-    specs: {
-      km: '18.000 km',
-      power: '720 cv',
-      transmission: 'F1 DCT 7',
-      fuel: 'Gasolina',
-      acceleration: '2.9s (0-100)',
-      topSpeed: '340 km/h',
-      color: 'Rosso Corsa',
-      doors: '2 portas',
-    },
-    optionals: [
-      'Pacote Fiorano',
-      'Rodas forjadas',
-      'Carbon fiber interior',
-      'Escapamento racing',
-    ],
+/* ================================================================
+   NORMALIZA campos do banco → formato esperado pelo front-end
+   Banco:  badge_color (snake_case)
+   Front:  badgeColor  (camelCase)
+================================================================ */
+const _normalizeVehicle = (v) => ({
+  id:          String(v.id),
+  name:        v.name         || '',
+  year:        String(v.year  || ''),
+  price:       Number(v.price || 0),
+  category:    v.category     || '',
+  badge:       v.badge        || null,
+  badgeColor:  v.badge_color  || null,
+  status:      v.status       || 'available',
+  description: v.description  || '',
+  images:      Array.isArray(v.images) ? v.images : [],
+  specs: (v.specs && typeof v.specs === 'object') ? {
+    km:           v.specs.km           || '—',
+    power:        v.specs.power        || '—',
+    transmission: v.specs.transmission || '—',
+    fuel:         v.specs.fuel         || '—',
+    acceleration: v.specs.acceleration || '—',
+    topSpeed:     v.specs.topSpeed     || '—',
+    color:        v.specs.color        || '—',
+    doors:        v.specs.doors        || '—',
+  } : {
+    km:'—', power:'—', transmission:'—', fuel:'—',
+    acceleration:'—', topSpeed:'—', color:'—', doors:'—',
   },
-];
+  optionals: Array.isArray(v.optionals) ? v.optionals : [],
+});
+
+/* ================================================================
+   PROMISE global — todos os scripts aguardam ela resolver
+================================================================ */
+window.vehiclesDataReady = (async () => {
+  try {
+    const client = window.supabase.createClient(
+      _SUPABASE_URL,
+      _SUPABASE_ANON_KEY
+    );
+
+    const { data, error } = await client
+      .from('vehicles')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    window.VEHICLES_DATA = (data || []).map(_normalizeVehicle);
+    console.log(`✅ ${window.VEHICLES_DATA.length} veículos carregados do Supabase`);
+
+  } catch (err) {
+    console.error('❌ Erro ao carregar veículos:', err.message);
+    // Mantém [] — página carrega sem veículos, não quebra
+  }
+
+  return window.VEHICLES_DATA;
+})();
