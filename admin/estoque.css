@@ -437,3 +437,335 @@
   .estoque-filters   { flex-wrap: wrap; }
   .estoque-search    { min-width: unset; }
 }
+
+/* ================================================================
+   MODAL
+================================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+}
+
+.modal {
+  background: var(--color-surface, #161B22);
+  border: 1px solid var(--color-border, #30363D);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(16px);
+  transition: transform 0.2s ease;
+  overflow: hidden;
+}
+
+.modal-overlay.is-open .modal {
+  transform: translateY(0);
+}
+
+.modal--sm {
+  max-width: 420px;
+}
+
+/* Header */
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border, #30363D);
+  flex-shrink: 0;
+}
+
+.modal__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text, #F5F5F5);
+  margin: 0;
+}
+
+.modal__close {
+  background: none;
+  border: none;
+  color: var(--color-text-muted, #8B949E);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+}
+
+.modal__close:hover {
+  color: var(--color-text, #F5F5F5);
+  background: var(--color-hover, #21262D);
+}
+
+/* Body */
+.modal__body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Footer */
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border, #30363D);
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.modal__footer--centered {
+  justify-content: flex-end;
+}
+
+.modal__footer-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* ================================================================
+   FORMULÁRIO
+================================================================ */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-row:has(.form-group--sm) {
+  grid-template-columns: 1fr 0.45fr;
+}
+
+/* Row com 3 colunas (Status + Badge + Cor badge) */
+.form-row:has(> .form-group:nth-child(3)) {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #8B949E);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.form-hint {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #8B949E);
+  opacity: 0.75;
+}
+
+.form-input {
+  background: var(--color-bg, #0D1117);
+  border: 1px solid var(--color-border, #30363D);
+  border-radius: 8px;
+  color: var(--color-text, #F5F5F5);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  padding: 0.55rem 0.75rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary, #1E88E5);
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted, #8B949E);
+  opacity: 0.5;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--color-error, #F85149);
+  min-height: 1rem;
+}
+
+/* Divisor de seção dentro do form */
+.form-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1rem;
+  color: var(--color-text-muted, #8B949E);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.form-divider::before,
+.form-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border, #30363D);
+}
+
+/* ================================================================
+   BOTÕES DE AÇÃO NA TABELA
+================================================================ */
+.btn-edit,
+.btn-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.btn-edit {
+  background: transparent;
+  color: var(--color-primary, #1E88E5);
+  border-color: rgba(30, 136, 229, 0.3);
+}
+
+.btn-edit:hover {
+  background: rgba(30, 136, 229, 0.1);
+  border-color: var(--color-primary, #1E88E5);
+}
+
+.btn-delete {
+  background: transparent;
+  color: var(--color-error, #F85149);
+  border-color: rgba(248, 81, 73, 0.3);
+}
+
+.btn-delete:hover {
+  background: rgba(248, 81, 73, 0.1);
+  border-color: var(--color-error, #F85149);
+}
+
+/* ================================================================
+   BOTÃO DANGER
+================================================================ */
+.btn--danger {
+  background: var(--color-error, #F85149);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.btn--danger:hover {
+  background: #da3630;
+}
+
+/* ================================================================
+   MODAL DE CONFIRMAÇÃO DE EXCLUSÃO
+================================================================ */
+.delete-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.delete-confirm__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(248, 81, 73, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-error, #F85149);
+}
+
+.delete-confirm p {
+  font-size: 0.95rem;
+  color: var(--color-text, #F5F5F5);
+  margin: 0;
+}
+
+.delete-confirm p strong {
+  color: var(--color-error, #F85149);
+}
+
+.delete-confirm span {
+  font-size: 0.82rem;
+  color: var(--color-text-muted, #8B949E);
+}
+
+/* ================================================================
+   COLUNA DE AÇÕES — ajusta largura para os 2 botões
+================================================================ */
+.col-actions {
+  white-space: nowrap;
+}
+
+.col-actions .btn-edit,
+.col-actions .btn-delete {
+  margin-right: 0.35rem;
+}
+
+/* ================================================================
+   RESPONSIVO
+================================================================ */
+@media (max-width: 600px) {
+  .form-row,
+  .form-row:has(.form-group--sm),
+  .form-row:has(> .form-group:nth-child(3)) {
+    grid-template-columns: 1fr;
+  }
+
+  .modal__footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .modal__footer-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal__footer-actions .btn,
+  .btn--danger {
+    width: 100%;
+    justify-content: center;
+  }
+}
