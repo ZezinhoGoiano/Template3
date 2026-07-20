@@ -383,8 +383,19 @@ const initEstoque = () => {
   console.log('✅ Estoque inicializado');
 };
 
+// ✅ DEPOIS — aguarda os dados carregarem antes de inicializar
+const startEstoque = () => {
+  if (window.vehiclesDataReady) {
+    window.vehiclesDataReady.then(() => {
+      initEstoque();
+    });
+  } else {
+    initEstoque();
+  }
+};
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initEstoque);
+  document.addEventListener('DOMContentLoaded', startEstoque);
 } else {
-  initEstoque();
+  startEstoque();
 }
