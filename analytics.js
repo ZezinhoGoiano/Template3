@@ -12,33 +12,34 @@
       para não duplicar credenciais no código
 ================================================================ */
 
-// ✅ Reutiliza o cliente já criado pelo supabase.js (sem duplicar)
+/* ================================================================
+   APEX MOTORS — analytics.js
+   Versão: 2.2.0
+================================================================ */
+
+'use strict';
+
+// ✅ Credenciais diretas (necessário no site público)
+const APEX_SUPABASE_URL = 'https://lbwbdwzcyljtelaadbnx.supabase.co';
+const APEX_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxid2Jkd3pjeWxqdGVsYWFkYm54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MTI5NDEsImV4cCI6MjA5OTk4ODk0MX0.fkvnX5tEM6Fi0USj6M3zpwXurDZK32XlB7xiJ0C5R00';
+
+// ✅ Cria o cliente de forma simples e direta
 const getClient = () => {
-  // Tenta usar o cliente global do site (script.js / supabase.js)
-  if (typeof window.apexSupabaseClient !== 'undefined') {
-    return window.apexSupabaseClient;
-  }
-  // Fallback: tenta o cliente do admin
-  if (typeof window.supabaseClient !== 'undefined') {
-    return window.supabaseClient;
-  }
-  // Último recurso: cria novo cliente se SDK disponível
-  if (
-    typeof window.supabase !== 'undefined' &&
-    typeof APEX_SUPABASE_URL !== 'undefined' &&
-    typeof APEX_SUPABASE_KEY !== 'undefined'
-  ) {
-    if (!window._apexAnalyticsClient) {
-      window._apexAnalyticsClient = window.supabase.createClient(
-        APEX_SUPABASE_URL,
-        APEX_SUPABASE_KEY
-      );
-    }
-    return window._apexAnalyticsClient;
+  // Reutiliza se já criado
+  if (window._apexAnalyticsClient) return window._apexAnalyticsClient;
+
+  // SDK não carregado ainda
+  if (typeof window.supabase === 'undefined') {
+    console.warn('[Analytics] SDK Supabase não carregado');
+    return null;
   }
 
-  console.warn('[Analytics] Nenhum cliente Supabase disponível');
-  return null;
+  window._apexAnalyticsClient = window.supabase.createClient(
+    APEX_SUPABASE_URL,
+    APEX_SUPABASE_KEY
+  );
+
+  return window._apexAnalyticsClient;
 };
 
 /* ================================================================
