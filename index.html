@@ -2051,25 +2051,28 @@
     </svg>
   </button>
 
-  <!-- ============================================================
-       JAVASCRIPT
-  ============================================================ -->
-  <!-- 1. Dados compartilhados (sempre primeiro) -->
-  <!-- ============================================================
+  
+    <!-- ============================================================
        JAVASCRIPT — ordem correta
   ============================================================ -->
 
-  <!-- 1. Supabase SDK (SEMPRE PRIMEIRO) -->
+  <!-- 1. Supabase SDK (SEMPRE PRIMEIRO — vehicles-data.js depende dele) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- 2. Dados dos veículos (apenas UMA vez) -->
+  <!-- 2. Carrega veículos do Supabase e popula window.VEHICLES_DATA -->
   <script src="vehicles-data.js"></script>
 
-  <!-- 3. Analytics (precisa do Supabase SDK acima) -->
+  <!-- 3. Analytics (não depende de VEHICLES_DATA) -->
   <script src="analytics.js"></script>
 
-  <!-- 4. Script principal (por último) -->
-  <script src="script.js"></script>
+  <!-- 4. Script principal — só executa após VEHICLES_DATA estar pronto -->
+  <script>
+    window.vehiclesDataReady.then(function () {
+      var s = document.createElement('script');
+      s.src = 'script.js';
+      document.body.appendChild(s);
+    });
+  </script>
 
 </body>
 </html>
