@@ -24,7 +24,7 @@ const el = (id) => document.getElementById(id);
 let allVehicles    = [];
 let sortField      = null;
 let sortDirection  = 'asc';
-let editingId      = null; // null = modo adicionar | string = modo editar
+let editingId      = null;
 
 /* ================================================================
    LABELS
@@ -216,7 +216,6 @@ const renderTable = (vehicles) => {
     count.textContent = `${vehicles.length} veículo${vehicles.length !== 1 ? 's' : ''}`;
   }
 
-  // Delega eventos de editar e excluir para as linhas renderizadas
   tbody.querySelectorAll('.btn-edit').forEach(btn => {
     btn.addEventListener('click', () => openEditModal(btn.dataset.id));
   });
@@ -330,7 +329,6 @@ const initSort = () => {
 
 /* ================================================================
    MODAL — ABRIR / FECHAR
-   ✅ Controlado 100% por classe .is-open (sem "hidden")
 ================================================================ */
 const openModal = () => {
   const modal = el('vehicleModal');
@@ -342,7 +340,6 @@ const closeModal = () => {
   const modal = el('vehicleModal');
   modal.classList.remove('is-open');
   document.body.style.overflow = '';
-  // Aguarda a transição CSS (250ms) antes de limpar o formulário
   setTimeout(resetForm, 250);
 };
 
@@ -360,7 +357,6 @@ const resetForm = () => {
     </svg>
     Salvar`;
 
-  // Limpa erros
   ['errName', 'errYear', 'errPrice', 'errCategory'].forEach(id => {
     const e = el(id);
     if (e) e.textContent = '';
@@ -407,15 +403,20 @@ const openAddModal = () => {
 };
 
 /* ================================================================
-   MODAL — ABRE EM MODO EDITAR
+   MODAL — ABRE EM MODO EDITAR ✅ CORRIGIDO
 ================================================================ */
 const openEditModal = (id) => {
   const vehicle = allVehicles.find(v => String(v.id) === String(id));
   if (!vehicle) return;
 
-  editingId = vehicle.id;
-  resetForm();       // limpa erros e reseta título/botão
-  editingId = vehicle.id; // resetForm zera editingId, então reatribui aqui
+  // ✅ Guarda o id numa variável local antes do resetForm
+  const vehicleId = vehicle.id;
+
+  resetForm(); // zera o form e seta editingId = null
+
+  // ✅ Reatribui o id DEPOIS do resetForm
+  editingId = vehicleId;
+
   fillForm(vehicle);
 
   el('modalTitle').textContent  = 'Editar Veículo';
@@ -428,6 +429,7 @@ const openEditModal = (id) => {
       <polyline points="7 3 7 8 15 8"/>
     </svg>
     Atualizar`;
+
   openModal();
 };
 
@@ -488,14 +490,14 @@ const collectFormData = () => {
     badge_color: el('fieldBadgeColor').value  || null,
     description: el('fieldDescription').value.trim() || null,
     specs: {
-      km:           el('fieldKm').value.trim()           || null,
-      power:        el('fieldPower').value.trim()        || null,
-      transmission: el('fieldTransmission').value.trim() || null,
-      fuel:         el('fieldFuel').value.trim()         || null,
-      acceleration: el('fieldAcceleration').value.trim() || null,
-      topSpeed:     el('fieldTopSpeed').value.trim()     || null,
-      color:        el('fieldColor').value.trim()        || null,
-      doors:        el('fieldDoors').value.trim()        || null,
+      km:           el('fieldKm').value.trim()            || null,
+      power:        el('fieldPower').value.trim()         || null,
+      transmission: el('fieldTransmission').value.trim()  || null,
+      fuel:         el('fieldFuel').value.trim()          || null,
+      acceleration: el('fieldAcceleration').value.trim()  || null,
+      topSpeed:     el('fieldTopSpeed').value.trim()      || null,
+      color:        el('fieldColor').value.trim()         || null,
+      doors:        el('fieldDoors').value.trim()         || null,
     },
     optionals,
     images,
@@ -503,11 +505,14 @@ const collectFormData = () => {
 };
 
 /* ================================================================
-   MODAL — SALVA (ADICIONAR ou ATUALIZAR)
+   MODAL — SALVA (ADICIONAR ou ATUALIZAR) ✅ CORRIGIDO
 ================================================================ */
 const saveVehicle = async () => {
   const payload = collectFormData();
   if (!payload) return;
+
+  // ✅ Captura o editingId no momento exato do clique em salvar
+  const currentEditingId = editingId;
 
   const saveBtn = el('btnModalSave');
   const originalHtml = saveBtn.innerHTML;
@@ -515,11 +520,13 @@ const saveVehicle = async () => {
   saveBtn.textContent = 'Salvando...';
 
   try {
-    if (editingId) {
-      await updateVehicle(editingId, payload);
-      await logAction('UPDATE', 'vehicle', String(editingId), { name: payload.name });
+    if (currentEditingId) {
+      // ✅ UPDATE — atualiza o veículo existente
+      await updateVehicle(currentEditingId, payload);
+      await logAction('UPDATE', 'vehicle', String(currentEditingId), { name: payload.name });
       AdminToast.show(`"${payload.name}" atualizado com sucesso!`, 'success');
     } else {
+      // ✅ INSERT — cria novo veículo
       const created = await insertVehicle(payload);
       await logAction('INSERT', 'vehicle', String(created.id), { name: payload.name });
       AdminToast.show(`"${payload.name}" adicionado com sucesso!`, 'success');
@@ -583,7 +590,7 @@ const confirmDelete = async () => {
     AdminToast.show(`"${pendingDeleteName}" removido do estoque.`, 'success');
 
     closeDeleteModal();
-    closeModal(); // fecha também o modal de edição, se estiver aberto
+    closeModal();
 
     allVehicles = await fetchVehicles();
     fillMetrics(allVehicles);
@@ -602,40 +609,31 @@ const confirmDelete = async () => {
    INICIALIZA EVENTOS DOS MODAIS
 ================================================================ */
 const initModalEvents = () => {
-  // Abre modal de adicionar
   el('btnAddVehicle')?.addEventListener('click', openAddModal);
 
-  // Fecha modal principal
   el('modalClose')?.addEventListener('click',     closeModal);
   el('btnModalCancel')?.addEventListener('click', closeModal);
 
-  // Clique no overlay fecha o modal
   el('vehicleModal')?.addEventListener('click', (e) => {
     if (e.target === el('vehicleModal')) closeModal();
   });
 
-  // Salva
   el('btnModalSave')?.addEventListener('click', saveVehicle);
 
-  // Abre modal de exclusão a partir do botão dentro do modal de edição
   el('btnDeleteVehicle')?.addEventListener('click', () => {
     const vehicle = allVehicles.find(v => String(v.id) === String(editingId));
     if (vehicle) openDeleteModal(vehicle.id, vehicle.name);
   });
 
-  // Fecha modal de exclusão
   el('deleteModalClose')?.addEventListener('click',  closeDeleteModal);
   el('btnDeleteCancel')?.addEventListener('click',   closeDeleteModal);
 
-  // Clique no overlay do modal de exclusão
   el('deleteModal')?.addEventListener('click', (e) => {
     if (e.target === el('deleteModal')) closeDeleteModal();
   });
 
-  // Confirma exclusão
   el('btnDeleteConfirm')?.addEventListener('click', confirmDelete);
 
-  // ESC fecha qualquer modal aberto
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (el('deleteModal').classList.contains('is-open')) {
