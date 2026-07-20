@@ -2055,16 +2055,21 @@
        JAVASCRIPT
   ============================================================ -->
   <!-- 1. Dados compartilhados (sempre primeiro) -->
-<script src="vehicles-data.js"></script>
-<!-- 2. Script principal -->
-<script src="script.js?v=1.1.1" defer></script>
+  <!-- ============================================================
+       JAVASCRIPT — ordem correta
+  ============================================================ -->
 
-<!-- Analytics deve vir DEPOIS do Supabase SDK e ANTES do script.js -->
-<!-- ✅ Ordem correta -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="vehicles-data.js"></script>
-<script src="analytics.js"></script>
-<script src="script.js"></script>
-  
+  <!-- 1. Supabase SDK (SEMPRE PRIMEIRO) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2. Dados dos veículos (apenas UMA vez) -->
+  <script src="vehicles-data.js"></script>
+
+  <!-- 3. Analytics (precisa do Supabase SDK acima) -->
+  <script src="analytics.js"></script>
+
+  <!-- 4. Script principal (por último) -->
+  <script src="script.js"></script>
+
 </body>
 </html>
