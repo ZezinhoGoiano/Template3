@@ -1,0 +1,434 @@
+/* ================================================================
+   APEX MOTORS ADMIN — estoque.css
+   Estilos da tabela de estoque administrativo
+================================================================ */
+
+/* ================================================================
+   MÉTRICAS RÁPIDAS
+================================================================ */
+.estoque-metrics {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  overflow-x: auto;
+  padding-bottom: var(--space-1);
+  scrollbar-width: none;
+}
+.estoque-metrics::-webkit-scrollbar { display: none; }
+
+.estoque-metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  min-width: 130px;
+  flex-shrink: 0;
+  transition: all var(--transition-base);
+}
+
+.estoque-metric:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.estoque-metric--green  { border-top: 3px solid var(--color-success); }
+.estoque-metric--orange { border-top: 3px solid var(--color-warning); }
+.estoque-metric--muted  { border-top: 3px solid var(--color-text-muted); }
+.estoque-metric--blue   { border-top: 3px solid var(--color-accent); }
+
+.estoque-metric__label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.estoque-metric__value {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+/* ================================================================
+   TOOLBAR (busca + filtros)
+================================================================ */
+.estoque-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+/* Campo de busca */
+.estoque-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 240px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-card);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition-base);
+  color: var(--color-text-muted);
+}
+
+.estoque-search:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(30,136,229,0.12);
+}
+
+.estoque-search input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+}
+
+.estoque-search input::placeholder { color: var(--color-text-muted); }
+
+.estoque-search__clear {
+  color: var(--color-text-muted);
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
+}
+
+.estoque-search__clear:hover { color: var(--color-text-primary); }
+
+/* Filtros */
+.estoque-filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.estoque-filter-select {
+  padding: var(--space-2) var(--space-8) var(--space-2) var(--space-3);
+  background: var(--color-bg-card);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238B949E' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  transition: border-color var(--transition-base);
+}
+
+.estoque-filter-select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* ================================================================
+   TABELA
+================================================================ */
+.estoque-table-wrap {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.estoque-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  min-width: 820px;
+}
+
+/* Cabeçalho */
+.estoque-table thead tr {
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.estoque-table th {
+  padding: var(--space-4) var(--space-4);
+  text-align: left;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* Botão de ordenação no th */
+.th-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color var(--transition-fast);
+}
+
+.th-sort:hover { color: var(--color-text-primary); }
+
+.th-sort.is-asc svg  { transform: rotate(0deg); }
+.th-sort.is-desc svg { transform: rotate(180deg); }
+.th-sort.is-asc,
+.th-sort.is-desc { color: var(--color-accent); }
+
+/* Linhas do body */
+.estoque-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--transition-fast);
+}
+
+.estoque-table tbody tr:last-child { border-bottom: none; }
+
+.estoque-table tbody tr:hover { background: var(--color-bg-elevated); }
+
+.estoque-table td {
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text-secondary);
+  vertical-align: middle;
+}
+
+/* Colunas específicas */
+.col-img     { width: 72px; }
+.col-name    { min-width: 200px; }
+.col-year    { width: 70px; }
+.col-cat     { width: 110px; }
+.col-price   { width: 140px; }
+.col-km      { width: 110px; }
+.col-status  { width: 120px; }
+.col-actions { width: 130px; }
+
+/* Foto thumbnail */
+.vehicle-thumb {
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  display: block;
+}
+
+.vehicle-thumb-placeholder {
+  width: 56px;
+  height: 40px;
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+/* Nome + badge */
+.vehicle-name-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vehicle-name-cell strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.vehicle-name-cell span {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* Badge do veículo */
+.vehicle-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.04em;
+}
+
+.vehicle-badge--success { background: rgba(34,197,94,0.15);  color: #22C55E; }
+.vehicle-badge--accent  { background: rgba(30,136,229,0.15); color: #1E88E5; }
+.vehicle-badge--warning { background: rgba(245,158,11,0.15); color: #F59E0B; }
+
+/* Preço */
+.price-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+}
+
+/* Categoria pill */
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-badge--available {
+  background: rgba(34,197,94,0.12);
+  color: #22C55E;
+}
+.status-badge--available::before { background: #22C55E; }
+
+.status-badge--reserved {
+  background: rgba(245,158,11,0.12);
+  color: #F59E0B;
+}
+.status-badge--reserved::before { background: #F59E0B; }
+
+.status-badge--sold {
+  background: rgba(139,148,158,0.12);
+  color: #8B949E;
+}
+.status-badge--sold::before { background: #8B949E; }
+
+/* Botão editar */
+.btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  border: 1px solid rgba(30,136,229,0.25);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  font-family: var(--font-display);
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-edit:hover {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+/* ================================================================
+   SKELETON LOADER
+================================================================ */
+.skeleton-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-elevated) 25%,
+    rgba(255,255,255,0.04) 50%,
+    var(--color-bg-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+.skeleton--img  { width: 56px; height: 40px; flex-shrink: 0; }
+.skeleton-lines { display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
+.skeleton--line { height: 12px; border-radius: var(--radius-full); }
+.skeleton--w60  { width: 60%; }
+.skeleton--w40  { width: 40%; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ================================================================
+   ESTADO VAZIO
+================================================================ */
+.estoque-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-16);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.estoque-empty p {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.estoque-empty span {
+  font-size: var(--text-sm);
+}
+
+/* ================================================================
+   RODAPÉ DA TABELA
+================================================================ */
+.estoque-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ================================================================
+   RESPONSIVIDADE
+================================================================ */
+@media (max-width: 768px) {
+  .estoque-toolbar   { flex-direction: column; align-items: stretch; }
+  .estoque-filters   { flex-wrap: wrap; }
+  .estoque-search    { min-width: unset; }
+}
