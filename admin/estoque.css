@@ -402,6 +402,11 @@
   text-align: center;
 }
 
+/* ✅ FIX: garante que o atributo hidden funcione mesmo com display:flex acima */
+.estoque-empty[hidden] {
+  display: none;
+}
+
 .estoque-empty p {
   font-size: var(--text-base);
   font-weight: 600;
