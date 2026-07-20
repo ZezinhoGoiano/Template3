@@ -2060,10 +2060,11 @@
 <script src="script.js?v=1.1.1" defer></script>
 
 <!-- Analytics deve vir DEPOIS do Supabase SDK e ANTES do script.js -->
+<!-- ✅ Ordem correta -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="analytics.js"></script>
 <script src="vehicles-data.js"></script>
-<script src="script.js?v=1.1.1" defer></script>
+<script src="analytics.js"></script>
+<script src="script.js"></script>
   
 </body>
 </html>
