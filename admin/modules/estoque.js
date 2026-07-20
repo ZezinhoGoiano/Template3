@@ -216,7 +216,7 @@ const renderTable = (vehicles) => {
     count.textContent = `${vehicles.length} veículo${vehicles.length !== 1 ? 's' : ''}`;
   }
 
-  // ✅ Delega eventos de editar e excluir para as linhas renderizadas
+  // Delega eventos de editar e excluir para as linhas renderizadas
   tbody.querySelectorAll('.btn-edit').forEach(btn => {
     btn.addEventListener('click', () => openEditModal(btn.dataset.id));
   });
@@ -329,12 +329,11 @@ const initSort = () => {
 };
 
 /* ================================================================
-   MODAL — UTILITÁRIOS
+   MODAL — ABRIR / FECHAR
+   ✅ Controlado 100% por classe .is-open (sem "hidden")
 ================================================================ */
-const openModal  = () => {
+const openModal = () => {
   const modal = el('vehicleModal');
-  modal.hidden = false;
-  // Força reflow para a transição CSS funcionar
   requestAnimationFrame(() => modal.classList.add('is-open'));
   document.body.style.overflow = 'hidden';
 };
@@ -342,19 +341,24 @@ const openModal  = () => {
 const closeModal = () => {
   const modal = el('vehicleModal');
   modal.classList.remove('is-open');
-  modal.addEventListener('transitionend', () => {
-    modal.hidden = true;
-  }, { once: true });
   document.body.style.overflow = '';
-  resetForm();
+  // Aguarda a transição CSS (250ms) antes de limpar o formulário
+  setTimeout(resetForm, 250);
 };
 
 const resetForm = () => {
   el('vehicleForm')?.reset();
   editingId = null;
-  el('modalTitle').textContent       = 'Adicionar Veículo';
-  el('btnDeleteVehicle').hidden      = true;
-  el('btnModalSave').textContent     = 'Salvar';
+  el('modalTitle').textContent  = 'Adicionar Veículo';
+  el('btnDeleteVehicle').hidden = true;
+  el('btnModalSave').innerHTML  = `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+      <polyline points="17 21 17 13 7 13 7 21"/>
+      <polyline points="7 3 7 8 15 8"/>
+    </svg>
+    Salvar`;
 
   // Limpa erros
   ['errName', 'errYear', 'errPrice', 'errCategory'].forEach(id => {
@@ -378,7 +382,6 @@ const fillForm = (v) => {
   el('fieldBadgeColor').value   = v.badge_color || '';
   el('fieldDescription').value  = v.description || '';
 
-  // Specs
   el('fieldKm').value           = specs.km           || '';
   el('fieldPower').value        = specs.power        || '';
   el('fieldTransmission').value = specs.transmission || '';
@@ -388,11 +391,9 @@ const fillForm = (v) => {
   el('fieldColor').value        = specs.color        || '';
   el('fieldDoors').value        = specs.doors        || '';
 
-  // Opcionais — array → string separada por vírgula
   const optionals = Array.isArray(v.optionals) ? v.optionals : [];
   el('fieldOptionals').value = optionals.join(', ');
 
-  // Imagens — array → uma por linha
   const images = Array.isArray(v.images) ? v.images : [];
   el('fieldImages').value = images.join('\n');
 };
@@ -402,16 +403,6 @@ const fillForm = (v) => {
 ================================================================ */
 const openAddModal = () => {
   resetForm();
-  el('modalTitle').textContent   = 'Adicionar Veículo';
-  el('btnDeleteVehicle').hidden  = true;
-  el('btnModalSave').innerHTML   = `
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2">
-      <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
-      <polyline points="17 21 17 13 7 13 7 21"/>
-      <polyline points="7 3 7 8 15 8"/>
-    </svg>
-    Salvar`;
   openModal();
 };
 
@@ -423,7 +414,8 @@ const openEditModal = (id) => {
   if (!vehicle) return;
 
   editingId = vehicle.id;
-  resetForm();
+  resetForm();       // limpa erros e reseta título/botão
+  editingId = vehicle.id; // resetForm zera editingId, então reatribui aqui
   fillForm(vehicle);
 
   el('modalTitle').textContent  = 'Editar Veículo';
@@ -445,7 +437,6 @@ const openEditModal = (id) => {
 const collectFormData = () => {
   let valid = true;
 
-  // Limpa erros anteriores
   ['errName', 'errYear', 'errPrice', 'errCategory'].forEach(id => {
     const e = el(id);
     if (e) e.textContent = '';
@@ -475,14 +466,12 @@ const collectFormData = () => {
 
   if (!valid) return null;
 
-  // Processa opcionais (string → array limpo)
   const optionalsRaw = el('fieldOptionals').value;
   const optionals = optionalsRaw
     .split(',')
     .map(s => s.trim())
     .filter(Boolean);
 
-  // Processa imagens (uma por linha → array limpo)
   const imagesRaw = el('fieldImages').value;
   const images = imagesRaw
     .split('\n')
@@ -518,20 +507,19 @@ const collectFormData = () => {
 ================================================================ */
 const saveVehicle = async () => {
   const payload = collectFormData();
-  if (!payload) return; // validação falhou
+  if (!payload) return;
 
   const saveBtn = el('btnModalSave');
-  saveBtn.disabled    = true;
+  const originalHtml = saveBtn.innerHTML;
+  saveBtn.disabled = true;
   saveBtn.textContent = 'Salvando...';
 
   try {
     if (editingId) {
-      // ── ATUALIZAR ──
       await updateVehicle(editingId, payload);
       await logAction('UPDATE', 'vehicle', String(editingId), { name: payload.name });
       AdminToast.show(`"${payload.name}" atualizado com sucesso!`, 'success');
     } else {
-      // ── INSERIR ──
       const created = await insertVehicle(payload);
       await logAction('INSERT', 'vehicle', String(created.id), { name: payload.name });
       AdminToast.show(`"${payload.name}" adicionado com sucesso!`, 'success');
@@ -539,7 +527,6 @@ const saveVehicle = async () => {
 
     closeModal();
 
-    // Recarrega lista
     allVehicles = await fetchVehicles();
     fillMetrics(allVehicles);
     applyFilters();
@@ -549,7 +536,7 @@ const saveVehicle = async () => {
     AdminToast.show(`Erro: ${err.message}`, 'error');
   } finally {
     saveBtn.disabled = false;
-    saveBtn.textContent = editingId ? 'Atualizar' : 'Salvar';
+    saveBtn.innerHTML = originalHtml;
   }
 };
 
@@ -565,7 +552,6 @@ const openDeleteModal = (id, name) => {
   el('deleteVehicleName').textContent = name;
 
   const modal = el('deleteModal');
-  modal.hidden = false;
   requestAnimationFrame(() => modal.classList.add('is-open'));
   document.body.style.overflow = 'hidden';
 };
@@ -573,19 +559,19 @@ const openDeleteModal = (id, name) => {
 const closeDeleteModal = () => {
   const modal = el('deleteModal');
   modal.classList.remove('is-open');
-  modal.addEventListener('transitionend', () => {
-    modal.hidden = true;
-  }, { once: true });
   document.body.style.overflow = '';
-  pendingDeleteId   = null;
-  pendingDeleteName = '';
+  setTimeout(() => {
+    pendingDeleteId   = null;
+    pendingDeleteName = '';
+  }, 250);
 };
 
 const confirmDelete = async () => {
   if (!pendingDeleteId) return;
 
   const confirmBtn = el('btnDeleteConfirm');
-  confirmBtn.disabled    = true;
+  const originalHtml = confirmBtn.innerHTML;
+  confirmBtn.disabled = true;
   confirmBtn.textContent = 'Excluindo...';
 
   try {
@@ -597,9 +583,8 @@ const confirmDelete = async () => {
     AdminToast.show(`"${pendingDeleteName}" removido do estoque.`, 'success');
 
     closeDeleteModal();
-    closeModal(); // fecha o modal de edição também, se estiver aberto
+    closeModal(); // fecha também o modal de edição, se estiver aberto
 
-    // Recarrega lista
     allVehicles = await fetchVehicles();
     fillMetrics(allVehicles);
     applyFilters();
@@ -608,8 +593,8 @@ const confirmDelete = async () => {
     console.error('[Estoque] Erro ao excluir veículo:', err);
     AdminToast.show(`Erro ao excluir: ${err.message}`, 'error');
   } finally {
-    confirmBtn.disabled    = false;
-    confirmBtn.textContent = 'Sim, excluir';
+    confirmBtn.disabled = false;
+    confirmBtn.innerHTML = originalHtml;
   }
 };
 
@@ -653,8 +638,13 @@ const initModalEvents = () => {
   // ESC fecha qualquer modal aberto
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (!el('deleteModal').hidden) { closeDeleteModal(); return; }
-    if (!el('vehicleModal').hidden) { closeModal(); }
+    if (el('deleteModal').classList.contains('is-open')) {
+      closeDeleteModal();
+      return;
+    }
+    if (el('vehicleModal').classList.contains('is-open')) {
+      closeModal();
+    }
   });
 };
 
