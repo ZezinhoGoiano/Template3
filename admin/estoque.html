@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Estoque — Apex Motors Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="estoque.css" />
+</head>
+<body class="admin-body">
+
+  <!-- SIDEBAR (idêntica ao dashboard) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__header">
+      <a href="dashboard.html" class="sidebar__logo">
+        <svg width="130" height="34" viewBox="0 0 140 36" fill="none" aria-hidden="true">
+          <path d="M6 28 L18 6 L30 28" stroke="#1E88E5" stroke-width="2.5" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 28 L18 12 L26 28" stroke="#1E88E5" stroke-width="1.2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+          <text x="36" y="24" font-family="Space Grotesk, sans-serif" font-weight="800"
+            font-size="18" fill="#F5F5F5" letter-spacing="2">APEX</text>
+          <text x="36" y="34" font-family="Inter, sans-serif" font-weight="400"
+            font-size="9" fill="#8B949E" letter-spacing="4">MOTORS</text>
+        </svg>
+      </a>
+      <button class="sidebar__toggle" id="sidebarToggle" aria-label="Recolher menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar__nav" aria-label="Menu administrativo">
+      <span class="sidebar__section-title">Principal</span>
+
+      <a href="dashboard.html" class="sidebar__link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/>
+          <rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="estoque.html" class="sidebar__link is-active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 13h18M5 13V8a2 2 0 012-2h10a2 2 0 012 2v5M5 13l-1 6h16l-1-6"/>
+          <circle cx="7.5" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/>
+        </svg>
+        <span>Estoque</span>
+      </a>
+
+      <a href="veiculo-form.html" class="sidebar__link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        <span>Adicionar Veículo</span>
+      </a>
+
+      <a href="leads.html" class="sidebar__link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        <span>Clientes (Leads)</span>
+      </a>
+
+      <span class="sidebar__section-title">Gestão</span>
+
+      <a href="agenda.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>Agenda</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <a href="funcionarios.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Funcionários</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <a href="financeiro.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+        </svg>
+        <span>Financeiro</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <a href="relatorios.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 20V10M12 20V4M6 20v-6"/>
+        </svg>
+        <span>Relatórios</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+
+      <span class="sidebar__section-title">Sistema</span>
+
+      <a href="configuracoes.html" class="sidebar__link sidebar__link--disabled">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33
+                   1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33
+                   l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0
+                   010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06
+                   a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51
+                   1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9
+                   a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+        <span>Configurações</span>
+        <span class="sidebar__badge">Em breve</span>
+      </a>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="sidebar__avatar" id="userAvatar">A</div>
+        <div class="sidebar__user-info">
+          <strong id="userEmail">Carregando...</strong>
+          <span>Administrador</span>
+        </div>
+      </div>
+      <button class="sidebar__logout" id="logoutBtn" aria-label="Sair">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <div class="admin-content" id="adminContent">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="mobileMenuToggle" aria-label="Abrir menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="topbar__search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" placeholder="Pesquisar veículo, cliente..." id="globalSearch" />
+      </div>
+
+      <div class="topbar__actions">
+        <button class="topbar__icon-btn" aria-label="Notificações">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 01-3.46 0"/>
+          </svg>
+          <span class="topbar__badge">3</span>
+        </button>
+        <a href="../index.html" target="_blank" class="btn btn--outline btn--sm">Ver site</a>
+      </div>
+    </header>
+
+    <main class="admin-main">
+
+      <!-- Cabeçalho -->
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Estoque</h1>
+          <p class="admin-page-subtitle">Gerencie os veículos cadastrados na plataforma</p>
+        </div>
+        <a href="veiculo-form.html" class="btn btn--primary" id="btnAddVehicle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Adicionar Veículo
+        </a>
+      </div>
+
+      <!-- Cards de métricas rápidas -->
+      <div class="estoque-metrics">
+        <div class="estoque-metric">
+          <span class="estoque-metric__label">Total</span>
+          <strong class="estoque-metric__value" id="metTotal">—</strong>
+        </div>
+        <div class="estoque-metric estoque-metric--green">
+          <span class="estoque-metric__label">Disponíveis</span>
+          <strong class="estoque-metric__value" id="metAvailable">—</strong>
+        </div>
+        <div class="estoque-metric estoque-metric--orange">
+          <span class="estoque-metric__label">Reservados</span>
+          <strong class="estoque-metric__value" id="metReserved">—</strong>
+        </div>
+        <div class="estoque-metric estoque-metric--muted">
+          <span class="estoque-metric__label">Vendidos</span>
+          <strong class="estoque-metric__value" id="metSold">—</strong>
+        </div>
+        <div class="estoque-metric estoque-metric--blue">
+          <span class="estoque-metric__label">Valor total</span>
+          <strong class="estoque-metric__value" id="metTotalValue">—</strong>
+        </div>
+      </div>
+
+      <!-- Barra de busca + filtros -->
+      <div class="estoque-toolbar">
+
+        <div class="estoque-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input
+            type="text"
+            id="estoqueSearch"
+            placeholder="Buscar por nome, marca, categoria..."
+            autocomplete="off"
+          />
+          <button class="estoque-search__clear" id="searchClear" aria-label="Limpar busca" hidden>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="estoque-filters">
+          <select id="filterStatus" class="estoque-filter-select">
+            <option value="">Todos os status</option>
+            <option value="available">Disponível</option>
+            <option value="reserved">Reservado</option>
+            <option value="sold">Vendido</option>
+          </select>
+
+          <select id="filterCategory" class="estoque-filter-select">
+            <option value="">Todas as categorias</option>
+            <option value="sport">Esportivo</option>
+            <option value="luxury">Luxo</option>
+            <option value="suv">SUV</option>
+            <option value="sedan">Sedan</option>
+          </select>
+
+          <button class="btn btn--outline btn--sm" id="btnClearFilters">
+            Limpar filtros
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Tabela -->
+      <div class="estoque-table-wrap">
+        <table class="estoque-table" id="estoqueTable">
+          <thead>
+            <tr>
+              <th class="col-img">Foto</th>
+              <th class="col-name">
+                <button class="th-sort" data-sort="name">
+                  Veículo
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7-7 7 7"/>
+                  </svg>
+                </button>
+              </th>
+              <th class="col-year">
+                <button class="th-sort" data-sort="year">
+                  Ano
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7-7 7 7"/>
+                  </svg>
+                </button>
+              </th>
+              <th class="col-cat">Categoria</th>
+              <th class="col-price">
+                <button class="th-sort" data-sort="price">
+                  Preço
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7-7 7 7"/>
+                  </svg>
+                </button>
+              </th>
+              <th class="col-km">KM</th>
+              <th class="col-status">Status</th>
+              <th class="col-actions">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="estoqueTableBody">
+            <!-- Skeleton loader -->
+            <tr class="skeleton-row">
+              <td colspan="8">
+                <div class="skeleton-wrap">
+                  <div class="skeleton skeleton--img"></div>
+                  <div class="skeleton-lines">
+                    <div class="skeleton skeleton--line skeleton--w60"></div>
+                    <div class="skeleton skeleton--line skeleton--w40"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Estado vazio -->
+        <div class="estoque-empty" id="estoqueEmpty" hidden>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <p>Nenhum veículo encontrado</p>
+          <span>Tente ajustar os filtros ou a busca</span>
+        </div>
+      </div>
+
+      <!-- Rodapé da tabela -->
+      <div class="estoque-table-footer" id="estoqueTableFooter">
+        <span id="estoqueCount">0 veículos</span>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Sidebar overlay mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="admin.js"></script>
+  <script src="modules/estoque.js"></script>
+
+</body>
+</html>
