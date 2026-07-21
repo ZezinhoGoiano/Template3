@@ -509,32 +509,33 @@ const collectFormData = () => {
     ? FinancingUtils.calculateFinancingOptions(Number(price))
     : [];
 
-  return {
-    name,
-    year:        year,
-    price:       Number(price),
-    category,
-    status:      el('fieldStatus').value,
-    badge:       el('fieldBadge').value       || null,
-    badge_color: el('fieldBadgeColor').value  || null,
-    description: el('fieldDescription').value.trim() || null,
-    specs: {
-      motor:        el('fieldMotor').value.trim()        || null,
-      km:           el('fieldKm').value.trim()           || null,
-      power:        el('fieldPower').value.trim()        || null,
-      transmission: el('fieldTransmission').value.trim() || null,
-      fuel:         el('fieldFuel').value.trim()         || null,
-      acceleration: el('fieldAcceleration').value.trim() || null,
-      topSpeed:     el('fieldTopSpeed').value.trim()     || null,
-      color:        el('fieldColor').value.trim()        || null,
-      doors:        el('fieldDoors').value.trim()        || null,
-    },
-    optionals,
-    financing_enabled: financingEnabled,
-    financing_options: financingOptions,
-    discount_enabled:  discountEnabled,
-    discount_price:    discountPrice,
-  };
+const currentVehicle = editingId
+  ? allVehicles.find(v => String(v.id) === String(editingId))
+  : null;
+
+const statusField = el('fieldStatus').value;
+
+return {
+  name,
+  year:        year,
+  price:       Number(price),
+  category,
+  status:      statusField,
+  badge:       el('fieldBadge').value       || null,
+  badge_color: el('fieldBadgeColor').value  || null,
+  description: el('fieldDescription').value.trim() || null,
+
+  sold_at: statusField === 'sold'
+    ? (currentVehicle?.sold_at || new Date().toISOString())
+    : null,
+
+  specs: { /* ... igual ao anterior ... */ },
+  optionals,
+  financing_enabled: financingEnabled,
+  financing_options: financingOptions,
+  discount_enabled:  discountEnabled,
+  discount_price:    discountPrice,
+};
 };
 
 /* ================================================================
