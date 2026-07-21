@@ -525,19 +525,25 @@ const calcFromVehiclesData = (vehicles, mock) => {
 
   const stockValue = available.reduce((sum, v) => sum + (v.price || 0), 0);
 
-  // ✅ Receita por mês (últimos 6 meses) — dados reais de vendas
-  const revenueData = mock.months.map((_, i) => {
-    const offset      = 5 - i; // 🆕 índice correto
-    const targetMonth = new Date(ano, mes - offset, 1);
-    return sold
-      .filter(v => {
-        if (!v.sold_at && !v.updated_at) return false;
-        const d = new Date(v.sold_at || v.updated_at);
-        return d.getMonth()    === targetMonth.getMonth() &&
-               d.getFullYear() === targetMonth.getFullYear();
-      })
-      .reduce((sum, v) => sum + (v.price || 0), 0);
-  });
+  // Função helper — retorna o valor real de venda
+const saleValue = (v) =>
+  v.discountEnabled && v.discountPrice
+    ? v.discountPrice
+    : v.price;
+
+
+const revenueData = mock.months.map((_, i) => {
+  const offset      = 5 - i;
+  const targetMonth = new Date(ano, mes - offset, 1);
+  return sold
+    .filter(v => {
+      if (!v.sold_at && !v.updated_at) return false;
+      const d = new Date(v.sold_at || v.updated_at);
+      return d.getMonth()    === targetMonth.getMonth() &&
+             d.getFullYear() === targetMonth.getFullYear();
+    })
+    .reduce((sum, v) => sum + saleValue(v), 0); // ← usa saleValue
+});
 
   // ✅ Vendas por mês (últimos 6 meses)
   const salesData = mock.months.map((_, i) => {
