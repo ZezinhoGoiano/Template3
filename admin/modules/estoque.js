@@ -110,7 +110,7 @@ const renderRow = (v) => {
   const km       = specs.km || '—';
 
   const thumbHtml = firstImg
-    ? `<img src="../${firstImg}" alt="${v.name}" class="vehicle-thumb" loading="lazy"
+    ? `<img src="${firstImg}" alt="${v.name}" class="vehicle-thumb" loading="lazy"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
        <div class="vehicle-thumb-placeholder" style="display:none">
          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -343,6 +343,7 @@ const closeModal = () => {
   setTimeout(resetForm, 250);
 };
 
+/* ✅ FUNÇÃO QUE ESTAVA FALTANDO — CAUSA DO ERRO */
 const openAddModal = () => {
   resetForm();
   openModal();
@@ -353,9 +354,9 @@ const resetForm = () => {
   editingId = null;
   MediaManager.reset();
 
-  el('financingPreview').hidden    = true;
-  el('discountPreview').hidden     = true;
-  el('discountPriceGroup').hidden  = true;
+  el('financingPreview').hidden      = true;
+  el('discountPreview').hidden       = true;
+  el('discountPriceGroup').hidden    = true;
   el('errFinancing').textContent     = '';
   el('errDiscountPrice').textContent = '';
 
@@ -416,20 +417,15 @@ const fillForm = (v) => {
 };
 
 /* ================================================================
-   MODAL — ABRE EM MODO EDITAR ✅ CORRIGIDO
+   MODAL — ABRE EM MODO EDITAR
 ================================================================ */
 const openEditModal = (id) => {
   const vehicle = allVehicles.find(v => String(v.id) === String(id));
   if (!vehicle) return;
 
-  // ✅ Guarda o id numa variável local antes do resetForm
   const vehicleId = vehicle.id;
-
-  resetForm(); // zera o form e seta editingId = null
-
-  // ✅ Reatribui o id DEPOIS do resetForm
+  resetForm();
   editingId = vehicleId;
-
   fillForm(vehicle);
 
   el('modalTitle').textContent  = 'Editar Veículo';
@@ -542,10 +538,10 @@ const collectFormData = () => {
 };
 
 /* ================================================================
-   MODAL — SALVA (ADICIONAR ou ATUALIZAR) ✅ CORRIGIDO
+   MODAL — SALVA (ADICIONAR ou ATUALIZAR)
 ================================================================ */
 const saveVehicle = async (e) => {
-  e?.preventDefault(); // ✅ evita reload acidental do form
+  e?.preventDefault();
 
   const payload = collectFormData();
   if (!payload) return;
@@ -558,7 +554,6 @@ const saveVehicle = async (e) => {
   saveBtn.textContent = 'Enviando mídia...';
 
   try {
-    // ✅ NOVO — faz upload de fotos/vídeos pendentes e pega as URLs finais
     const media = await MediaManager.uploadAll();
     payload.images = media.images;
     payload.videos = media.videos;
@@ -800,7 +795,7 @@ const initEstoque = async () => {
     initSort();
     initModalEvents();
     initRealtime();
-    MediaManager.init(); // ✅ NOVO
+    MediaManager.init();
   } catch (err) {
     console.error('Erro ao carregar estoque:', err);
     const tbody = el('estoqueTableBody');
