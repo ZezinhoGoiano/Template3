@@ -30,8 +30,8 @@ const _normalizeVehicle = (v) => ({
   images:      Array.isArray(v.images) ? v.images : [],
   videos:      Array.isArray(v.videos) ? v.videos : [],
 
-  sold_at:     v.sold_at    || null,
-  updated_at:  v.updated_at || null,
+  sold_at:    v.sold_at    || null,
+  updated_at: v.updated_at || null,
 
   specs: (v.specs && typeof v.specs === 'object') ? {
     motor:        v.specs.motor        || '—',
