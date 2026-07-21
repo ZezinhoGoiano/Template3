@@ -20,6 +20,12 @@
 /* ================================================================
    1. UTILITÁRIOS & HELPERS
 ================================================================ */
+
+const calculateDiscountPercent = (originalPrice, discountPrice) => {
+  if (!originalPrice || !discountPrice || discountPrice >= originalPrice) return 0;
+  return Math.round((1 - discountPrice / originalPrice) * 10000) / 100;
+};
+
 const ApexUtils = {
   qs: (selector, parent = document) => parent.querySelector(selector),
   qsa: (selector, parent = document) => parent.querySelectorAll(selector),
@@ -377,20 +383,34 @@ const VehicleFilter = (() => {
             </div>
           </div>
 
-          <div class="vehicle-card__footer">
-            <div class="vehicle-card__price">
-              <span class="vehicle-card__price-label">A partir de</span>
-              <strong class="vehicle-card__price-value">
-                ${ApexUtils.formatCurrency(vehicle.price)}
-              </strong>
-            </div>
-            <button 
-              class="btn btn--primary btn--sm vehicle-card__cta"
-              data-action="expand"
-              aria-label="Ver detalhes de ${vehicle.name}">
-              Ver detalhes
-            </button>
-          </div>
+          // ✅ Substitua por isso:
+<div class="vehicle-card__footer">
+  ${vehicle.discountEnabled && vehicle.discountPrice ? `
+    <div class="vehicle-card__price vehicle-card__price--discount">
+      <span class="vehicle-card__discount-badge">
+        -${calculateDiscountPercent(vehicle.price, vehicle.discountPrice)}%
+      </span>
+      <span class="vehicle-card__price-original">
+        ${ApexUtils.formatCurrency(vehicle.price)}
+      </span>
+      <strong class="vehicle-card__price-value">
+        ${ApexUtils.formatCurrency(vehicle.discountPrice)}
+      </strong>
+    </div>
+  ` : `
+    <div class="vehicle-card__price">
+      <span class="vehicle-card__price-label">A partir de</span>
+      <strong class="vehicle-card__price-value">
+        ${ApexUtils.formatCurrency(vehicle.price)}
+      </strong>
+    </div>
+  `}
+  <button class="btn btn--primary btn--sm vehicle-card__cta"
+    data-action="expand"
+    aria-label="Ver detalhes de ${vehicle.name}">
+    Ver detalhes
+  </button>
+</div>
         </div>
       </article>
     `;
