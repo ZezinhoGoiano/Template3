@@ -1401,5 +1401,14 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
   align-self: center;
 }
+
+/* ================================================================
+   FIX — garante que [hidden] sempre funcione,
+   mesmo com classes que definem display explícito
+================================================================ */
+.notif-panel[hidden],
+.topbar__badge[hidden] {
+  display: none !important;
+}
   
   
