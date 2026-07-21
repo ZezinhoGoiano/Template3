@@ -426,19 +426,33 @@
           <!-- Divisor -->
           <div class="form-divider"><span>Especificações</span></div>
 
-          <!-- Linha specs 1: KM + Potência -->
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="fieldKm">Quilometragem</label>
-              <input class="form-input" type="text" id="fieldKm"
-                     placeholder="Ex: 14.200 km" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="fieldPower">Potência</label>
-              <input class="form-input" type="text" id="fieldPower"
-                     placeholder="Ex: 450 cv" />
-            </div>
-          </div>
+          <!-- Linha specs 0: Motor -->
+<div class="form-row">
+  <div class="form-group">
+    <label class="form-label" for="fieldMotor">Motor</label>
+    <input class="form-input" type="text" id="fieldMotor"
+           placeholder="Ex: 4.0 Flat-6 Biturbo" />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="fieldKm">Quilometragem</label>
+    <input class="form-input" type="text" id="fieldKm"
+           placeholder="Ex: 14.200 km" />
+  </div>
+</div>
+
+<!-- Linha specs 1: Potência + Transmissão -->
+<div class="form-row">
+  <div class="form-group">
+    <label class="form-label" for="fieldPower">Potência</label>
+    <input class="form-input" type="text" id="fieldPower"
+           placeholder="Ex: 450 cv" />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="fieldTransmission">Transmissão</label>
+    <input class="form-input" type="text" id="fieldTransmission"
+           placeholder="Ex: PDK 8 vel." />
+  </div>
+</div>
 
           <!-- Linha specs 2: Transmissão + Combustível -->
           <div class="form-row">
@@ -492,6 +506,48 @@
                       placeholder="Teto panorâmico, Sistema de som Bose, Bancos com aquecimento"
                       rows="2"></textarea>
           </div>
+
+          <!-- Divisor -->
+<div class="form-divider"><span>Financiamento</span></div>
+
+<div class="form-row">
+  <div class="form-group">
+    <label class="form-label" for="fieldFinancing">Aceita financiamento?</label>
+    <select class="form-input" id="fieldFinancing">
+      <option value="false">Não</option>
+      <option value="true">Sim</option>
+    </select>
+  </div>
+</div>
+
+<div class="financing-preview" id="financingPreview" hidden>
+  <span class="form-hint">Opções de parcelamento (calculadas automaticamente):</span>
+  <div class="financing-preview__list" id="financingPreviewList"></div>
+</div>
+<span class="form-error" id="errFinancing"></span>
+
+<!-- Divisor -->
+<div class="form-divider"><span>Desconto</span></div>
+
+<div class="form-row">
+  <div class="form-group">
+    <label class="form-label" for="fieldDiscount">Colocar desconto?</label>
+    <select class="form-input" id="fieldDiscount">
+      <option value="false">Não</option>
+      <option value="true">Sim</option>
+    </select>
+  </div>
+  <div class="form-group" id="discountPriceGroup" hidden>
+    <label class="form-label" for="fieldDiscountPrice">Preço com desconto (R$) *</label>
+    <input class="form-input" type="number" id="fieldDiscountPrice"
+           placeholder="Ex: 9500000" min="0" />
+    <span class="form-error" id="errDiscountPrice"></span>
+  </div>
+</div>
+
+<div class="discount-preview" id="discountPreview" hidden>
+  <span id="discountPreviewText"></span>
+</div>
 
           <!-- Fotos e Vídeos -->
 <div class="form-group">
