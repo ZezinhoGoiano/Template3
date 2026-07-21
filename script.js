@@ -602,6 +602,28 @@ const VehicleModal = (() => {
     });
   };
 
+   const renderModalFinancing = (vehicle) => {
+  const wrap  = ApexUtils.qs('#modalFinancing', modal);
+  const track = ApexUtils.qs('#modalFinancingTrack', modal);
+  if (!wrap || !track) return;
+
+  if (!vehicle.financingEnabled || !vehicle.financingOptions?.length) {
+    wrap.hidden = true;
+    track.innerHTML = '';
+    return;
+  }
+
+  track.innerHTML = vehicle.financingOptions.map(opt => `
+    <div class="modal__financing-card">
+      <strong>${opt.installments}x</strong>
+      <span>${ApexUtils.formatCurrency(opt.value)}</span>
+      <small>${opt.entry > 0 ? `+ entrada de ${ApexUtils.formatCurrency(opt.entry)}` : 'sem entrada'}</small>
+    </div>
+  `).join('');
+
+  wrap.hidden = false;
+};
+
   const renderModalSpecs = (vehicle) => {
     const specsContainer = ApexUtils.qs('#modalSpecs', modal);
     specsContainer.innerHTML = '';
