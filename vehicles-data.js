@@ -29,6 +29,10 @@ const _normalizeVehicle = (v) => ({
   description: v.description  || '',
   images:      Array.isArray(v.images) ? v.images : [],
   videos:      Array.isArray(v.videos) ? v.videos : [],
+
+  sold_at:     v.sold_at    || null,
+  updated_at:  v.updated_at || null,
+
   specs: (v.specs && typeof v.specs === 'object') ? {
     motor:        v.specs.motor        || '—',
     km:           v.specs.km           || '—',
@@ -50,7 +54,6 @@ const _normalizeVehicle = (v) => ({
   discountEnabled:  Boolean(v.discount_enabled),
   discountPrice:    v.discount_price != null ? Number(v.discount_price) : null,
 });
-
 /* ================================================================
    PROMISE global — todos os scripts aguardam ela resolver
 ================================================================ */
