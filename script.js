@@ -383,7 +383,6 @@ const VehicleFilter = (() => {
             </div>
           </div>
 
-          // ✅ Substitua por isso:
 <div class="vehicle-card__footer">
   ${vehicle.discountEnabled && vehicle.discountPrice ? `
     <div class="vehicle-card__price vehicle-card__price--discount">
