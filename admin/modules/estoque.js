@@ -343,6 +343,11 @@ const closeModal = () => {
   setTimeout(resetForm, 250);
 };
 
+const openAddModal = () => {
+  resetForm();
+  openModal();
+};
+
 const resetForm = () => {
   el('vehicleForm')?.reset();
   editingId = null;
