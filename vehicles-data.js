@@ -28,7 +28,9 @@ const _normalizeVehicle = (v) => ({
   status:      v.status       || 'available',
   description: v.description  || '',
   images:      Array.isArray(v.images) ? v.images : [],
+  videos:      Array.isArray(v.videos) ? v.videos : [],
   specs: (v.specs && typeof v.specs === 'object') ? {
+    motor:        v.specs.motor        || '—',
     km:           v.specs.km           || '—',
     power:        v.specs.power        || '—',
     transmission: v.specs.transmission || '—',
@@ -38,10 +40,15 @@ const _normalizeVehicle = (v) => ({
     color:        v.specs.color        || '—',
     doors:        v.specs.doors        || '—',
   } : {
-    km:'—', power:'—', transmission:'—', fuel:'—',
+    motor:'—', km:'—', power:'—', transmission:'—', fuel:'—',
     acceleration:'—', topSpeed:'—', color:'—', doors:'—',
   },
   optionals: Array.isArray(v.optionals) ? v.optionals : [],
+
+  financingEnabled: Boolean(v.financing_enabled),
+  financingOptions: Array.isArray(v.financing_options) ? v.financing_options : [],
+  discountEnabled:  Boolean(v.discount_enabled),
+  discountPrice:    v.discount_price != null ? Number(v.discount_price) : null,
 });
 
 /* ================================================================
