@@ -10,6 +10,12 @@
 /* ================================================================
    UTILITÁRIOS (subconjunto do ApexUtils)
 ================================================================ */
+
+const calculateDiscountPercent = (originalPrice, discountPrice) => {
+  if (!originalPrice || !discountPrice || discountPrice >= originalPrice) return 0;
+  return Math.round((1 - discountPrice / originalPrice) * 10000) / 100;
+};
+
 const $ = (sel, parent = document) => parent.querySelector(sel);
 const $$ = (sel, parent = document) => parent.querySelectorAll(sel);
 
@@ -62,20 +68,33 @@ const createCard = (vehicle) => {
     <div class="vehicle-card__dots" aria-hidden="true">${dotsHTML}</div>
   ` : '';
 
-  const footerHTML = isSold
-    ? `<div class="vehicle-card__price">
-         <span class="vehicle-card__price-label">Vendido por</span>
-         <strong class="vehicle-card__price-value">${formatCurrency(vehicle.price)}</strong>
-       </div>`
-    : `<div class="vehicle-card__price">
-         <span class="vehicle-card__price-label">A partir de</span>
-         <strong class="vehicle-card__price-value">${formatCurrency(vehicle.price)}</strong>
-       </div>
-       <button class="btn btn--primary btn--sm vehicle-card__cta"
-         data-action="expand"
-         aria-label="Ver detalhes de ${vehicle.name}">
-         Ver detalhes
-       </button>`;
+  // ✅ Substitua por isso:
+const hasDiscount = vehicle.discountEnabled && vehicle.discountPrice;
+
+const priceBlockHTML = hasDiscount
+  ? `<div class="vehicle-card__price vehicle-card__price--discount">
+       <span class="vehicle-card__discount-badge">
+         -${calculateDiscountPercent(vehicle.price, vehicle.discountPrice)}%
+       </span>
+       <span class="vehicle-card__price-original">${formatCurrency(vehicle.price)}</span>
+       <strong class="vehicle-card__price-value">${formatCurrency(vehicle.discountPrice)}</strong>
+     </div>`
+  : `<div class="vehicle-card__price">
+       <span class="vehicle-card__price-label">A partir de</span>
+       <strong class="vehicle-card__price-value">${formatCurrency(vehicle.price)}</strong>
+     </div>`;
+
+const footerHTML = isSold
+  ? `<div class="vehicle-card__price">
+       <span class="vehicle-card__price-label">Vendido por</span>
+       <strong class="vehicle-card__price-value">${formatCurrency(vehicle.price)}</strong>
+     </div>`
+  : `${priceBlockHTML}
+     <button class="btn btn--primary btn--sm vehicle-card__cta"
+       data-action="expand"
+       aria-label="Ver detalhes de ${vehicle.name}">
+       Ver detalhes
+     </button>`;
 
   return `
     <article class="vehicle-card reveal ${isSold ? 'vehicle-card--sold' : ''}"
