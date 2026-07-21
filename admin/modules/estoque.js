@@ -346,7 +346,14 @@ const closeModal = () => {
 const resetForm = () => {
   el('vehicleForm')?.reset();
   editingId = null;
-  MediaManager.reset();   // ✅ NOVO — limpa fotos/vídeos
+  MediaManager.reset();
+
+  el('financingPreview').hidden    = true;
+  el('discountPreview').hidden     = true;
+  el('discountPriceGroup').hidden  = true;
+  el('errFinancing').textContent     = '';
+  el('errDiscountPrice').textContent = '';
+
   el('modalTitle').textContent  = 'Adicionar Veículo';
   el('btnDeleteVehicle').hidden = true;
   el('btnModalSave').innerHTML  = `
@@ -379,6 +386,7 @@ const fillForm = (v) => {
   el('fieldBadgeColor').value   = v.badge_color || '';
   el('fieldDescription').value  = v.description || '';
 
+  el('fieldMotor').value        = specs.motor        || '';
   el('fieldKm').value           = specs.km           || '';
   el('fieldPower').value        = specs.power        || '';
   el('fieldTransmission').value = specs.transmission || '';
@@ -391,18 +399,15 @@ const fillForm = (v) => {
   const optionals = Array.isArray(v.optionals) ? v.optionals : [];
   el('fieldOptionals').value = optionals.join(', ');
 
-  // ✅ NOVO — carrega fotos/vídeos existentes no MediaManager
+  el('fieldFinancing').value     = v.financing_enabled ? 'true' : 'false';
+  el('fieldDiscount').value      = v.discount_enabled  ? 'true' : 'false';
+  el('fieldDiscountPrice').value = v.discount_price || '';
+  renderFinancingPreview();
+  renderDiscountPreview();
+
   const images = Array.isArray(v.images) ? v.images : [];
   const videos = Array.isArray(v.videos) ? v.videos : [];
   MediaManager.setExisting(images, videos);
-};
-
-/* ================================================================
-   MODAL — ABRE EM MODO ADICIONAR
-================================================================ */
-const openAddModal = () => {
-  resetForm();
-  openModal();
 };
 
 /* ================================================================
@@ -442,7 +447,7 @@ const openEditModal = (id) => {
 const collectFormData = () => {
   let valid = true;
 
-  ['errName', 'errYear', 'errPrice', 'errCategory'].forEach(id => {
+  ['errName', 'errYear', 'errPrice', 'errCategory', 'errFinancing', 'errDiscountPrice'].forEach(id => {
     const e = el(id);
     if (e) e.textContent = '';
   });
@@ -469,6 +474,28 @@ const collectFormData = () => {
     valid = false;
   }
 
+  const financingEnabled = el('fieldFinancing').value === 'true';
+  if (financingEnabled && (!price || Number(price) <= 0)) {
+    el('errFinancing').textContent = 'Informe o preço antes de ativar o financiamento.';
+    valid = false;
+  }
+
+  const discountEnabled  = el('fieldDiscount').value === 'true';
+  const discountPriceRaw = el('fieldDiscountPrice').value.trim();
+  let discountPrice = null;
+
+  if (discountEnabled) {
+    if (!discountPriceRaw || isNaN(discountPriceRaw) || Number(discountPriceRaw) <= 0) {
+      el('errDiscountPrice').textContent = 'Informe um preço de desconto válido.';
+      valid = false;
+    } else if (Number(discountPriceRaw) >= Number(price)) {
+      el('errDiscountPrice').textContent = 'Preço com desconto deve ser menor que o preço cheio.';
+      valid = false;
+    } else {
+      discountPrice = Number(discountPriceRaw);
+    }
+  }
+
   if (!valid) return null;
 
   const optionalsRaw = el('fieldOptionals').value;
@@ -477,7 +504,9 @@ const collectFormData = () => {
     .map(s => s.trim())
     .filter(Boolean);
 
-  // ❌ REMOVIDO: leitura de imagesRaw/images do textarea
+  const financingOptions = financingEnabled
+    ? FinancingUtils.calculateFinancingOptions(Number(price))
+    : [];
 
   return {
     name,
@@ -489,6 +518,7 @@ const collectFormData = () => {
     badge_color: el('fieldBadgeColor').value  || null,
     description: el('fieldDescription').value.trim() || null,
     specs: {
+      motor:        el('fieldMotor').value.trim()        || null,
       km:           el('fieldKm').value.trim()           || null,
       power:        el('fieldPower').value.trim()        || null,
       transmission: el('fieldTransmission').value.trim() || null,
@@ -499,7 +529,10 @@ const collectFormData = () => {
       doors:        el('fieldDoors').value.trim()        || null,
     },
     optionals,
-    // images e videos serão adicionados depois do upload, em saveVehicle()
+    financing_enabled: financingEnabled,
+    financing_options: financingOptions,
+    discount_enabled:  discountEnabled,
+    discount_price:    discountPrice,
   };
 };
 
@@ -611,6 +644,74 @@ const confirmDelete = async () => {
 };
 
 /* ================================================================
+   PREVIEW — FINANCIAMENTO E DESCONTO
+================================================================ */
+const renderFinancingPreview = () => {
+  const enabled = el('fieldFinancing').value === 'true';
+  const price   = Number(el('fieldPrice').value) || 0;
+  const preview = el('financingPreview');
+  const list    = el('financingPreviewList');
+  const err     = el('errFinancing');
+
+  err.textContent = '';
+
+  if (!enabled) {
+    preview.hidden = true;
+    list.innerHTML = '';
+    return;
+  }
+
+  if (!price || price <= 0) {
+    preview.hidden = true;
+    err.textContent = 'Informe o preço do veículo antes de ativar o financiamento.';
+    return;
+  }
+
+  const options = FinancingUtils.calculateFinancingOptions(price);
+  list.innerHTML = options.map(opt => `
+    <div class="financing-preview__item">
+      <strong>${opt.installments}x</strong> de ${fmt(opt.value)}
+      <span>${opt.entry > 0 ? `+ entrada de ${fmt(opt.entry)}` : 'sem entrada'}</span>
+    </div>
+  `).join('');
+  preview.hidden = false;
+};
+
+const renderDiscountPreview = () => {
+  const enabled = el('fieldDiscount').value === 'true';
+  const group   = el('discountPriceGroup');
+  const preview = el('discountPreview');
+  const text    = el('discountPreviewText');
+  const err     = el('errDiscountPrice');
+
+  err.textContent = '';
+  group.hidden = !enabled;
+
+  if (!enabled) {
+    preview.hidden = true;
+    return;
+  }
+
+  const price         = Number(el('fieldPrice').value) || 0;
+  const discountPrice = Number(el('fieldDiscountPrice').value) || 0;
+
+  if (!discountPrice || discountPrice <= 0) {
+    preview.hidden = true;
+    return;
+  }
+
+  if (discountPrice >= price) {
+    err.textContent = 'O preço com desconto deve ser menor que o preço cheio.';
+    preview.hidden = true;
+    return;
+  }
+
+  const percent = FinancingUtils.calculateDiscountPercent(price, discountPrice);
+  text.textContent = `Desconto de ${percent}% — de ${fmt(price)} por ${fmt(discountPrice)}`;
+  preview.hidden = false;
+};
+
+/* ================================================================
    INICIALIZA EVENTOS DOS MODAIS
 ================================================================ */
 const initModalEvents = () => {
@@ -638,6 +739,14 @@ const initModalEvents = () => {
   });
 
   el('btnDeleteConfirm')?.addEventListener('click', confirmDelete);
+
+  el('fieldPrice')?.addEventListener('input', () => {
+    renderFinancingPreview();
+    renderDiscountPreview();
+  });
+  el('fieldFinancing')?.addEventListener('change', renderFinancingPreview);
+  el('fieldDiscount')?.addEventListener('change', renderDiscountPreview);
+  el('fieldDiscountPrice')?.addEventListener('input', renderDiscountPreview);
 
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
