@@ -3253,3 +3253,87 @@ body:has(.modal:not([hidden])) .header {
 @media (max-width: 480px) {
   .brands__grid { grid-template-columns: repeat(3, 1fr); }
      }
+
+/* ================================================================
+   DESCONTO NOS CARDS
+================================================================ */
+.vehicle-card__price--discount {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vehicle-card__discount-badge {
+  display: inline-block;
+  background: #EF4444;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.vehicle-card__price-original {
+  text-decoration: line-through;
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #8B949E);
+}
+
+/* ================================================================
+   FINANCIAMENTO NO MODAL (slider horizontal)
+================================================================ */
+.modal__financing {
+  margin-top: 1rem;
+}
+
+.modal__financing-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #8B949E);
+  margin-bottom: 0.5rem;
+}
+
+.modal__financing-track {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.modal__financing-card {
+  flex: 0 0 auto;
+  min-width: 120px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.modal__financing-card strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--color-accent, #1E88E5);
+}
+
+.modal__financing-card span {
+  display: block;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.modal__financing-card small {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--color-text-muted, #8B949E);
+  margin-top: 2px;
+}
+
+.modal__price-original {
+  text-decoration: line-through;
+  font-size: 0.8em;
+  opacity: 0.6;
+  margin-right: 0.5rem;
+}
