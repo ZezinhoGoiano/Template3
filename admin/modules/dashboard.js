@@ -488,17 +488,41 @@ const generateInsights = (data) => {
 
 /* ================================================================
    CARREGA VEHICLES-DATA.JS
+   FIX: aguarda window.vehiclesDataReady (Promise do Supabase)
+   em vez de confiar apenas no onload do <script>
 ================================================================ */
 const loadVehiclesData = () => {
   return new Promise((resolve) => {
-    if (typeof VEHICLES_DATA !== 'undefined') {
+
+    // Caso 1: a Promise global já existe (script já foi injetado antes)
+    if (window.vehiclesDataReady) {
+      window.vehiclesDataReady.then(() => {
+        resolve(window.VEHICLES_DATA || []);
+      });
+      return;
+    }
+
+    // Caso 2: VEHICLES_DATA já existe e já tem itens (raro, mas seguro)
+    if (typeof VEHICLES_DATA !== 'undefined' && VEHICLES_DATA.length > 0) {
       resolve(VEHICLES_DATA);
       return;
     }
 
+    // Caso 3: precisa injetar o script pela primeira vez
     const script = document.createElement('script');
     script.src = '../vehicles-data.js';
-    script.onload = () => resolve(typeof VEHICLES_DATA !== 'undefined' ? VEHICLES_DATA : []);
+
+    script.onload = () => {
+      if (window.vehiclesDataReady) {
+        window.vehiclesDataReady.then(() => {
+          resolve(window.VEHICLES_DATA || []);
+        });
+      } else {
+        // Fallback — não deveria acontecer, mas evita quebrar
+        resolve(typeof VEHICLES_DATA !== 'undefined' ? VEHICLES_DATA : []);
+      }
+    };
+
     script.onerror = () => resolve([]);
     document.head.appendChild(script);
   });
