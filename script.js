@@ -629,26 +629,28 @@ const VehicleModal = (() => {
     specsContainer.innerHTML = '';
 
     const specsIcons = {
-      km:           '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
-      power:        '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
-      transmission: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>',
-      fuel:         '<path d="M3 3h18v18H3z"/><path d="M12 8v8m4-4H8"/>',
-      acceleration: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
-      topSpeed:     '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>',
-      color:        '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>',
-      doors:        '<path d="M21 2H3v20h18V2z"/><rect x="7" y="10" width="2" height="4"/>',
-    };
+  motor:        '<path d="M6 2v20M14 2v20M2 10h20M2 14h20"/>', // ✅ NOVO
+  km:           '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  power:        '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
+  transmission: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>',
+  fuel:         '<path d="M3 3h18v18H3z"/><path d="M12 8v8m4-4H8"/>',
+  acceleration: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  topSpeed:     '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>',
+  color:        '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>',
+  doors:        '<path d="M21 2H3v20h18V2z"/><rect x="7" y="10" width="2" height="4"/>',
+};
 
-    const labels = {
-      km:           'Quilometragem',
-      power:        'Potência',
-      transmission: 'Transmissão',
-      fuel:         'Combustível',
-      acceleration: '0-100 km/h',
-      topSpeed:     'Vel. Máxima',
-      color:        'Cor',
-      doors:        'Portas',
-    };
+const labels = {
+  motor:        'Motor', // ✅ NOVO
+  km:           'Quilometragem',
+  power:        'Potência',
+  transmission: 'Transmissão',
+  fuel:         'Combustível',
+  acceleration: '0-100 km/h',
+  topSpeed:     'Vel. Máxima',
+  color:        'Cor',
+  doors:        'Portas',
+};
 
     Object.entries(vehicle.specs).forEach(([key, value]) => {
       const specDiv = document.createElement('div');
@@ -682,19 +684,28 @@ const VehicleModal = (() => {
   const vehicle = VEHICLES_DATA.find(v => v.id === vehicleId);
   if (!vehicle) return;
 
-     // ✅ ANALYTICS — registra abertura do modal
   if (window.ApexAnalytics) {
     window.ApexAnalytics.trackModalOpen(vehicleId, vehicle.name);
   }
 
   currentVehicle = vehicle;
   currentImageIndex = 0;
-  lastFocusedElement = document.activeElement; 
+  lastFocusedElement = document.activeElement;
 
-  // Preenche conteúdo
   ApexUtils.qs('#modalTitle', modal).textContent = vehicle.name;
   ApexUtils.qs('#modalYear', modal).textContent = vehicle.year;
-  ApexUtils.qs('#modalPrice', modal).textContent = ApexUtils.formatCurrency(vehicle.price);
+
+  // ✅ NOVO — mostra desconto no preço do modal, se houver
+  const priceEl = ApexUtils.qs('#modalPrice', modal);
+  if (vehicle.discountEnabled && vehicle.discountPrice) {
+    priceEl.innerHTML = `
+      <span class="modal__price-original">${ApexUtils.formatCurrency(vehicle.price)}</span>
+      ${ApexUtils.formatCurrency(vehicle.discountPrice)}
+    `;
+  } else {
+    priceEl.textContent = ApexUtils.formatCurrency(vehicle.price);
+  }
+
   ApexUtils.qs('#modalDesc', modal).textContent = vehicle.description;
 
   const waLink = ApexUtils.qs('#modalWhatsapp', modal);
@@ -708,9 +719,9 @@ const VehicleModal = (() => {
   renderModalThumbnails(vehicle);
   renderModalSpecs(vehicle);
   renderModalOptionals(vehicle);
+  renderModalFinancing(vehicle); // ✅ NOVO
   updateModalImage(0);
 
-  // ✅ Reseta scroll interno do modal ANTES de abrir
   modal.scrollTop = 0;
   const modalInfo = ApexUtils.qs('.modal__info', modal);
   if (modalInfo) modalInfo.scrollTop = 0;
